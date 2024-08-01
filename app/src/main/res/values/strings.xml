@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">BrakeTest</string>
+    
+    <!-- Main menu buttons texts -->
+    <string name="menu_button_brake_test">Perform pre-trip brake test</string>
+    <string name="menu_button_issue">Report pre-trip vehicle issue to dispatch</string>
+    <string name="menu_button_brake_knowledge">Driver brake knowledge review \u0026 quiz</string>
+    <string name="menu_button_inspection_report">Pre-trip inspection reports history</string>
+    <string name="menu_button_test_knowledge">Driver road test knowledge review \u0026 quiz</string>
+    <string name="menu_button_real_time">Live brake monitor in real-time</string>
+    <string name="button_close">Close App</string>
+    <string name="button_menu">Main Menu</string>
+    <string name="button_next">Next</string>
+</resources>
