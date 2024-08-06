@@ -17,7 +17,7 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 class TestDescriptionActivity: AppCompatActivity() {
 
     companion object {
-        val TAG: String = "BrakeTest.TestDescriptionActivity"
+        const val TAG: String = "BrakeTest.TestDescriptionActivity"
     }
 
     private var viewPager2: ViewPager2? = null
@@ -28,10 +28,15 @@ class TestDescriptionActivity: AppCompatActivity() {
 
             val controllerButton: MaterialButton = findViewById(R.id.controllerBtn)
             Log.d(TAG, "change to page "+position+" de "+TestDescriptionItem.getTestDescriptionSteps(applicationContext).size)
-            if (position == TestDescriptionItem.getTestDescriptionSteps(applicationContext).size -1){
-                controllerButton.text = "Start"
+            if (position == TestDescriptionItem.getTestDescriptionSteps(applicationContext).size) {
+                Log.d(TAG, "Time to start")
+            }
+            else if (position == TestDescriptionItem.getTestDescriptionSteps(applicationContext).size -1){
+                controllerButton.text =  resources.getText(R.string.button_start)
+                //controllerButton.text = "Start"
             }else{
-                controllerButton.text = "Next"
+                controllerButton.text =  resources.getText(R.string.button_next)
+                //controllerButton.text = "Next"
                 controllerButton.setOnClickListener {
                     viewPager2?.currentItem = position+1
                 }
@@ -56,10 +61,16 @@ class TestDescriptionActivity: AppCompatActivity() {
             val intent = Intent(this, MenuActivity::class.java)
             startActivity(intent)
         }
+
+        val skipButton: Button = findViewById(R.id.btn_skip)
+        skipButton.setOnClickListener{
+            val intent = Intent(this, TestBeginActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun setupViewPager(){
-
         val adapter = TestDescriptionAdapter(TestDescriptionItem.getTestDescriptionSteps(applicationContext))
         viewPager2 = findViewById(R.id.viewPager)
         viewPager2?.adapter = adapter
