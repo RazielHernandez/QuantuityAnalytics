@@ -1,4 +1,4 @@
-package com.quantuityanalytics.braketest.ble
+package com.quantuityanalytics.quantuityanalytics.ble
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import com.quantuityanalytics.braketest.R
+import com.quantuityanalytics.quantuityanalytics.R
 
 class BleDeviceAdapter(context: Context, data: ArrayList<BleDevice>) :
     BaseAdapter()  {

@@ -1,4 +1,4 @@
-package com.quantuityanalytics.braketest
+package com.quantuityanalytics.quantuityanalytics
 
 import android.content.Intent
 import android.os.Bundle

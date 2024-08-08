@@ -1,4 +1,4 @@
-package com.quantuityanalytics.braketest
+package com.quantuityanalytics.quantuityanalytics
 
 import org.junit.Test
 

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.quantuityanalytics.braketest'
+    namespace 'com.quantuityanalytics.quantuityanalytics'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.quantuityanalytics.braketest"
+        applicationId "com.quantuityanalytics.quantuityanalytics"
         minSdk 28
         targetSdk 34
         versionCode 1

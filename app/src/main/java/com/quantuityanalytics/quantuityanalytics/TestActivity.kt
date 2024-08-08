@@ -1,4 +1,4 @@
-package com.quantuityanalytics.braketest
+package com.quantuityanalytics.quantuityanalytics
 
 import android.app.Dialog
 import android.os.Bundle
@@ -6,13 +6,13 @@ import android.os.Handler
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
-import com.quantuityanalytics.braketest.ble.BleDeviceAdapter
-import com.quantuityanalytics.braketest.ble.BleManager
+import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceAdapter
+import com.quantuityanalytics.quantuityanalytics.ble.BleManager
 
 class TestActivity: AppCompatActivity() {
 
     companion object {
-        val TAG: String = "BrakeTest.TestActivity"
+        val TAG: String = "QuantuityAnalytics.TestActivity"
     }
 
     private val deviceAdapter = BleDeviceAdapter(context = this, data = arrayListOf())

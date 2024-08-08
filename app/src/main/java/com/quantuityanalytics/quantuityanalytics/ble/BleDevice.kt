@@ -1,4 +1,4 @@
-package com.quantuityanalytics.braketest.ble
+package com.quantuityanalytics.quantuityanalytics.ble
 
 data class BleDevice(
     var deviceName: String = "default name",

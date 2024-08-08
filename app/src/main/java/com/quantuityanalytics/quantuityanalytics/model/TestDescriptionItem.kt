@@ -1,7 +1,7 @@
-package com.quantuityanalytics.braketest.model
+package com.quantuityanalytics.quantuityanalytics.model
 
 import android.content.Context
-import com.quantuityanalytics.braketest.R
+import com.quantuityanalytics.quantuityanalytics.R
 
 data class TestDescriptionItem (
     val description: String,

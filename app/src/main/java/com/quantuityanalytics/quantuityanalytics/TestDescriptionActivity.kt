@@ -1,4 +1,4 @@
-package com.quantuityanalytics.braketest
+package com.quantuityanalytics.quantuityanalytics
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,14 +10,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.button.MaterialButton
-import com.quantuityanalytics.braketest.adapters.TestDescriptionAdapter
-import com.quantuityanalytics.braketest.model.TestDescriptionItem
+import com.quantuityanalytics.quantuityanalytics.adapters.TestDescriptionAdapter
+import com.quantuityanalytics.quantuityanalytics.model.TestDescriptionItem
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 
 class TestDescriptionActivity: AppCompatActivity() {
 
     companion object {
-        const val TAG: String = "BrakeTest.TestDescriptionActivity"
+        const val TAG: String = "QuantuityAnalytics.TestDescriptionActivity"
     }
 
     private var viewPager2: ViewPager2? = null
@@ -69,7 +69,6 @@ class TestDescriptionActivity: AppCompatActivity() {
         val nextButton: MaterialButton = findViewById(R.id.controllerBtn)
         nextButton.setOnClickListener{
             Log.d(TAG, "Actual ID is: "+ (viewPager2?.id ?: -1))
-
         }
 
     }

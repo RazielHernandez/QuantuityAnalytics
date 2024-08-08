@@ -1,8 +1,6 @@
-package com.quantuityanalytics.braketest.ble
+package com.quantuityanalytics.quantuityanalytics.ble
 
 import android.Manifest
-import android.app.Activity
-import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCallback
@@ -11,12 +9,10 @@ import android.bluetooth.BluetoothManager
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Handler
 import android.util.Log
 import androidx.core.app.ActivityCompat
-import com.quantuityanalytics.braketest.TestActivity.Companion.TAG
 
 class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
 
@@ -27,7 +23,7 @@ class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
     private var bluetoothManager: BluetoothManager? = null
 
     companion object {
-        val TAG: String = "BrakeTest.TestActivity"
+        val TAG: String = "QuantuityAnalytics.TestActivity"
         val SCANNING_PERIOD: Int = 8000
     }
 

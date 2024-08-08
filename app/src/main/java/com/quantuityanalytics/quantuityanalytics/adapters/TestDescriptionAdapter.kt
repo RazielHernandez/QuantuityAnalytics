@@ -1,4 +1,4 @@
-package com.quantuityanalytics.braketest.adapters
+package com.quantuityanalytics.quantuityanalytics.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.quantuityanalytics.braketest.R
-import com.quantuityanalytics.braketest.model.TestDescriptionItem
+import com.quantuityanalytics.quantuityanalytics.R
+import com.quantuityanalytics.quantuityanalytics.model.TestDescriptionItem
 
 class TestDescriptionAdapter(private val data: List<TestDescriptionItem>):
     RecyclerView.Adapter<TestDescriptionAdapter.ViewHolder>() {

@@ -1,4 +1,4 @@
-package com.quantuityanalytics.braketest
+package com.quantuityanalytics.quantuityanalytics
 
 import android.Manifest
 import android.content.Intent
@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 class TestBeginActivity: AppCompatActivity() {
 
     companion object {
-        const val TAG: String = "BrakeTest.TestBeginActivity"
+        const val TAG: String = "QuantuityAnalytics.TestBeginActivity"
         private const val BLUETOOTH_PERMISSION_CODE = 100
     }
 

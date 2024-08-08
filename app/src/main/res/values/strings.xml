@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BrakeTest</string>
+    <string name="app_name">Quantuity Analytics</string>
     
     <!-- Main menu buttons texts -->
     <string name="menu_button_brake_test">Perform pre-trip brake test</string>
