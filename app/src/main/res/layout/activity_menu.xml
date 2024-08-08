@@ -92,8 +92,6 @@
             android:textSize="26sp"
             android:layout_margin="20dp"
             android:background="@drawable/menu_button_background"/>
-
-
     </LinearLayout>
 
     <LinearLayout

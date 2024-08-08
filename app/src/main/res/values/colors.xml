@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="primary">#2343ad</color>
+    <color name="button_focus">#4363cd</color>
+    <color name="button_presses">#13339d</color>
 </resources>

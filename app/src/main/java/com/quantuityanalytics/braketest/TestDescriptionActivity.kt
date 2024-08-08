@@ -27,16 +27,14 @@ class TestDescriptionActivity: AppCompatActivity() {
             super.onPageSelected(position)
 
             val controllerButton: MaterialButton = findViewById(R.id.controllerBtn)
-            Log.d(TAG, "change to page "+position+" de "+TestDescriptionItem.getTestDescriptionSteps(applicationContext).size)
-            if (position == TestDescriptionItem.getTestDescriptionSteps(applicationContext).size) {
-                Log.d(TAG, "Time to start")
-            }
-            else if (position == TestDescriptionItem.getTestDescriptionSteps(applicationContext).size -1){
+            if (position == TestDescriptionItem.getTestDescriptionSteps(applicationContext).size -1){
                 controllerButton.text =  resources.getText(R.string.button_start)
-                //controllerButton.text = "Start"
+                controllerButton.setOnClickListener {
+                    val intent = Intent(applicationContext, TestBeginActivity::class.java)
+                    startActivity(intent)
+                }
             }else{
                 controllerButton.text =  resources.getText(R.string.button_next)
-                //controllerButton.text = "Next"
                 controllerButton.setOnClickListener {
                     viewPager2?.currentItem = position+1
                 }
@@ -66,6 +64,12 @@ class TestDescriptionActivity: AppCompatActivity() {
         skipButton.setOnClickListener{
             val intent = Intent(this, TestBeginActivity::class.java)
             startActivity(intent)
+        }
+
+        val nextButton: MaterialButton = findViewById(R.id.controllerBtn)
+        nextButton.setOnClickListener{
+            Log.d(TAG, "Actual ID is: "+ (viewPager2?.id ?: -1))
+
         }
 
     }
