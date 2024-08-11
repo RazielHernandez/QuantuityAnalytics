@@ -24,7 +24,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:configChanges="orientation"
-            android:screenOrientation="landscape">
+            android:screenOrientation="reverseLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -34,19 +34,19 @@
         <activity android:name=".MenuActivity"
             android:exported="false"
             android:configChanges="orientation"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="reverseLandscape"/>
         <activity android:name=".TestDescriptionActivity"
             android:exported="false"
             android:configChanges="orientation"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="reverseLandscape"/>
         <activity android:name=".TestBeginActivity"
             android:exported="false"
             android:configChanges="orientation"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="reverseLandscape"/>
         <activity android:name=".TestActivity"
             android:exported="false"
             android:configChanges="orientation"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="reverseLandscape"/>
     </application>
 
 </manifest>

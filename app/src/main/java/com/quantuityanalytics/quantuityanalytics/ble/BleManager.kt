@@ -24,7 +24,7 @@ class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
 
     companion object {
         val TAG: String = "QuantuityAnalytics.TestActivity"
-        val SCANNING_PERIOD: Int = 8000
+        val SCANNING_PERIOD: Int = 10000
     }
 
     fun startScanning() {
@@ -51,8 +51,6 @@ class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
             Log.d(TAG, "NO PERMISSION")
             return
         }
-        //scanner?.startScan(scanFilters, scanSettings, leScanCallback)
-        //scanner?.startScan(leScanCallback)
 
         if (!scanning) { // Stops scanning after a pre-defined scan period.
             handler.postDelayed({
@@ -94,13 +92,19 @@ class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
                 }
 
                 Log.d(TAG, "Device found: ${device.name} - ${device.address}")
-                var newDevice: BleDevice =  BleDevice()
+                val newDevice: BleDevice =  BleDevice(
+                    deviceName = device.name ?: "Unknown",
+                    deviceDescription = device.address,
+                    deviceDetails = device.type.toString() + device.alias)
 
-                newDevice.deviceName = device.name ?: "Unknown"
-                newDevice.deviceDescription = device.address
-                newDevice.deviceDetails = device.type.toString() + device.alias
-                deviceAdapter.addDevice(newDevice)
-                deviceAdapter.notifyDataSetChanged()
+                if (!deviceAdapter.containDevice(newDevice)) {
+                    Log.d(TAG, "Adding a new device")
+                    deviceAdapter.addDevice(newDevice)
+                    deviceAdapter.notifyDataSetChanged()
+                } else {
+                    Log.d(TAG, "Device already registered: $newDevice")
+                }
+
 
                 //device.connectGatt(this@MainActivity, false, gattCallback)
             }

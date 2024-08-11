@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceAdapter
 import com.quantuityanalytics.quantuityanalytics.ble.BleManager
@@ -28,7 +30,9 @@ class TestActivity: AppCompatActivity() {
             startScanning()
         }
 
-
+        val recyclerView: RecyclerView = findViewById(R.id.device_list)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = deviceAdapter
     }
 
     override fun onStart() {
@@ -38,7 +42,7 @@ class TestActivity: AppCompatActivity() {
     }
 
     private fun startScanning() {
-        val newDialog: Dialog = Dialog(this)
+        val newDialog = Dialog(this)
         newDialog.setContentView(R.layout.popup_scannig)
         newDialog.show()
         bleManager.startScanning()

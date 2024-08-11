@@ -8,13 +8,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:layout_margin="100dp">
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/company_logo"
-        android:layout_margin="20dp"/>
+        android:layout_height="200dp"
+        android:src="@drawable/company_logo"/>
 
     <TextView
         android:layout_width="match_parent"
