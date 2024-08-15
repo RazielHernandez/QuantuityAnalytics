@@ -1,7 +1,9 @@
 package com.quantuityanalytics.quantuityanalytics.ble
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCallback
 import android.bluetooth.BluetoothGattCharacteristic
@@ -14,6 +16,7 @@ import android.os.Handler
 import android.util.Log
 import androidx.core.app.ActivityCompat
 
+@SuppressLint("MissingPermission")
 class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
 
     private var bluetoothAdapter: BluetoothAdapter? = null
@@ -23,12 +26,13 @@ class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
     private var bluetoothManager: BluetoothManager? = null
 
     companion object {
-        val TAG: String = "QuantuityAnalytics.TestActivity"
-        val SCANNING_PERIOD: Int = 10000
+        const val TAG: String = "QuantuityAnalytics.TestActivity"
+        const val SCANNING_PERIOD: Int = 10000
     }
 
     fun startScanning() {
         Log.d(TAG, "Start scanning...")
+        deviceAdapter.cleanDeviceList()
         bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager!!.adapter
         val scanner = bluetoothAdapter?.bluetoothLeScanner
@@ -36,7 +40,7 @@ class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
         //val scanSettings = ScanSettings.Builder().build()
 
         Log.d(TAG, "Scanning...")
-        if (ActivityCompat.checkSelfPermission(
+        /*if (ActivityCompat.checkSelfPermission(
                 context,
                 Manifest.permission.BLUETOOTH_SCAN
             ) != PackageManager.PERMISSION_GRANTED
@@ -50,23 +54,33 @@ class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
             // for ActivityCompat#requestPermissions for more details.
             Log.d(TAG, "NO PERMISSION")
             return
-        }
+        }*/
 
-        if (!scanning) { // Stops scanning after a pre-defined scan period.
+        // Stops scanning after a pre-defined scan period.
+        if (!scanning) {
             handler.postDelayed({
                 scanning = false
-                Log.d(TAG, "Stop scanning 1")
                 scanner?.stopScan(leScanCallback)
-                deviceAdapter.cleanDeviceList()
             }, SCANNING_PERIOD.toLong())
             scanning = true
             scanner?.startScan(leScanCallback)
         } else {
-            Log.d(TAG, "Stop scanning 2")
             scanning = false
             scanner?.stopScan(leScanCallback)
-            deviceAdapter.cleanDeviceList()
         }
+    }
+
+    fun connectToDevice(device: BluetoothDevice) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.BLUETOOTH_CONNECT
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d(TAG, "No permissions")
+            return
+        }
+        Log.d(TAG, "Connecting to device ${device.address}")
+        device.connectGatt(context, false, gattCallback)
     }
 
     private val leScanCallback = object : ScanCallback() {
@@ -75,7 +89,7 @@ class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
             Log.d(TAG, "leScanCallback")
             super.onScanResult(callbackType, result)
             result?.device?.let { device ->
-                if (ActivityCompat.checkSelfPermission(
+                /*if (ActivityCompat.checkSelfPermission(
                         context,
                         Manifest.permission.BLUETOOTH_CONNECT
                     ) != PackageManager.PERMISSION_GRANTED
@@ -89,28 +103,21 @@ class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
                     // for ActivityCompat#requestPermissions for more details.
                     Log.d(TAG, "No permissions")
                     return
-                }
+                }*/
 
                 Log.d(TAG, "Device found: ${device.name} - ${device.address}")
-                val newDevice: BleDevice =  BleDevice(
-                    deviceName = device.name ?: "Unknown",
-                    deviceDescription = device.address,
-                    deviceDetails = device.type.toString() + device.alias)
 
-                if (!deviceAdapter.containDevice(newDevice)) {
+                if (!deviceAdapter.containDevice(device)) {
                     Log.d(TAG, "Adding a new device")
-                    deviceAdapter.addDevice(newDevice)
+                    deviceAdapter.addDevice(device)
                     deviceAdapter.notifyDataSetChanged()
                 } else {
-                    Log.d(TAG, "Device already registered: $newDevice")
+                    Log.d(TAG, "Device already saved: ${device.address}")
                 }
-
 
                 //device.connectGatt(this@MainActivity, false, gattCallback)
             }
         }
-
-
     }
 
     private val gattCallback = object : BluetoothGattCallback() {
@@ -118,7 +125,7 @@ class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
             when (newState) {
                 BluetoothGatt.STATE_CONNECTED -> {
                     Log.d(TAG, "Connected to GATT server.")
-                    if (ActivityCompat.checkSelfPermission(
+                    /*if (ActivityCompat.checkSelfPermission(
                             context,
                             Manifest.permission.BLUETOOTH_CONNECT
                         ) != PackageManager.PERMISSION_GRANTED
@@ -132,7 +139,7 @@ class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
                         // for ActivityCompat#requestPermissions for more details.
                         Log.d(TAG, "No permissions")
                         return
-                    }
+                    }*/
                     gatt?.discoverServices()
                 }
                 BluetoothGatt.STATE_DISCONNECTED -> {
@@ -171,32 +178,4 @@ class BleManager(val context: Context, val deviceAdapter: BleDeviceAdapter) {
             }
         }
     }
-
-    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_ENABLE_BT && resultCode == Activity.RESULT_OK) {
-            startScanning()
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.BLUETOOTH_CONNECT
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            Log.d(TAG, "No permissions")
-            return
-        }
-        bluetoothGatt?.close()
-        bluetoothGatt = null
-    }*/
 }

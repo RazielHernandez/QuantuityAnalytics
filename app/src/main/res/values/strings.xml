@@ -19,6 +19,7 @@
     <string name="test_description_2">The sensors and their location at each wheel are indicated below in yellow black circles. After the test is complete, they will indicate greet (pass) or red (fail) for one or more wheel on your vehicle.</string>
     <string name="test_description_3">Procedure: You will step on the brake pedal, wait 5 seconds, then release. A confirmation will be presented for each wheel below in green (pass) or red (fail).</string>
     <string name="break_test">Break Test</string>
+    <string name="break_test_devices">List of devices</string>
 
 
 </resources>

@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Quantuity Analytics Brake Test App"
-        android:textSize="48dp"
+        android:textSize="48sp"
         android:textStyle="bold"/>
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Click Begin to start a brake test"
-        android:textSize="36dp"
+        android:textSize="36sp"
         android:textStyle="bold"/>
 
     <Button
@@ -40,7 +40,7 @@
         android:layout_margin="20dp"
         android:text="Begin"
         android:textStyle="bold"
-        android:textSize="16dp"/>
+        android:textSize="16sp"/>
 
 
 </LinearLayout>
