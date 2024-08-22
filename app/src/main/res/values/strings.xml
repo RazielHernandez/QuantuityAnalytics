@@ -20,6 +20,10 @@
     <string name="test_description_3">Procedure: You will step on the brake pedal, wait 5 seconds, then release. A confirmation will be presented for each wheel below in green (pass) or red (fail).</string>
     <string name="break_test">Break Test</string>
     <string name="break_test_devices">List of devices</string>
+    <string name="break_test_scanning">Scanning</string>
+
+    <!-- Image description -->
+    <string name="empty_device_list">No Bluetooth device was founded</string>
 
 
 </resources>

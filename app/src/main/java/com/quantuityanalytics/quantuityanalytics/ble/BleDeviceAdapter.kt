@@ -42,7 +42,6 @@ class BleDeviceAdapter(private val context: Context,
 
         holder.itemView.setOnClickListener {
             deviceInterface.onDeviceClick(position)
-
         }
     }
 
