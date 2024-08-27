@@ -19,7 +19,7 @@ class TestDescriptionAdapter(private val data: List<TestDescriptionItem>):
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.test_description, parent, false)
+            .inflate(R.layout.view_test_description, parent, false)
         return ViewHolder(view)
     }
 

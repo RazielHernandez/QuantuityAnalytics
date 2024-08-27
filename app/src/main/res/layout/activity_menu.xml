@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintHeight_percent="0.15"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="2"
-            android:text="Close"
+            android:text="@string/button_close_app"
             android:textSize="22sp"
             android:drawableEnd="@drawable/baseline_exit_24_white"/>
 
@@ -56,9 +56,10 @@
         app:layout_constraintTop_toBottomOf="@+id/menu_header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintHeight_percent="0.35"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp">
 
         <Button
             android:id="@+id/btn_test"
@@ -101,9 +102,10 @@
         app:layout_constraintTop_toBottomOf="@+id/menu_first_row"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintHeight_percent="0.35"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp">
 
         <Button
             android:id="@+id/btn_report"
@@ -137,6 +139,28 @@
             android:textSize="26sp"
             android:layout_margin="20dp"
             android:background="@drawable/menu_button_background"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menu_second_row"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.1"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_storage"
+            android:background="@drawable/menu_button_background"
+            app:icon="@drawable/baseline_upload_file_24"
+            app:iconGravity="textTop"
+            android:text="Files"
+            android:textSize="16sp"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

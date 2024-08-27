@@ -87,7 +87,8 @@ class BleManager(
                 if (!deviceAdapter.containDevice(device)) {
                     Log.d(TAG, "Adding a new device")
                     deviceAdapter.addDevice(device)
-                    deviceAdapter.notifyDataSetChanged()
+                    deviceAdapter.notifyItemInserted(deviceAdapter.itemCount)
+                    //deviceAdapter.notifyDataSetChanged()
                 } else {
                     Log.d(TAG, "Device already saved: ${device.address}")
                 }
@@ -120,7 +121,6 @@ class BleManager(
                         Log.d(TAG, "Characteristic UUID: ${characteristic.uuid}")
                         //gatt.readCharacteristic(characteristic)
                     }
-
                     gatt.requestMtu(517)
                 }
             } else {

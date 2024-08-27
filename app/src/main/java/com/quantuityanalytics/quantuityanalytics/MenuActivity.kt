@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
+import com.quantuityanalytics.quantuityanalytics.storage.StorageActivity
 
 class MenuActivity: AppCompatActivity() {
 
@@ -22,6 +24,12 @@ class MenuActivity: AppCompatActivity() {
         val closeButton: Button = findViewById(R.id.btn_close)
         closeButton.setOnClickListener{
             this.finishAffinity()
+        }
+
+        val storageButton: MaterialButton = findViewById(R.id.btn_storage)
+        storageButton.setOnClickListener{
+            val intent = Intent(this, StorageActivity::class.java)
+            startActivity(intent)
         }
     }
 }

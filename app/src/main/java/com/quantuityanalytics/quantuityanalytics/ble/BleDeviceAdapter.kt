@@ -11,15 +11,15 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.quantuityanalytics.quantuityanalytics.R
+import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterface
 
 class BleDeviceAdapter(private val context: Context,
                        private val dataSet: ArrayList<BluetoothDevice>,
-                       private val deviceInterface: BleDeviceInterface
+                       private val recycleViewItemInterface: RecycleViewItemInterface
 ) :
     RecyclerView.Adapter<BleDeviceAdapter.ViewHolder>()  {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        // Define click listener for the ViewHolder's View
         val nameTextView: TextView = view.findViewById(R.id.device_name)
         val descriptionTextView: TextView = view.findViewById(R.id.device_description)
         val detailsTextView: TextView = view.findViewById(R.id.device_details)
@@ -27,7 +27,7 @@ class BleDeviceAdapter(private val context: Context,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BleDeviceAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.ble_devie_view, parent, false)
+            .inflate(R.layout.view_ble_devie, parent, false)
         return ViewHolder(view)
     }
 
@@ -41,10 +41,9 @@ class BleDeviceAdapter(private val context: Context,
         holder.detailsTextView.text = currentItem.alias + currentItem.type
 
         holder.itemView.setOnClickListener {
-            deviceInterface.onDeviceClick(position)
+            recycleViewItemInterface.onDeviceClick(position)
         }
     }
-
 
     override fun getItemId(position: Int): Long {
         return position.toLong()

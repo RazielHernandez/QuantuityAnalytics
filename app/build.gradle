@@ -44,10 +44,7 @@ dependencies {
     androidTestImplementation libs.androidx.espresso.core
 
     implementation (libs.dotsindicator)
-
-    def lottieVersion = "3.4.0"
-    implementation "com.airbnb.android:lottie:$lottieVersion"
-
-    def fragment_version = "1.8.2"
-    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+    implementation libs.lottie
+    implementation libs.androidx.fragment.ktx
+    implementation libs.gson
 }

@@ -9,8 +9,6 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -21,17 +19,17 @@ import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
+import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterface
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceAdapter
-import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceInterface
 import com.quantuityanalytics.quantuityanalytics.ble.BleManager
 
-class TestActivity: AppCompatActivity(), BleDeviceInterface {
+class TestActivity: AppCompatActivity(), RecycleViewItemInterface {
 
     companion object {
         const val TAG: String = "QuantuityAnalytics.TestActivity"
     }
 
-    private val deviceAdapter = BleDeviceAdapter(context = this, dataSet = arrayListOf(), deviceInterface = this)
+    private val deviceAdapter = BleDeviceAdapter(context = this, dataSet = arrayListOf(), recycleViewItemInterface = this)
     private var bleManager: BleManager? = null
 
     private var layoutMain: ConstraintLayout? = null
@@ -90,6 +88,11 @@ class TestActivity: AppCompatActivity(), BleDeviceInterface {
             bleManager = BleManager(this,bluetoothAdapter, deviceAdapter)
         }
         startScanning()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bleManager?.closeConnection()
     }
 
     private fun layoutScanning() {
