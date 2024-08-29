@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-class TestBeginActivity: AppCompatActivity() {
+class TestActivityStart: AppCompatActivity() {
 
     companion object {
         const val TAG: String = "QuantuityAnalytics.TestBeginActivity"
@@ -53,29 +53,32 @@ class TestBeginActivity: AppCompatActivity() {
         }
 
         if (permissionList.isNotEmpty()) {
-            ActivityCompat.requestPermissions(this@TestBeginActivity,
+            ActivityCompat.requestPermissions(this@TestActivityStart,
                 permissionList.toTypedArray(), BLUETOOTH_PERMISSION_CODE)
             Log.d(TAG, "Asking for permissions")
         } else {
             Log.d(TAG, "Permissions granted")
-            val intent = Intent(this, TestActivity::class.java)
+            val intent = Intent(this, TestActivityScanner::class.java)
             startActivity(intent)
         }
 
     }
 
     private fun checkPermission(permission: String) : Boolean {
-        return ContextCompat.checkSelfPermission(this@TestBeginActivity, permission) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(this@TestActivityStart, permission) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        Log.d(TAG, "permission result 1")
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this@TestBeginActivity, "Permission Granted", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, TestActivity::class.java)
+            Log.d(TAG, "permission result 2.1")
+            val intent = Intent(this, TestActivityScanner::class.java)
             startActivity(intent)
         } else {
-            Toast.makeText(this@TestBeginActivity, "Permission Denied", Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "permission result 2.1")
+            Toast.makeText(this@TestActivityStart, "Permission Denied", Toast.LENGTH_SHORT).show()
         }
+        Log.d(TAG, "permission result 3")
     }
 }

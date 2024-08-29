@@ -34,10 +34,13 @@ class BleManager(
 
     companion object {
         const val TAG: String = "QuantuityAnalytics.TestActivity"
-        const val SCANNING_PERIOD: Int = 8000
-        const val BREAK_TEST_SERVICE_UUID: String = "00001809-0000-1000-8000-00805f9b34fb"
-        const val BREAK_TEST_CHARACTERISTIC_UUID: String = "00002a1c-0000-1000-8000-00805f9b34fb"
+        const val SCANNING_PERIOD: Int = 5000
+        const val BREAK_TEST_SERVICE_UUID: String = "dda4d145-fc52-4705-bb93-dd1f295aa522"
+        const val BREAK_TEST_CHARACTERISTIC_UUID: String = "61a885a4-41c3-60d0-9a53-6d652a70d29c"
         const val CCCD_DESCRIPTOR_UUID: String = "00002902-0000-1000-8000-00805f9b34fb"
+        const val DEVICE_MAC_ADDRESS_MANUFACTURER: String = "00:00:00"
+        const val DEVICE_NAME: String = "IMPULSE"
+
     }
 
     fun startScanning() {
@@ -78,7 +81,6 @@ class BleManager(
     }
 
     private val leScanCallback = object : ScanCallback() {
-
         override fun onScanResult(callbackType: Int, result: ScanResult?) {
             Log.d(TAG, "leScanCallback")
             super.onScanResult(callbackType, result)
@@ -88,10 +90,9 @@ class BleManager(
                     Log.d(TAG, "Adding a new device")
                     deviceAdapter.addDevice(device)
                     deviceAdapter.notifyItemInserted(deviceAdapter.itemCount)
-                    //deviceAdapter.notifyDataSetChanged()
-                } else {
+                } /*else {
                     Log.d(TAG, "Device already saved: ${device.address}")
-                }
+                }*/
             }
         }
     }
@@ -156,6 +157,8 @@ class BleManager(
             super.onCharacteristicChanged(gatt, characteristic, value)
             Log.d(TAG, "Characteristic $characteristic changed: $value")
 
+            val string = value.toString(Charsets.US_ASCII)
+            Log.d(TAG, "Characteristic $characteristic changed: $string")
         }
 
         override fun onCharacteristicWrite(
@@ -171,10 +174,10 @@ class BleManager(
             gatt: BluetoothGatt?,
             characteristic: BluetoothGattCharacteristic?) {
             characteristic?.value?.let { value ->
-                Log.d(TAG, "Characteristic changed: ${value.joinToString()}")
+                //Log.d(TAG, "Characteristic changed: ${value.joinToString()}")
+                Log.d(TAG,"Characteristic string value: ${value.decodeToString()}")
             }
         }
-
 
     }
 
@@ -224,7 +227,7 @@ class BleManager(
         val cccdUuid = UUID.fromString(CCCD_DESCRIPTOR_UUID)
         characteristic.getDescriptor(cccdUuid)?.let { cccdDescriptor ->
             if(bluetoothGatt?.setCharacteristicNotification(characteristic,false) == false){
-                Log.d(TAG,"set charateristics notification failed")
+                Log.d(TAG,"set characteristics notification failed")
                 return
             }
             writeDescription(cccdDescriptor, BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE)

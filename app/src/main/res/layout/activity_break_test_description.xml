@@ -8,7 +8,7 @@
     android:id="@+id/main"
     android:paddingHorizontal="40dp"
     android:paddingVertical="20dp"
-    tools:context=".TestDescriptionActivity">
+    tools:context=".TestActivityDescription">
 
     <LinearLayout
         android:id="@+id/header"

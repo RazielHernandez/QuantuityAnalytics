@@ -10,6 +10,7 @@ import com.google.android.material.button.MaterialButton
 import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.model.BreakRecord
 import com.quantuityanalytics.quantuityanalytics.viewmodel.StorageViewModel
+import java.lang.Float
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -58,10 +59,10 @@ class StorageInputFragment: Fragment(R.layout.fragment_storage_input) {
                 result.add(
                     BreakRecord(
                         timeStamp = dateTime,
-                        testId = testName?.text.toString(),
+                        truckId = testName?.text.toString(),
                         sensorId = testSensor?.text.toString(),
                         breakRecord = testString?.text.toString(),
-                        value = Integer.parseInt(testInt?.text.toString())
+                        value = Float.parseFloat(testInt?.text.toString())
                     )
                 )
             }

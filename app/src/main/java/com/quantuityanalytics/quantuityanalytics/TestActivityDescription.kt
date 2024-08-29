@@ -14,7 +14,7 @@ import com.quantuityanalytics.quantuityanalytics.adapters.TestDescriptionAdapter
 import com.quantuityanalytics.quantuityanalytics.model.TestDescriptionItem
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 
-class TestDescriptionActivity: AppCompatActivity() {
+class TestActivityDescription: AppCompatActivity() {
 
     companion object {
         const val TAG: String = "QuantuityAnalytics.TestDescriptionActivity"
@@ -30,7 +30,7 @@ class TestDescriptionActivity: AppCompatActivity() {
             if (position == TestDescriptionItem.getTestDescriptionSteps(applicationContext).size -1){
                 controllerButton.text =  resources.getText(R.string.button_start)
                 controllerButton.setOnClickListener {
-                    val intent = Intent(applicationContext, TestBeginActivity::class.java)
+                    val intent = Intent(applicationContext, TestActivityStart::class.java)
                     startActivity(intent)
                 }
             }else{
@@ -45,7 +45,7 @@ class TestDescriptionActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_test_description)
+        setContentView(R.layout.activity_break_test_description)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -62,7 +62,7 @@ class TestDescriptionActivity: AppCompatActivity() {
 
         val skipButton: Button = findViewById(R.id.btn_skip)
         skipButton.setOnClickListener{
-            val intent = Intent(this, TestBeginActivity::class.java)
+            val intent = Intent(this, TestActivityStart::class.java)
             startActivity(intent)
         }
 
