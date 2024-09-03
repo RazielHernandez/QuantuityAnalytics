@@ -15,8 +15,10 @@
     <string name="button_start">Start</string>
     <string name="button_skip">Skip</string>
     <string name="button_refresh">Refresh</string>
+    <string name="button_scan">Scan</string>
     <string name="btn_delete">Delete File</string>
     <string name="btn_export">Export File</string>
+    <string name="btn_files">Files</string>
 
     <!-- Test steps description -->
     <string name="test_description_1">Procedure: You will step on the brake pedal, wait 5 seconds, then release. A confirmation will be presented at the end of the test for each wheel below in green (pass) or red (fail).</string>
@@ -32,12 +34,13 @@
     <string name="break_test">Break Test</string>
     <string name="break_test_devices">List of devices</string>
     <string name="break_test_scanning">Scanning</string>
+    <string name="break_test_start">Press Scan to connect to the sensors</string>
 
     <!-- Image description -->
     <string name="empty_device_list">No Bluetooth device was founded</string>
     <string name="test_step_description">Image to describe the actual test step</string>
     <string name="title_main_menu">Main menu</string>
-    <string name="btn_files">Files</string>
+    <string name="image_description_sensor">Sensor icon</string>
 
 
 </resources>

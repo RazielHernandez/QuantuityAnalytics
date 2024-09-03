@@ -48,10 +48,10 @@ class TestActivityScanner: AppCompatActivity(), RecycleViewItemInterface {
         setContentView(R.layout.activity_break_test_scanner)
 
         layoutMain = findViewById(R.id.main)
-        scanButton = findViewById(R.id.btn_scan)
         animationView = findViewById(R.id.animationView)
         recyclerView = findViewById(R.id.device_list)
         commentText = findViewById(R.id.comment)
+        scanButton = findViewById(R.id.btn_scan)
 
         recyclerView?.layoutManager = LinearLayoutManager(this)
         recyclerView?.adapter = deviceAdapter
@@ -89,7 +89,7 @@ class TestActivityScanner: AppCompatActivity(), RecycleViewItemInterface {
         val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         val bluetoothAdapter = bluetoothManager.adapter
         if (bluetoothAdapter != null) {
-            bleManager = BleManager(this, bluetoothAdapter, deviceAdapter)
+            //bleManager = BleManager(this, bluetoothAdapter, null)
         }
         startScanning()
     }
@@ -147,9 +147,9 @@ class TestActivityScanner: AppCompatActivity(), RecycleViewItemInterface {
         // Don´t delete (for testing)
         //deviceAdapter.getDeviceByPosition(position)?.let { bleManager?.connectToDevice(it) }
         //val listOfDevices: ArrayList<BluetoothDevice?> = Arrays.asList(deviceAdapter.getDeviceByPosition(position))
-        val intent = Intent(this, TestActivity::class.java)
-        intent.putExtra("devices", deviceAdapter.getDeviceByPosition(position) )
-        startActivity(intent)
+        //val intent = Intent(this, TestActivity::class.java)
+        //intent.putExtra("devices", deviceAdapter.getDeviceByPosition(position) )
+        //startActivity(intent)
 
     }
 

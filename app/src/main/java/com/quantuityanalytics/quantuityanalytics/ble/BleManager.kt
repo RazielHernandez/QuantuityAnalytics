@@ -15,14 +15,16 @@ import android.content.pm.PackageManager
 import android.os.Handler
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 import java.util.UUID
+import kotlin.jvm.Throws
 
 
 @SuppressLint("MissingPermission")
 class BleManager(
     private val context: Context,
     private val bluetoothAdapter: BluetoothAdapter,
-    val deviceAdapter: BleDeviceAdapter) {
+    val testViewModel: BreakViewModel) {
 
     private var bluetoothGatt: BluetoothGatt? = null
     private var scanning = false
@@ -34,30 +36,40 @@ class BleManager(
 
     companion object {
         const val TAG: String = "QuantuityAnalytics.TestActivity"
-        const val SCANNING_PERIOD: Int = 5000
+        const val SCANNING_PERIOD: Int = 6000
         const val BREAK_TEST_SERVICE_UUID: String = "dda4d145-fc52-4705-bb93-dd1f295aa522"
         const val BREAK_TEST_CHARACTERISTIC_UUID: String = "61a885a4-41c3-60d0-9a53-6d652a70d29c"
         const val CCCD_DESCRIPTOR_UUID: String = "00002902-0000-1000-8000-00805f9b34fb"
         const val DEVICE_MAC_ADDRESS_MANUFACTURER: String = "00:00:00"
         const val DEVICE_NAME: String = "IMPULSE"
-
     }
 
+    @Throws(IllegalStateException::class)
     fun startScanning() {
         Log.d(TAG, "Start scanning...")
-        deviceAdapter.cleanDeviceList()
 
-        // Stops scanning after a pre-defined scan period.
-        if (!scanning) {
-            handler.postDelayed({
+        try {
+            // Stops scanning after a pre-defined scan period.
+            if (!scanning) {
+                handler.postDelayed({
+                    scanning = false
+                    testViewModel.setScannerStatus(false)
+                    bleScanner.stopScan(leScanCallback)
+                }, SCANNING_PERIOD.toLong())
+                testViewModel.setListOfDevices(arrayListOf())
+                scanning = true
+                bleScanner.startScan(leScanCallback)
+            } else {
                 scanning = false
+                testViewModel.setScannerStatus(false)
                 bleScanner.stopScan(leScanCallback)
-            }, SCANNING_PERIOD.toLong())
-            scanning = true
-            bleScanner.startScan(leScanCallback)
-        } else {
-            scanning = false
-            bleScanner.stopScan(leScanCallback)
+            }
+        } catch (ex: Exception) {
+            Log.d(TAG, "An error occurred when trying to scan")
+            Log.d(TAG, "Bluetooth adapter is turned off and BleScanner is trying to scan")
+            handler.removeCallbacksAndMessages(null)
+            testViewModel.setErrorCode(BreakViewModel.ERROR_BLUETOOTH_ADAPTER)
+            throw IllegalStateException()
         }
     }
 
@@ -81,18 +93,19 @@ class BleManager(
     }
 
     private val leScanCallback = object : ScanCallback() {
+
+        override fun onScanFailed(errorCode: Int) {
+            super.onScanFailed(errorCode)
+            Log.d(TAG, "Error on scan code $errorCode")
+        }
+
         override fun onScanResult(callbackType: Int, result: ScanResult?) {
-            Log.d(TAG, "leScanCallback")
             super.onScanResult(callbackType, result)
             result?.device?.let { device ->
-                Log.d(TAG, "Device found: ${device.name} - ${device.address}")
-                if (!deviceAdapter.containDevice(device)) {
-                    Log.d(TAG, "Adding a new device")
-                    deviceAdapter.addDevice(device)
-                    deviceAdapter.notifyItemInserted(deviceAdapter.itemCount)
-                } /*else {
-                    Log.d(TAG, "Device already saved: ${device.address}")
-                }*/
+                if (!testViewModel.existDevice(QABleBluetoothDevice(device, true))) {
+                    Log.d(TAG, "Device found: ${device.name} - ${device.address}")
+                    testViewModel.addDevice(QABleBluetoothDevice(device, true))
+                }
             }
         }
     }

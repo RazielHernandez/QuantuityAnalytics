@@ -25,8 +25,6 @@ class StorageActivity: AppCompatActivity() {
     }
 
 
-
-
     private fun loadFragment(frame: Int, fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)

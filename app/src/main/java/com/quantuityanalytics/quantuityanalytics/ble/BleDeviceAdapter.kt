@@ -7,6 +7,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +15,7 @@ import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterface
 
 class BleDeviceAdapter(private val context: Context,
-                       private val dataSet: ArrayList<BluetoothDevice>,
+                       private val dataSet: ArrayList<QABleBluetoothDevice>,
                        private val recycleViewItemInterface: RecycleViewItemInterface
 ) :
     RecyclerView.Adapter<BleDeviceAdapter.ViewHolder>()  {
@@ -23,6 +24,7 @@ class BleDeviceAdapter(private val context: Context,
         val nameTextView: TextView = view.findViewById(R.id.device_name)
         val descriptionTextView: TextView = view.findViewById(R.id.device_description)
         val detailsTextView: TextView = view.findViewById(R.id.device_details)
+        val isSelected: CheckBox = view.findViewById(R.id.device_selected)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BleDeviceAdapter.ViewHolder {
@@ -36,9 +38,10 @@ class BleDeviceAdapter(private val context: Context,
     override fun onBindViewHolder(holder: BleDeviceAdapter.ViewHolder, position: Int) {
         val currentItem = dataSet[position]
 
-        holder.nameTextView.text = currentItem.name
-        holder.descriptionTextView.text = currentItem.address
-        holder.detailsTextView.text = currentItem.alias + currentItem.type
+        holder.nameTextView.text = currentItem.deviceName()
+        holder.descriptionTextView.text = currentItem.deviceAddress()
+        holder.detailsTextView.text = currentItem.deviceAlias() + currentItem.deviceType()
+        holder.isSelected.isChecked = currentItem.isSelected
 
         holder.itemView.setOnClickListener {
             recycleViewItemInterface.onDeviceClick(position)
@@ -53,22 +56,27 @@ class BleDeviceAdapter(private val context: Context,
         return dataSet.size
     }
 
-    fun getDeviceByPosition(position: Int): BluetoothDevice? {
+    fun getDeviceByPosition(position: Int): QABleBluetoothDevice? {
         if (dataSet.size > position){
             return dataSet[position]
         }
         return null
     }
 
-    fun addDevice(device: BluetoothDevice) {
+    fun addDevice(device: QABleBluetoothDevice) {
         dataSet.add(device)
+    }
+
+    fun setDeviceList(listOfDevice: ArrayList<QABleBluetoothDevice>) {
+        dataSet.clear()
+        dataSet.addAll(listOfDevice)
     }
 
     fun cleanDeviceList() {
         dataSet.clear()
     }
 
-    fun containDevice(device: BluetoothDevice): Boolean {
+    fun containDevice(device: QABleBluetoothDevice): Boolean {
         return dataSet.contains(device)
     }
 }
