@@ -20,7 +20,7 @@ import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.ble.BleManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 
-class TestActivity: AppCompatActivity() {
+class BreakTestActivity: AppCompatActivity() {
 
     companion object {
         const val TAG: String = "QuantuityAnalytics.TestActivity"
@@ -50,14 +50,16 @@ class TestActivity: AppCompatActivity() {
                     Log.d(TAG,"Error RECEIVED")
                     finish()
                 }
-
             }
         })
 
-        testViewModel.errorCode.observe(this, Observer { value ->
-//            if (value == BreakViewModel.ERROR_BLUETOOTH_ADAPTER) {
-//                finish()
-//            }
+
+        testViewModel.startAction.observe(this, Observer { value ->
+            if (value) {
+                loadFragment(R.id.fragment_container, fragmentStep)
+
+                //bleManager?.connectToDeviceToRead(testViewModel.listOfDevices.value)
+            }
         })
 
         // GET all devices for the test

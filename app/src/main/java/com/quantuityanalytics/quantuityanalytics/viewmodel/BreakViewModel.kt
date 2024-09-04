@@ -20,8 +20,14 @@ class BreakViewModel: ViewModel() {
     private var mutableScannerStatus = MutableLiveData<Boolean>()
     val scannerStatus: LiveData<Boolean> get() = mutableScannerStatus
 
-    private var mutableErrorCode = MutableLiveData<Int>()
-    val errorCode: LiveData<Int> get() = mutableErrorCode
+    private var mutableStartAction = MutableLiveData<Boolean>()
+    val startAction: LiveData<Boolean> get() = mutableStartAction
+
+    private var mutableStepNumber = MutableLiveData<Int>()
+    val stepNumber: LiveData<Int> get() = mutableStepNumber
+
+    //private var mutableErrorCode = MutableLiveData<Int>()
+    //val errorCode: LiveData<Int> get() = mutableErrorCode
 
     fun setListOfDevices(devices: ArrayList<QABleBluetoothDevice>) {
         mutableListOfDevices.value = devices
@@ -42,13 +48,20 @@ class BreakViewModel: ViewModel() {
     }
 
     fun existDevice(device: QABleBluetoothDevice): Boolean {
-
         return mutableListOfDevices.value?.contains(device) ?: false
     }
 
-    fun setErrorCode(errorCode: Int) {
-        mutableErrorCode.value = errorCode
+    fun setStartAction(start: Boolean) {
+        mutableStartAction.value = start
     }
+
+    fun setStepNumber(step: Int) {
+        mutableStepNumber.value = step
+    }
+
+//    fun setErrorCode(errorCode: Int) {
+//        mutableErrorCode.value = errorCode
+//    }
 
 
 }

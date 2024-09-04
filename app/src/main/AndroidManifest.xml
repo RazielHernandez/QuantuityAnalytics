@@ -43,15 +43,11 @@
             android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="reverseLandscape"/>
-        <activity android:name=".TestActivityScanner"
-            android:exported="false"
-            android:configChanges="orientation"
-            android:screenOrientation="reverseLandscape"/>
         <activity android:name=".storage.StorageActivity"
             android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="reverseLandscape"/>
-        <activity android:name=".breaktest.TestActivity"
+        <activity android:name=".breaktest.BreakTestActivity"
             android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="reverseLandscape"/>

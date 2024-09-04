@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi
 data class QABleBluetoothDevice (
     var bleDevice: BluetoothDevice,
     var isSelected: Boolean,
+    var isDisabled: Boolean = false,
 ) {
     @SuppressLint("MissingPermission")
     fun deviceName(): String {

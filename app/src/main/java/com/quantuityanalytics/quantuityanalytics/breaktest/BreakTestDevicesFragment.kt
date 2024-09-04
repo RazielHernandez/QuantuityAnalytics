@@ -12,11 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.button.MaterialButton
 import com.quantuityanalytics.quantuityanalytics.R
+import com.quantuityanalytics.quantuityanalytics.adapters.CheckBoxInterface
 import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterface
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceAdapter
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 
-class BreakTestDevicesFragment: Fragment(R.layout.fragment_test_devices), RecycleViewItemInterface{
+class BreakTestDevicesFragment:
+    Fragment(R.layout.fragment_test_devices),
+    RecycleViewItemInterface,
+    CheckBoxInterface{
 
     companion object {
         const val TAG: String = "QuantuityAnalytics.BreakTestDevicesFragment"
@@ -31,7 +35,7 @@ class BreakTestDevicesFragment: Fragment(R.layout.fragment_test_devices), Recycl
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        deviceAdapter = BleDeviceAdapter(context, arrayListOf(), this)
+        deviceAdapter = BleDeviceAdapter(context, arrayListOf(), this, this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,6 +52,10 @@ class BreakTestDevicesFragment: Fragment(R.layout.fragment_test_devices), Recycl
             activity?.finish()
         }
 
+        startButton.setOnClickListener {
+            breakTestViewModel.setStartAction(true)
+        }
+
         breakTestViewModel.listOfDevices.observe(viewLifecycleOwner, Observer { list ->
             Log.d(TAG, "New array of devices detected")
             deviceAdapter?.setDeviceList(list)
@@ -56,27 +64,35 @@ class BreakTestDevicesFragment: Fragment(R.layout.fragment_test_devices), Recycl
         })
 
         breakTestViewModel.scannerStatus.observe(viewLifecycleOwner, Observer { value ->
+            // IF is scanning
             if (value) {
                 startButton.isEnabled = false
                 closeButton.isEnabled = false
                 animationView?.visibility = View.INVISIBLE
                 recyclerView?.visibility = View.VISIBLE
             }else {
+                // IF is not scanning
                 closeButton.isEnabled = true
+                // There are no items to show
                 if (deviceAdapter != null && deviceAdapter?.itemCount == 0) {
-                    Log.d(TAG, "No items, show lottie")
                     recyclerView?.visibility = View.INVISIBLE
                     animationView?.visibility = View.VISIBLE
                     animationView?.playAnimation()
                     startButton.isEnabled = false
                 } else {
-                    Log.d(TAG, "There are items, show recycle view")
+                    // Scanner return at least one device
                     animationView?.visibility = View.INVISIBLE
                     recyclerView?.visibility = View.VISIBLE
-                    startButton.isEnabled = false
+                    startButton.isEnabled = true
                 }
             }
+        })
 
+        breakTestViewModel.startAction.observe(viewLifecycleOwner, Observer { value ->
+            if (value) {
+                startButton.visibility = View.INVISIBLE
+                closeButton.visibility = View.INVISIBLE
+            }
         })
 
     }
@@ -87,6 +103,10 @@ class BreakTestDevicesFragment: Fragment(R.layout.fragment_test_devices), Recycl
     }
 
     override fun onDeviceClick(position: Int) {
-        TODO("Not yet implemented")
+        deviceAdapter?.selectDevice(position)
+    }
+
+    override fun onCheckBoxChange(position: Int, value: Boolean) {
+        //deviceAdapter?.updateDeviceSelection(position, value)
     }
 }

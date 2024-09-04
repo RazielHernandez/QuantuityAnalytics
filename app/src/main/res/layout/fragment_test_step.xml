@@ -68,6 +68,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/btn_repeat"
             android:text="Repeat"
             android:layout_marginHorizontal="20dp"
             app:icon="@drawable/baseline_repeat_24"/>
@@ -75,6 +76,7 @@
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/btn_next"
             android:text="Next"
             android:layout_marginHorizontal="20dp"
             app:icon="@drawable/baseline_arrow_forward_24"

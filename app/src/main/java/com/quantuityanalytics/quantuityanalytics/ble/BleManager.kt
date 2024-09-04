@@ -9,10 +9,13 @@ import android.bluetooth.BluetoothGattCallback
 import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattDescriptor
 import android.bluetooth.le.ScanCallback
+import android.bluetooth.le.ScanFilter
 import android.bluetooth.le.ScanResult
+import android.bluetooth.le.ScanSettings
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Handler
+import android.os.ParcelUuid
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
@@ -58,7 +61,18 @@ class BleManager(
                 }, SCANNING_PERIOD.toLong())
                 testViewModel.setListOfDevices(arrayListOf())
                 scanning = true
-                bleScanner.startScan(leScanCallback)
+
+                val scanSettings = ScanSettings.Builder()
+                    .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
+                    .build()
+                val scanFilter = ScanFilter.Builder()
+                    //.setDeviceAddress("B4:3A:31:EF:52:8B") // Filter by device address (MAC)
+                    //.setDeviceName("Edge Impulse")          // Filter by device name
+                    //.setServiceUuid(ParcelUuid.fromString("dda4d145-fc52-4705-bb93-dd1f295aa522")) // Filter by service UUID
+                    .build()
+                val filters = listOf(scanFilter)
+                //bleScanner.startScan(leScanCallback)
+                bleScanner.startScan(filters, scanSettings, leScanCallback)
             } else {
                 scanning = false
                 testViewModel.setScannerStatus(false)
@@ -68,12 +82,11 @@ class BleManager(
             Log.d(TAG, "An error occurred when trying to scan")
             Log.d(TAG, "Bluetooth adapter is turned off and BleScanner is trying to scan")
             handler.removeCallbacksAndMessages(null)
-            testViewModel.setErrorCode(BreakViewModel.ERROR_BLUETOOTH_ADAPTER)
             throw IllegalStateException()
         }
     }
 
-    fun connectToDevice(device: BluetoothDevice) {
+    fun connectToDeviceToRead(device: BluetoothDevice) {
         if (ActivityCompat.checkSelfPermission(
                 context,
                 Manifest.permission.BLUETOOTH_CONNECT
@@ -83,17 +96,32 @@ class BleManager(
             return
         }
         Log.d(TAG, "Connecting to device ${device.address}")
-        device.connectGatt(context, false, gattCallback)
+        device.connectGatt(context, false, gattCallbackToRead)
     }
 
-    fun readCharacteristic(characteristic: BluetoothGattCharacteristic) {
-        bluetoothGatt?.readCharacteristic(characteristic) ?: run {
-            Log.w(TAG, "BluetoothGatt not initialized")
-        }
-    }
+//    fun connectToDeviceToRead(listOfDevice: Array<BluetoothDevice>) {
+//        if (ActivityCompat.checkSelfPermission(
+//                context,
+//                Manifest.permission.BLUETOOTH_CONNECT
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            Log.d(TAG, "No permissions")
+//            return
+//        }
+//        for (device in listOfDevice) {
+//            device.connectGatt(context, false, gattCallbackToRead)
+//        }
+//        Log.d(TAG, "Connecting to device ${device.address}")
+//
+//    }
+
+//    fun readCharacteristic(characteristic: BluetoothGattCharacteristic) {
+//        bluetoothGatt?.readCharacteristic(characteristic) ?: run {
+//            Log.w(TAG, "BluetoothGatt not initialized")
+//        }
+//    }
 
     private val leScanCallback = object : ScanCallback() {
-
         override fun onScanFailed(errorCode: Int) {
             super.onScanFailed(errorCode)
             Log.d(TAG, "Error on scan code $errorCode")
@@ -110,7 +138,7 @@ class BleManager(
         }
     }
 
-    private val gattCallback = object : BluetoothGattCallback() {
+    private val gattCallbackToRead = object : BluetoothGattCallback() {
 
         override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
             when (newState) {

@@ -4,14 +4,13 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.quantuityanalytics.quantuityanalytics.breaktest.TestActivity
+import com.quantuityanalytics.quantuityanalytics.breaktest.BreakTestActivity
 
 class TestActivityStart: AppCompatActivity() {
 
@@ -57,7 +56,7 @@ class TestActivityStart: AppCompatActivity() {
             ActivityCompat.requestPermissions(this@TestActivityStart,
                 permissionList.toTypedArray(), BLUETOOTH_PERMISSION_CODE)
         } else {
-            val intent = Intent(this, TestActivity::class.java)
+            val intent = Intent(this, BreakTestActivity::class.java)
             startActivity(intent)
         }
 
@@ -70,7 +69,7 @@ class TestActivityStart: AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            val intent = Intent(this, TestActivity::class.java)
+            val intent = Intent(this, BreakTestActivity::class.java)
             startActivity(intent)
         } else {
             Toast.makeText(this@TestActivityStart, "Permission Denied", Toast.LENGTH_SHORT).show()

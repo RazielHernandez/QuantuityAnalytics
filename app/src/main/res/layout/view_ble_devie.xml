@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:id="@+id/main">
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:layout_width="0dp"
@@ -12,7 +13,8 @@
         android:id="@+id/device_selected"
         android:checked="true"
         android:gravity="center"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:enabled="false"/>
 
     <ImageView
         android:layout_width="0dp"
@@ -26,6 +28,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="8"
+        android:id="@+id/device_line"
         android:orientation="vertical"
         android:layout_margin="10dp">
 
