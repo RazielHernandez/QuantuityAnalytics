@@ -8,7 +8,7 @@ import androidx.annotation.RequiresApi
 data class QABleBluetoothDevice (
     var bleDevice: BluetoothDevice,
     var isSelected: Boolean,
-    var isDisabled: Boolean = false,
+    var isConnected: Boolean = false,
 ) {
     @SuppressLint("MissingPermission")
     fun deviceName(): String {
@@ -47,6 +47,13 @@ data class QABleBluetoothDevice (
         if (other !is QABleBluetoothDevice) return false
 
         return this.bleDevice == other.bleDevice
+    }
+
+    override fun hashCode(): Int {
+        var result = bleDevice.hashCode()
+        result = 31 * result + isSelected.hashCode()
+        result = 31 * result + isConnected.hashCode()
+        return result
     }
 
 

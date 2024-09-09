@@ -18,6 +18,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.quantuityanalytics.quantuityanalytics.MenuActivity
 import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.ble.BleManager
+import com.quantuityanalytics.quantuityanalytics.ble.QABleBluetoothDevice
+import com.quantuityanalytics.quantuityanalytics.model.TestStep
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 
 class BreakTestActivity: AppCompatActivity() {
@@ -56,35 +58,14 @@ class BreakTestActivity: AppCompatActivity() {
 
         testViewModel.startAction.observe(this, Observer { value ->
             if (value) {
-                loadFragment(R.id.fragment_container, fragmentStep)
+                bleManager?.connectToDeviceToWrite(testViewModel.listOfDevices.value, BleManager.COMMAND_STOP)
 
+                loadFragment(R.id.fragment_container, fragmentStep)
                 //bleManager?.connectToDeviceToRead(testViewModel.listOfDevices.value)
             }
         })
 
-        // GET all devices for the test
 
-
-
-        // GET all break test steps
-
-
-        // BUILD an array/adapter
-
-
-        // CREATE a result object
-
-
-        // FOR EACH step load fragment
-
-
-            // WAIT FOR RESULT
-
-
-            // SAVE OR REPEAT
-
-
-        // SEND RESULT TO RESULT ACTIVITY
     }
 
     @SuppressLint("MissingPermission")
@@ -93,7 +74,7 @@ class BreakTestActivity: AppCompatActivity() {
         val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         val bluetoothAdapter = bluetoothManager.adapter
         if (bluetoothAdapter != null) {
-            if (bluetoothAdapter.isEnabled == false) {
+            if (!bluetoothAdapter.isEnabled) {
                 val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                 startActivityForResult(enableBtIntent, BLUETOOTH_ENABLE_CODE)
             } else {

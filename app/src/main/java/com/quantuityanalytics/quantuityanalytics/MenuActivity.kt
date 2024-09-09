@@ -31,5 +31,11 @@ class MenuActivity: AppCompatActivity() {
             val intent = Intent(this, StorageActivity::class.java)
             startActivity(intent)
         }
+
+        val realTimeTest: Button = findViewById(R.id.btn_real_time)
+        realTimeTest.setOnClickListener {
+            val intent = Intent(this, RealTimeTestActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

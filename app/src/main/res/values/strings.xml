@@ -41,6 +41,7 @@
     <string name="test_step_description">Image to describe the actual test step</string>
     <string name="title_main_menu">Main menu</string>
     <string name="image_description_sensor">Sensor icon</string>
+    <string name="btn_repeat">Repeat</string>
 
 
 </resources>

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.quantuityanalytics.quantuityanalytics.ble.QABleBluetoothDevice
 import com.quantuityanalytics.quantuityanalytics.model.BreakRecord
+import com.quantuityanalytics.quantuityanalytics.model.TestStep
 
 class BreakViewModel: ViewModel() {
 
@@ -23,14 +24,14 @@ class BreakViewModel: ViewModel() {
     private var mutableStartAction = MutableLiveData<Boolean>()
     val startAction: LiveData<Boolean> get() = mutableStartAction
 
-    private var mutableStepNumber = MutableLiveData<Int>()
-    val stepNumber: LiveData<Int> get() = mutableStepNumber
+    private var mutableListOfRecords = MutableLiveData<ArrayList<BreakRecord>>()
+    val listOfRecords: LiveData<ArrayList<BreakRecord>> get() = mutableListOfRecords
 
-    //private var mutableErrorCode = MutableLiveData<Int>()
-    //val errorCode: LiveData<Int> get() = mutableErrorCode
+//    private var mutableStepArray = MutableLiveData<ArrayList<TestStep>>()
+//    val stepNumber: LiveData<ArrayList<TestStep>> get() = mutableStepArray
 
     fun setListOfDevices(devices: ArrayList<QABleBluetoothDevice>) {
-        mutableListOfDevices.value = devices
+        mutableListOfDevices.postValue(devices)
     }
 
     fun setScannerStatus(status: Boolean) {
@@ -55,9 +56,53 @@ class BreakViewModel: ViewModel() {
         mutableStartAction.value = start
     }
 
-    fun setStepNumber(step: Int) {
-        mutableStepNumber.value = step
+    fun setListOfRecords(arrayOfRecords:ArrayList<BreakRecord>) {
+        mutableListOfRecords.postValue(arrayOfRecords)
     }
+
+    fun addRecord(record: BreakRecord, overwrite: Boolean) {
+        var newArray = mutableListOfRecords.value
+        if (newArray == null) {
+            newArray = arrayListOf(record)
+        } else {
+
+            if (overwrite) {
+
+                var previousPosition: Int = -1
+                for (actual in newArray) {
+                    if (actual.sensorId == record.sensorId) {
+                        previousPosition = newArray.indexOf(actual)
+                    }
+                }
+
+                if (previousPosition >= 0) {
+                    newArray.removeAt(previousPosition)
+                    newArray.add(record)
+                }
+
+            } else {
+                newArray.add(record)
+            }
+
+
+        }
+        setListOfRecords(newArray)
+    }
+
+//    fun setStepArray(steps: ArrayList<TestStep>) {
+//        mutableStepArray.value = steps
+//    }
+
+//    fun setStepNumber(step: Int) {
+//        mutableStepNumber.value = step
+//    }
+//
+//    fun setDeviceConnectedStatus(device: QABleBluetoothDevice) {
+//        val position = mutableListOfDevices.value?.indexOf(device)
+//        if (position != null && position >= 0) {
+//            mutableListOfDevices.value?.set(position, device)
+//        }
+//    }
 
 //    fun setErrorCode(errorCode: Int) {
 //        mutableErrorCode.value = errorCode

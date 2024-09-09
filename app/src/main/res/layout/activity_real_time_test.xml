@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp">
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.1"
+        android:text="Real Time Test"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textAlignment="center"/>
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.7"
+        android:horizontalSpacing="6dp"
+        android:numColumns="3"
+        android:verticalSpacing="6dp" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.7"
+        app:lottie_autoPlay="false"
+        app:lottie_rawRes="@raw/animation_bluetooth"
+        app:lottie_loop="true"
+        android:visibility="invisible"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/button_line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridView"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.2"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_scan"
+            android:text="@string/button_scan"
+            android:layout_marginHorizontal="20dp"
+            app:icon="@drawable/baseline_bluetooth_searching_24"
+            app:iconGravity="end"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_connect"
+            android:text="@string/button_start"
+            android:layout_marginHorizontal="20dp"
+            app:icon="@drawable/baseline_play_outline_24"
+            android:backgroundTint="@color/red"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_test"
+            android:text="@string/button_start"
+            android:layout_marginHorizontal="20dp"
+            app:icon="@drawable/baseline_play_outline_24"
+            android:backgroundTint="@color/red"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,15 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.button.MaterialButton
 import com.quantuityanalytics.quantuityanalytics.R
-import com.quantuityanalytics.quantuityanalytics.adapters.CheckBoxInterface
 import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterface
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceAdapter
+import com.quantuityanalytics.quantuityanalytics.model.TestStep
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 
 class BreakTestDevicesFragment:
     Fragment(R.layout.fragment_test_devices),
-    RecycleViewItemInterface,
-    CheckBoxInterface{
+    RecycleViewItemInterface{
 
     companion object {
         const val TAG: String = "QuantuityAnalytics.BreakTestDevicesFragment"
@@ -33,9 +32,10 @@ class BreakTestDevicesFragment:
 
     private val breakTestViewModel: BreakViewModel by activityViewModels()
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        deviceAdapter = BleDeviceAdapter(context, arrayListOf(), this, this)
+        deviceAdapter = BleDeviceAdapter(arrayListOf(), this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,7 +78,7 @@ class BreakTestDevicesFragment:
                     recyclerView?.visibility = View.INVISIBLE
                     animationView?.visibility = View.VISIBLE
                     animationView?.playAnimation()
-                    startButton.isEnabled = false
+                    startButton.isEnabled = true
                 } else {
                     // Scanner return at least one device
                     animationView?.visibility = View.INVISIBLE
@@ -97,16 +97,11 @@ class BreakTestDevicesFragment:
 
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
     }
 
     override fun onDeviceClick(position: Int) {
         deviceAdapter?.selectDevice(position)
-    }
-
-    override fun onCheckBoxChange(position: Int, value: Boolean) {
-        //deviceAdapter?.updateDeviceSelection(position, value)
     }
 }

@@ -1,7 +1,6 @@
 package com.quantuityanalytics.quantuityanalytics.ble
 
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -11,16 +10,12 @@ import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.quantuityanalytics.quantuityanalytics.R
-import com.quantuityanalytics.quantuityanalytics.adapters.CheckBoxInterface
 import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterface
 
-class BleDeviceAdapter(private val context: Context,
-                       private val dataSet: ArrayList<QABleBluetoothDevice>,
-                       private val recycleViewItemInterface: RecycleViewItemInterface,
-                       private val checkBoxInterface: CheckBoxInterface
+class BleDeviceAdapter(private val dataSet: ArrayList<QABleBluetoothDevice>,
+                       private val recycleViewItemInterface: RecycleViewItemInterface
 ) :
     RecyclerView.Adapter<BleDeviceAdapter.ViewHolder>()  {
 
@@ -48,7 +43,10 @@ class BleDeviceAdapter(private val context: Context,
         holder.detailsTextView.text = currentItem.deviceAlias() + currentItem.deviceType()
         holder.isSelected.isChecked = currentItem.isSelected
 
-        if (!currentItem.isSelected) {
+
+        if (currentItem.isConnected) {
+            holder.background.setBackgroundResource(R.color.green)
+        } else if (!currentItem.isSelected) {
             holder.background.setBackgroundResource(R.color.white)
         } else {
             holder.background.setBackgroundResource(R.color.primary_light)
@@ -56,10 +54,6 @@ class BleDeviceAdapter(private val context: Context,
 
         holder.itemView.setOnClickListener {
             recycleViewItemInterface.onDeviceClick(position)
-        }
-
-        holder.isSelected.setOnCheckedChangeListener{ buttonView, isChecked ->
-            checkBoxInterface.onCheckBoxChange(position, isChecked)
         }
     }
 
@@ -90,18 +84,6 @@ class BleDeviceAdapter(private val context: Context,
     fun selectDevice(position: Int) {
         dataSet[position].isSelected = !dataSet[position].isSelected
         notifyItemChanged(position)
-    }
-
-    fun updateDeviceSelection(position: Int, selection: Boolean) {
-        dataSet[position].isSelected = selection
-        notifyItemChanged(position)
-    }
-
-    fun disabledChanges() {
-        for (device in dataSet) {
-            device.isDisabled = true
-        }
-        notifyDataSetChanged()
     }
 
     fun cleanDeviceList() {

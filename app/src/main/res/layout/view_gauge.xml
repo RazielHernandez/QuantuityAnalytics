@@ -1,23 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/image"
-        android:src="@drawable/warningsignal"
-        android:layout_gravity="center"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gauge title"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textAlignment="center" />
+        android:orientation="vertical">
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/image"
+            android:src="@drawable/warningsignal"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sensor"
+            android:text="Sensor name or Id"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/result"
+            android:text="Sensor main value"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/details"
+            android:text="More details from the sensor"
+            android:textSize="18sp"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

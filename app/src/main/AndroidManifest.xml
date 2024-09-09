@@ -51,6 +51,10 @@
             android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="reverseLandscape"/>
+        <activity android:name=".RealTimeTestActivity"
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="reverseLandscape"/>
     </application>
 
 </manifest>
