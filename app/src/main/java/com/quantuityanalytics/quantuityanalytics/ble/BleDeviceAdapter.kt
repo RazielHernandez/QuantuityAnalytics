@@ -1,7 +1,6 @@
 package com.quantuityanalytics.quantuityanalytics.ble
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterface
 
-class BleDeviceAdapter(private val dataSet: ArrayList<QABleBluetoothDevice>,
+class BleDeviceAdapter(private val dataSet: ArrayList<QABleDevice>,
                        private val recycleViewItemInterface: RecycleViewItemInterface
 ) :
     RecyclerView.Adapter<BleDeviceAdapter.ViewHolder>()  {
@@ -65,18 +64,18 @@ class BleDeviceAdapter(private val dataSet: ArrayList<QABleBluetoothDevice>,
         return dataSet.size
     }
 
-    fun getDeviceByPosition(position: Int): QABleBluetoothDevice? {
+    fun getDeviceByPosition(position: Int): QABleDevice? {
         if (dataSet.size > position){
             return dataSet[position]
         }
         return null
     }
 
-    fun addDevice(device: QABleBluetoothDevice) {
+    fun addDevice(device: QABleDevice) {
         dataSet.add(device)
     }
 
-    fun setDeviceList(listOfDevice: ArrayList<QABleBluetoothDevice>) {
+    fun setDeviceList(listOfDevice: ArrayList<QABleDevice>) {
         dataSet.clear()
         dataSet.addAll(listOfDevice)
     }
@@ -90,7 +89,7 @@ class BleDeviceAdapter(private val dataSet: ArrayList<QABleBluetoothDevice>,
         dataSet.clear()
     }
 
-    fun containDevice(device: QABleBluetoothDevice): Boolean {
+    fun containDevice(device: QABleDevice): Boolean {
         return dataSet.contains(device)
     }
 }

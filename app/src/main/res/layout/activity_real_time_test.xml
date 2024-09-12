@@ -53,32 +53,32 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <com.google.android.material.button.MaterialButton
+        <!--<com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_scan"
             android:text="@string/button_scan"
             android:layout_marginHorizontal="20dp"
             app:icon="@drawable/baseline_bluetooth_searching_24"
-            app:iconGravity="end"/>
+            app:iconGravity="end"/>-->
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_connect"
+            android:id="@+id/btn_start"
             android:text="@string/button_start"
             android:layout_marginHorizontal="20dp"
             app:icon="@drawable/baseline_play_outline_24"
             android:backgroundTint="@color/red"/>
 
-        <com.google.android.material.button.MaterialButton
+        <!--<com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_test"
             android:text="@string/button_start"
             android:layout_marginHorizontal="20dp"
             app:icon="@drawable/baseline_play_outline_24"
-            android:backgroundTint="@color/red"/>
+            android:backgroundTint="@color/red"/>-->
 
     </LinearLayout>
 

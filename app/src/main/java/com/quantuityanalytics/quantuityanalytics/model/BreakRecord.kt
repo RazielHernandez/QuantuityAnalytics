@@ -14,6 +14,7 @@ data class BreakRecord(
     companion object {
         const val STATUS_CONNECTED = 1
         const val STATUS_DISCONNECTED = 0
+        const val STATUS_NOT_FOUND = -1
     }
 
     fun printToCSV(): String {

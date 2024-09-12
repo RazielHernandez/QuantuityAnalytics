@@ -3,12 +3,12 @@ package com.quantuityanalytics.quantuityanalytics.ble
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import android.os.Build
-import androidx.annotation.RequiresApi
 
-data class QABleBluetoothDevice (
+data class QABleDevice (
     var bleDevice: BluetoothDevice,
-    var isSelected: Boolean,
+    var isSelected: Boolean = false,
     var isConnected: Boolean = false,
+    var listOfRecords: ArrayList<QABleRecord> = arrayListOf(),
 ) {
     @SuppressLint("MissingPermission")
     fun deviceName(): String {
@@ -17,7 +17,6 @@ data class QABleBluetoothDevice (
         }else {
             return bleDevice.name
         }
-
     }
 
     fun deviceAddress(): String {
@@ -42,9 +41,16 @@ data class QABleBluetoothDevice (
         return bleDevice.type
     }
 
+    fun getLastRecord(): QABleRecord {
+        if (listOfRecords.isEmpty()) {
+            return QABleRecord.getDefaultRecord(bleDevice.address)
+        }
+        return listOfRecords.last()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is QABleBluetoothDevice) return false
+        if (other !is QABleDevice) return false
 
         return this.bleDevice == other.bleDevice
     }

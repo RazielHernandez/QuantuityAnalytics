@@ -18,8 +18,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.quantuityanalytics.quantuityanalytics.MenuActivity
 import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.ble.BleManager
-import com.quantuityanalytics.quantuityanalytics.ble.QABleBluetoothDevice
-import com.quantuityanalytics.quantuityanalytics.model.TestStep
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 
 class BreakTestActivity: AppCompatActivity() {

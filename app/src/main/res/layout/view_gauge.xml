@@ -10,40 +10,53 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/main">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/image"
             android:src="@drawable/warningsignal"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/image_description_test_record_value"/>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/sensor"
-            android:text="Sensor name or Id"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textAlignment="center" />
+            android:orientation="vertical"
+            android:id="@+id/info_section">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/result"
-            android:text="Sensor main value"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textAlignment="center" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sensor"
+                android:text="Sensor name or Id"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textAlignment="center" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/details"
-            android:text="More details from the sensor"
-            android:textSize="18sp"
-            android:textAlignment="center" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/result"
+                android:text="Sensor main value"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/details"
+                android:text="More details from the sensor"
+                android:textSize="18sp"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 

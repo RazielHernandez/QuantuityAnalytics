@@ -94,7 +94,7 @@ class BleManager(
         }
     }
 
-    fun connectToDeviceToRead(listOfDevice: ArrayList<QABleBluetoothDevice>?) {
+    fun connectToDeviceToRead(listOfDevice: ArrayList<QABleDevice>?) {
         if (ActivityCompat.checkSelfPermission(
                 context,
                 Manifest.permission.BLUETOOTH_CONNECT
@@ -107,12 +107,12 @@ class BleManager(
         if (listOfDevice != null) {
             for (device in listOfDevice) {
                 Log.d(TAG, "Connecting to device ${device.deviceAddress()}")
-                device.bleDevice.connectGatt(context, false, gattCallbackToRead)
+                device.bleDevice?.connectGatt(context, false, gattCallbackToRead)
             }
         }
     }
 
-    fun connectToDeviceToWrite(listOfDevice: ArrayList<QABleBluetoothDevice>?, command: String) {
+    fun connectToDeviceToWrite(listOfDevice: ArrayList<QABleDevice>?, command: String) {
         if (ActivityCompat.checkSelfPermission(
                 context,
                 Manifest.permission.BLUETOOTH_CONNECT
@@ -128,7 +128,7 @@ class BleManager(
         if (listOfDevice != null) {
             for (device in listOfDevice) {
                 Log.d(TAG, "Connecting to write device ${device.deviceAddress()}")
-                device.bleDevice.connectGatt(context, false, gattCallbackToWrite)
+                device.bleDevice?.connectGatt(context, false, gattCallbackToWrite)
             }
         }
     }
@@ -148,9 +148,9 @@ class BleManager(
         override fun onScanResult(callbackType: Int, result: ScanResult?) {
             super.onScanResult(callbackType, result)
             result?.device?.let { device ->
-                if (!testViewModel.existDevice(QABleBluetoothDevice(device, true))) {
+                if (!testViewModel.existDevice(QABleDevice(device, true))) {
                     Log.d(TAG, "Device found: ${device.name} - ${device.address}")
-                    testViewModel.addDevice(QABleBluetoothDevice(device, true))
+                    testViewModel.addDevice(QABleDevice(device, true))
                 }
             }
         }
@@ -227,18 +227,18 @@ class BleManager(
             characteristic?.value?.let { value ->
                 Log.d(TAG,"Characteristic string value: ${value.decodeToString()}")
 
-                testViewModel.addRecord(
-                    BreakRecord(
-                        timeStamp = "",
-                        truckId = gatt?.device?.name ?: "Unknown",
-                        sensorId = gatt?.device?.address ?: "No device ID",
-                        breakRecord = value.decodeToString(),
-                        value = 0.01f,
-                        status = BreakRecord.STATUS_CONNECTED
-                    ),
-                    true
-
-                )
+//                testViewModel.addRecord(
+//                    BreakRecord(
+//                        timeStamp = "",
+//                        truckId = gatt?.device?.name ?: "Unknown",
+//                        sensorId = gatt?.device?.address ?: "No device ID",
+//                        breakRecord = value.decodeToString(),
+//                        value = 0.01f,
+//                        status = BreakRecord.STATUS_CONNECTED
+//                    ),
+//                    true
+//
+//                )
 
             }
         }
@@ -274,14 +274,14 @@ class BleManager(
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 Log.d(TAG, "Characteristic written successfully!")
                 coroutineScope.launch {
-                    testViewModel.addDevice(QABleBluetoothDevice(gatt.device,
+                    testViewModel.addDevice(QABleDevice(gatt.device,
                         isSelected = true,
                         isConnected = true))
                 }
             } else {
                 Log.d(TAG, "Failed to write characteristic, status: $status")
                 coroutineScope.launch {
-                    testViewModel.addDevice(QABleBluetoothDevice(gatt.device,
+                    testViewModel.addDevice(QABleDevice(gatt.device,
                         isSelected = true,
                         isConnected = false
                     ))
@@ -311,6 +311,7 @@ class BleManager(
         if (characteristic != null) {
             characteristic.value = value
             characteristic.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+
             val success = gatt.writeCharacteristic(characteristic)
             if (!success) {
                 Log.d(TAG, "Failed to initiate characteristic write")
