@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/sensors"
+        android:enabled="true"
+        android:icon="@drawable/motion_sensor_32"
+        android:title="@string/menu_sensors" />
+    <item
+        android:id="@+id/files"
+        android:enabled="true"
+        android:icon="@drawable/baseline_article_24"
+        android:title="@string/menu_files" />
+</menu>

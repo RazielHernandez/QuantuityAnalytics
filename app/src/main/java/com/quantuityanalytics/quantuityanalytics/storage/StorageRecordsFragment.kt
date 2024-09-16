@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.google.android.material.button.MaterialButton
 import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.viewmodel.StorageViewModel
 import java.io.File
@@ -23,8 +24,8 @@ class StorageRecordsFragment: Fragment(R.layout.fragment_storage_records) {
     private val storageViewModel: StorageViewModel by activityViewModels()
 
     private var textView: TextView? = null
-    private var deleteButton: Button? = null
-    private var exportButton: Button? = null
+    private var deleteButton: MaterialButton? = null
+    private var exportButton: MaterialButton? = null
     private var fileName: String = ""
 
     companion object {

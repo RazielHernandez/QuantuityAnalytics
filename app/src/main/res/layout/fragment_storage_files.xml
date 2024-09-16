@@ -5,25 +5,35 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/title"
-        android:text="List of Files"
-        android:textSize="18sp"
+        android:text="@string/title_settings_list_of_files"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:textAlignment="center"
         android:gravity="center"
-        android:layout_margin="20dp"/>
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/description"
+        android:text="@string/list_of_files_description"
+        android:textSize="16sp"
+        android:textAlignment="textStart"
+        android:layout_margin="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/recycleView"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/buttonsLayout"
         android:layout_margin="20dp"
@@ -38,13 +48,6 @@
         android:orientation="horizontal"
         android:padding="10dp"
         android:gravity="center">
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_close"
-            android:text="@string/button_close"
-            android:layout_marginHorizontal="10dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"

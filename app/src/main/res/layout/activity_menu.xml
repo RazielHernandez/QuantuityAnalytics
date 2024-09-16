@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintHeight_percent="0.2"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
@@ -38,14 +38,34 @@
             android:gravity="center"
             android:layout_margin="20dp"/>
 
-        <Button
-            android:id="@+id/btn_close"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="match_parent"
             android:layout_weight="2"
-            android:text="@string/button_close_app"
-            android:textSize="20sp"
-            android:drawableEnd="@drawable/baseline_exit_24_white"/>
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:gravity="center">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_close"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/baseline_close_24"
+                app:iconGravity="textStart"
+                app:iconSize="30dp"
+                android:text="@string/button_close"
+                android:textSize="18sp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_settings"
+                app:icon="@drawable/baseline_settings_24"
+                app:iconGravity="textStart"
+                app:iconSize="30dp"
+                android:text="@string/button_settings"
+                android:textSize="18sp"/>
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -141,7 +161,7 @@
             android:background="@drawable/menu_button_background"/>
     </LinearLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -161,6 +181,6 @@
             android:text="@string/btn_files"
             android:textSize="16sp"/>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

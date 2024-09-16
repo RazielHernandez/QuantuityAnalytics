@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
@@ -39,6 +40,13 @@ class StorageFilesFragment: Fragment(R.layout.fragment_storage_files), RecycleVi
         recyclerView = view.findViewById(R.id.recycleView)
         recyclerView?.layoutManager = LinearLayoutManager(context)
         recyclerView?.adapter = fileAdapter
+        recyclerView?.addItemDecoration(
+            DividerItemDecoration(
+                activity,
+                LinearLayoutManager(context).orientation
+            )
+        )
+
 
         closeButton = view.findViewById(R.id.btn_close)
 
