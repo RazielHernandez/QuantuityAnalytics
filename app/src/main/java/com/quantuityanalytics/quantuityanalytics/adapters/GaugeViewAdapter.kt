@@ -58,6 +58,7 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
             holder.details = view.findViewById(R.id.details)
             holder.infoSection = view.findViewById(R.id.info_section)
             holder.mainSection = view.findViewById(R.id.main)
+            holder.name = view.findViewById(R.id.name)
             view.tag = holder
         } else {
             //Log.d("TAG", "Null view for position $position")
@@ -70,9 +71,10 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
         holder.sensor?.text = actualDevice.bleDevice?.address
         holder.result?.text = actualRecord.breakRecord
         holder.details?.text = actualRecord.value.toString()
+        holder.name?.text = actualDevice.deviceName()
 
         if (actualDevice.isConnected) {
-            holder.mainSection?.setBackgroundResource(R.color.primary_light)
+            holder.mainSection?.setBackgroundResource(R.color.white)
         } else {
             holder.mainSection?.setBackgroundResource(R.color.light_gray)
         }
@@ -128,6 +130,7 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
 
     private class ViewHolder {
         var imageView: ImageView? = null
+        var name: TextView? = null
         var sensor: TextView? = null
         var result: TextView? = null
         var details: TextView? = null

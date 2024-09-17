@@ -9,18 +9,25 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.GridView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import com.google.android.material.button.MaterialButton
 import com.quantuityanalytics.quantuityanalytics.adapters.GaugeViewAdapter
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceManager
 import com.quantuityanalytics.quantuityanalytics.ble.BleManager
+import com.quantuityanalytics.quantuityanalytics.ble.QABleRecord
 import com.quantuityanalytics.quantuityanalytics.breaktest.BreakTestActivity
 import com.quantuityanalytics.quantuityanalytics.breaktest.BreakTestActivity.Companion
 import com.quantuityanalytics.quantuityanalytics.breaktest.BreakTestActivity.Companion.BLUETOOTH_ENABLE_CODE
+import com.quantuityanalytics.quantuityanalytics.model.BreakRecord
+import com.quantuityanalytics.quantuityanalytics.storage.LocalStorageManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class RealTimeTestActivity: AppCompatActivity() {
 
@@ -28,6 +35,8 @@ class RealTimeTestActivity: AppCompatActivity() {
     private var bleDeviceManager: BleDeviceManager? = null
     private val testViewModel: BreakViewModel by viewModels()
     private val viewAdapter: GaugeViewAdapter = GaugeViewAdapter(this, arrayListOf())
+
+    private var localStorageManager: LocalStorageManager = LocalStorageManager(this)
 
     companion object{
         const val TAG: String = "QuantuityAnalytics.RealTimeTestActivity"
@@ -44,43 +53,53 @@ class RealTimeTestActivity: AppCompatActivity() {
         val gridView: GridView = findViewById(R.id.gridView)
         gridView.adapter = viewAdapter
 
-//        findViewById<MaterialButton>(R.id.btn_scan).setOnClickListener {
-//            Log.d(TAG, "Start scanning")
-//            //bleManager?.startScanning()
-//            bleDeviceManager?.startScanning()
-//        }
-
-        findViewById<MaterialButton>(R.id.btn_start).setOnClickListener {
+        val saveButton: MaterialButton = findViewById(R.id.btn_save)
+        val actionButton: MaterialButton = findViewById(R.id.btn_start)
+        actionButton.setOnClickListener {
             scanning = !scanning
             if (scanning) {
                 testViewModel.listOfDevices.value?.let { list ->
                     bleDeviceManager?.connectListOfDevices(list)
                 }
-                findViewById<MaterialButton>(R.id.btn_start).text = resources.getText(R.string.button_stop)
+                actionButton.text = resources.getText(R.string.button_stop)
+                actionButton.icon = ResourcesCompat.getDrawable(this.resources, R.drawable.baseline_stop_circle_24, null)
+                saveButton.isEnabled = false
             } else {
                 bleDeviceManager?.disconnectFromAllDevices()
-                findViewById<MaterialButton>(R.id.btn_start).text = resources.getText(R.string.button_start)
+                actionButton.text = resources.getText(R.string.button_start)
+                actionButton.icon = ResourcesCompat.getDrawable(this.resources, R.drawable.baseline_play_outline_24, null)
+                saveButton.isEnabled = true
             }
-
-
-            //bleManager?.connectToDeviceToWrite(testViewModel.listOfDevices.value, BleManager.COMMAND_START)
-
-
         }
 
-//        if (bleDeviceManager != null) {
-//            bleDeviceManager?.startScanning()
-//            Log.d(TAG, "start scanning in activity")
-//        } else {
-//            Log.d(TAG, "Can´t start scanning")
-//        }
 
+        saveButton.setOnClickListener {
+            val devices = testViewModel.listOfDevices.value
+            if (devices != null) {
+                val records = arrayListOf<QABleRecord>()
+                for (device in devices) {
+                    records.addAll(device.listOfRecords)
+                }
+
+                if (records.size > 0) {
+                    createFile(records)
+                }
+                Log.d(TAG,"Saving ${records.size} records for this session")
+
+            } else {
+                Log.d(TAG, "No device connected to save data")
+            }
+        }
+
+        findViewById<MaterialButton>(R.id.btn_close).setOnClickListener {
+            finish()
+            bleDeviceManager?.disconnectAllDevices()
+        }
 
         testViewModel.listOfDevices.observe(this, Observer { list ->
             Log.d(TAG, "List of device updated with ${list.size} sensors")
             viewAdapter.clearItems()
             viewAdapter.addItems(list)
-
         })
     }
 
@@ -134,6 +153,14 @@ class RealTimeTestActivity: AppCompatActivity() {
                 bleDeviceManager?.startScanning()
             }
         }
+    }
+
+    private fun createFile(records: ArrayList<QABleRecord>) {
+        val formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")
+        val current = LocalDateTime.now().format(formatter)
+        val fileName = "QuantuityAnalytics_${current}_${records.size}.json"
+        localStorageManager.saveRecords(fileName,records.toTypedArray(), true)
+        Toast.makeText(this,"File saved successfully", Toast.LENGTH_SHORT).show()
     }
 
 }

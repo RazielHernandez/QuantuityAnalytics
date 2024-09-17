@@ -71,14 +71,22 @@
             app:icon="@drawable/baseline_play_outline_24"
             android:backgroundTint="@color/red"/>
 
-        <!--<com.google.android.material.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_test"
-            android:text="@string/button_start"
+            android:id="@+id/btn_save"
+            android:text="@string/btn_save"
             android:layout_marginHorizontal="20dp"
-            app:icon="@drawable/baseline_play_outline_24"
-            android:backgroundTint="@color/red"/>-->
+            app:icon="@drawable/baseline_article_24"
+            android:enabled="false"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_close"
+            android:text="@string/button_close"
+            android:layout_marginHorizontal="20dp"
+            app:icon="@drawable/baseline_close_24"/>
 
     </LinearLayout>
 

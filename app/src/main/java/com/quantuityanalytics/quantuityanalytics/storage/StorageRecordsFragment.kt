@@ -3,9 +3,9 @@ package com.quantuityanalytics.quantuityanalytics.storage
 import android.content.Context
 import android.os.Bundle
 import android.os.Environment
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -38,6 +38,8 @@ class StorageRecordsFragment: Fragment(R.layout.fragment_storage_records) {
         textView = view.findViewById(R.id.records)
         deleteButton = view.findViewById(R.id.btn_delete)
         exportButton = view.findViewById(R.id.btn_export)
+
+        textView?.movementMethod = ScrollingMovementMethod()
 
         storageViewModel.fileName.observe(viewLifecycleOwner, Observer { name ->
             getRecords(name)

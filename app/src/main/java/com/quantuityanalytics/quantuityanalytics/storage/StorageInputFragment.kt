@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.button.MaterialButton
 import com.quantuityanalytics.quantuityanalytics.R
+import com.quantuityanalytics.quantuityanalytics.ble.QABleRecord
 import com.quantuityanalytics.quantuityanalytics.model.BreakRecord
 import com.quantuityanalytics.quantuityanalytics.viewmodel.StorageViewModel
 import java.lang.Float
@@ -30,7 +31,7 @@ class StorageInputFragment: Fragment(R.layout.fragment_storage_input) {
         saveButton.setOnClickListener {
             val records = createRecords()
             if (records.size > 0) {
-                createFile(records)
+                //createFile(records)
             }
         }
     }
@@ -70,7 +71,7 @@ class StorageInputFragment: Fragment(R.layout.fragment_storage_input) {
         return result
     }
 
-    private fun createFile(records: ArrayList<BreakRecord>) {
+    private fun createFile(records: ArrayList<QABleRecord>) {
         val tsLong = System.currentTimeMillis() / 1000
         val ts = tsLong.toString()
         val fileName = "Storage_${ts}_${records.size}_QuantuityAnalytics.json"

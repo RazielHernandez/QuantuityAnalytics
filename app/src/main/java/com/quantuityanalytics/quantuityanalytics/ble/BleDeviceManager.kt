@@ -9,11 +9,14 @@ import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.wifi.WifiManager
 import android.os.Handler
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import com.quantuityanalytics.quantuityanalytics.ble.BleManager.Companion
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 import kotlin.jvm.Throws
 
@@ -159,9 +162,12 @@ class BleDeviceManager(
                     characteristic?.value?.let { value ->
                         Log.d(TAG,"Characteristic string value: ${value.decodeToString()}")
 
+                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                        val current = LocalDateTime.now().format(formatter)
+
                         val record = QABleRecord(
-                            "",
-                            "truck id",
+                            current,
+                            "Unique ID",
                             gatt?.device!!.address,
                             value.decodeToString(),
                             1f
@@ -264,5 +270,4 @@ class BleDeviceManager(
         }
         bluetoothGattMap.clear()
     }
-
 }

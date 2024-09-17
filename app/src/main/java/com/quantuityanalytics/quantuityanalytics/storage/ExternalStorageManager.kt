@@ -1,6 +1,6 @@
 package com.quantuityanalytics.quantuityanalytics.storage
 
-import com.quantuityanalytics.quantuityanalytics.model.BreakRecord
+import com.quantuityanalytics.quantuityanalytics.ble.QABleRecord
 import java.util.ArrayList
 
 class ExternalStorageManager {
@@ -12,7 +12,7 @@ class ExternalStorageManager {
         return true
     }
 
-    fun exportData(arrayList: ArrayList<BreakRecord>): Boolean {
+    fun exportData(arrayList: ArrayList<QABleRecord>): Boolean {
         return true
     }
 

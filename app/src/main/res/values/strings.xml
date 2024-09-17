@@ -21,6 +21,7 @@
     <string name="btn_export">Export File</string>
     <string name="btn_files">Files</string>
     <string name="btn_repeat">Repeat</string>
+    <string name="btn_save">Save to file</string>
 
     <!-- Test steps description -->
     <string name="test_description_1">Procedure: You will step on the brake pedal, wait 5 seconds, then release. A confirmation will be presented at the end of the test for each wheel below in green (pass) or red (fail).</string>
