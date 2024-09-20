@@ -42,7 +42,7 @@ class MenuActivity: AppCompatActivity() {
 
         val beginButton: Button = findViewById(R.id.btn_test)
         beginButton.setOnClickListener{
-            val intent = Intent(this, TestActivityDescription::class.java)
+            intent = Intent(this, TestActivityDescription::class.java)
             if (checkPermissions()) {
                 startActivity(intent)
             }
@@ -65,7 +65,6 @@ class MenuActivity: AppCompatActivity() {
             if (checkPermissions()) {
                 startActivity(intent)
             }
-
         }
     }
 

@@ -32,47 +32,8 @@ class TestActivityStart: AppCompatActivity() {
 
         val startButton: Button = findViewById(R.id.btn_start)
         startButton.setOnClickListener {
-            startScanningButton()
-        }
-    }
-
-    private fun startScanningButton() {
-
-        val permissionList : MutableList<String> = ArrayList()
-        if (!checkPermission(Manifest.permission.BLUETOOTH_SCAN)) {
-            permissionList.add(Manifest.permission.BLUETOOTH_SCAN)
-        }
-        if (!checkPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
-            permissionList.add(Manifest.permission.BLUETOOTH_CONNECT)
-        }
-        if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-        if (!checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            permissionList.add(Manifest.permission.ACCESS_COARSE_LOCATION)
-        }
-
-        if (permissionList.isNotEmpty()) {
-            ActivityCompat.requestPermissions(this@TestActivityStart,
-                permissionList.toTypedArray(), BLUETOOTH_PERMISSION_CODE)
-        } else {
             val intent = Intent(this, BreakTestActivity::class.java)
             startActivity(intent)
-        }
-
-    }
-
-    private fun checkPermission(permission: String) : Boolean {
-        return ContextCompat.checkSelfPermission(this@TestActivityStart, permission) == PackageManager.PERMISSION_GRANTED
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            val intent = Intent(this, BreakTestActivity::class.java)
-            startActivity(intent)
-        } else {
-            Toast.makeText(this@TestActivityStart, "Permission Denied", Toast.LENGTH_SHORT).show()
         }
     }
 }

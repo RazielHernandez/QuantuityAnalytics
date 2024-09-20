@@ -56,6 +56,7 @@
     <!-- Menu items -->
     <string name="menu_sensors">Sensors</string>
     <string name="menu_files">Files</string>
+    <string name="btn_connect_all">Connect All</string>
 
 
 </resources>

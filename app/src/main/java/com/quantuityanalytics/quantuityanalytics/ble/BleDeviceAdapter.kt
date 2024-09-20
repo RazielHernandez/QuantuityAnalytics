@@ -2,10 +2,12 @@ package com.quantuityanalytics.quantuityanalytics.ble
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -18,17 +20,20 @@ class BleDeviceAdapter(private val dataSet: ArrayList<QABleDevice>,
 ) :
     RecyclerView.Adapter<BleDeviceAdapter.ViewHolder>()  {
 
+        var isEnable: Boolean = true
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameTextView: TextView = view.findViewById(R.id.device_name)
         val descriptionTextView: TextView = view.findViewById(R.id.device_description)
         val detailsTextView: TextView = view.findViewById(R.id.device_details)
         val isSelected: CheckBox = view.findViewById(R.id.device_selected)
         val background: LinearLayout = view.findViewById(R.id.main)
+        val resultImage: ImageView = view.findViewById(R.id.device_result)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BleDeviceAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.view_ble_devie, parent, false)
+            .inflate(R.layout.view_ble_device, parent, false)
         return ViewHolder(view)
     }
 
@@ -40,19 +45,50 @@ class BleDeviceAdapter(private val dataSet: ArrayList<QABleDevice>,
         holder.nameTextView.text = currentItem.deviceName()
         holder.descriptionTextView.text = currentItem.deviceAddress()
         holder.detailsTextView.text = currentItem.deviceAlias() + currentItem.deviceType()
-        holder.isSelected.isChecked = currentItem.isSelected
+        holder.isSelected.isChecked = currentItem.status >= QABleDevice.STATUS_CONNECTED
 
+        when (currentItem.status) {
+            QABleDevice.STATUS_ERROR -> {
+                holder.background.setBackgroundResource(R.color.red)
+            }
+            QABleDevice.STATUS_UNREACHABLE -> {
+                holder.background.setBackgroundResource(R.color.light_gray)
+            }
+            QABleDevice.STATUS_DISCOVERED -> {
+                holder.background.setBackgroundResource(R.color.white)
+            }
+            QABleDevice.STATUS_CONNECTED -> {
+                holder.background.setBackgroundResource(R.color.primary_light)
+            }
+            QABleDevice.STATUS_READING -> {
+                holder.background.setBackgroundResource(R.color.green)
+            }
+        }
 
-        if (currentItem.isConnected) {
-            holder.background.setBackgroundResource(R.color.green)
-        } else if (!currentItem.isSelected) {
-            holder.background.setBackgroundResource(R.color.white)
+        if (currentItem.listOfRecords.isEmpty()) {
+            holder.resultImage.visibility = View.INVISIBLE
         } else {
-            holder.background.setBackgroundResource(R.color.primary_light)
+            holder.resultImage.visibility = View.VISIBLE
+            val actualRecord = currentItem.getLastRecord()
+
+            if (actualRecord.breakRecord.contains("d1")) {
+                holder.resultImage.setImageResource(R.drawable.break_red)
+            } else if (actualRecord.breakRecord.contains("d2")) {
+                holder.resultImage.setImageResource(R.drawable.break_orange)
+            } else if (actualRecord.breakRecord.contains("d3")) {
+                holder.resultImage.setImageResource(R.drawable.break_yellow)
+            } else if (actualRecord.breakRecord.contains("d4")) {
+                holder.resultImage.setImageResource(R.drawable.break_green)
+            } else {
+                holder.resultImage.setImageResource(R.drawable.warningsignal)
+            }
+
         }
 
         holder.itemView.setOnClickListener {
-            recycleViewItemInterface.onDeviceClick(position)
+            if (isEnable){
+                recycleViewItemInterface.onDeviceClick(position)
+            }
         }
     }
 
@@ -81,8 +117,8 @@ class BleDeviceAdapter(private val dataSet: ArrayList<QABleDevice>,
     }
 
     fun selectDevice(position: Int) {
-        dataSet[position].isSelected = !dataSet[position].isSelected
-        notifyItemChanged(position)
+        //dataSet[position].isSelected = !dataSet[position].isSelected
+        //notifyItemChanged(position)
     }
 
     fun cleanDeviceList() {

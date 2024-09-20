@@ -10,8 +10,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="Title"
         android:textSize="28sp"
+        android:textStyle="bold"
         android:id="@+id/title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +33,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="Step instructios. Some brief description about what the driver needs to do"
         android:textSize="16sp"
         android:gravity="center"
         android:id="@+id/step_description"
@@ -46,14 +45,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="Test info to show here"
         android:textSize="16sp"
         android:id="@+id/step_result_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/step_description"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.2"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:scrollbars="vertical"/>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -54,4 +54,13 @@
             android:textSize="13sp"/>
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_weight="1"
+        android:id="@+id/device_result"
+        android:src="@drawable/break_green"
+        android:layout_margin="10dp"
+        android:visibility="invisible"/>
+
 </LinearLayout>

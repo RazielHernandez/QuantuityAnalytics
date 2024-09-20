@@ -9,10 +9,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.google.android.material.button.MaterialButton
 import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.model.TestStep
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
+import java.lang.StringBuilder
 
 class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
 
@@ -43,14 +45,23 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
             Log.d(TAG, "On test repeat button")
             duringTestLayout()
             runStep(steps[actualStep].seconds.toLong())
+
+            for(device in breakTestViewModel.listOfDevices.value!!) {
+                device.removeLastRecord()
+            }
         }
 
         btnNext.setOnClickListener {
             actualStep += 1
-            if (actualStep == steps.size) {
-                Log.d(TAG, "Ujuuuu! Test completed")
+            if (actualStep == steps.size ) {
+                Log.d(TAG, "Test completed")
+                breakTestViewModel.setStartAction(false)
                 activity?.finish()
-            } else {
+            }  else {
+
+                if (actualStep == (steps.size - 1)) {
+                    btnNext.text = resources.getText(R.string.btn_save)
+                }
                 loadStepInfo(steps[actualStep], "Step ${actualStep+1}")
                 beforeTestLayout()
             }
@@ -62,8 +73,20 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
             runStep(steps[actualStep].seconds.toLong())
         }
 
+        breakTestViewModel.listOfDevices.observe(viewLifecycleOwner, Observer { list ->
+            Log.d(TAG, "Ujuuuu !!! update received")
+            val sb = StringBuilder()
+            for (element in list) {
+                val lastRecord = element.getLastRecord().breakRecord
+                sb.append("Sensor ${element.deviceName()} (${element.deviceAddress()}): $lastRecord\n")
+                Log.d(TAG, "RESULT: ${sb.toString()}")
+            }
+            view.findViewById<TextView>(R.id.step_result_text).text = sb.toString()
+        })
+
         loadStepInfo(steps[actualStep], "Step ${actualStep+1}")
         beforeTestLayout()
+
     }
 
     override fun onDestroy() {
@@ -71,8 +94,7 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
     }
 
     private fun runStep(timerLong: Long) {
-        Log.d(TAG, "Start timer of $timerLong milliseconds" +
-                "")
+        Log.d(TAG, "Start timer of $timerLong milliseconds")
         object : CountDownTimer(timerLong, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
@@ -81,6 +103,7 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
             }
 
             override fun onFinish() {
+                breakTestViewModel.setReadAction(true)
                 afterTestLayout()
             }
         }.start()
@@ -107,11 +130,13 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
         view?.findViewById<MaterialButton>(R.id.btn_test)!!.visibility = View.GONE
         view?.findViewById<MaterialButton>(R.id.btn_repeat)!!.visibility = View.GONE
         view?.findViewById<MaterialButton>(R.id.btn_next)!!.visibility = View.GONE
+        view?.findViewById<TextView>(R.id.step_result_text)!!.visibility = View.INVISIBLE
     }
 
     private fun afterTestLayout() {
         view?.findViewById<MaterialButton>(R.id.btn_test)!!.visibility = View.GONE
         view?.findViewById<MaterialButton>(R.id.btn_repeat)!!.visibility = View.VISIBLE
         view?.findViewById<MaterialButton>(R.id.btn_next)!!.visibility = View.VISIBLE
+        view?.findViewById<TextView>(R.id.step_result_text)!!.visibility = View.VISIBLE
     }
 }

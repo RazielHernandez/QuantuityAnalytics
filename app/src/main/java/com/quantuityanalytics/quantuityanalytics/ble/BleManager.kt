@@ -148,9 +148,9 @@ class BleManager(
         override fun onScanResult(callbackType: Int, result: ScanResult?) {
             super.onScanResult(callbackType, result)
             result?.device?.let { device ->
-                if (!testViewModel.existDevice(QABleDevice(device, true))) {
+                if (!testViewModel.existDevice(QABleDevice(device, QABleDevice.STATUS_DISCOVERED))) {
                     Log.d(TAG, "Device found: ${device.name} - ${device.address}")
-                    testViewModel.addDevice(QABleDevice(device, true))
+                    testViewModel.addDevice(QABleDevice(device, QABleDevice.STATUS_DISCOVERED))
                 }
             }
         }
@@ -275,15 +275,13 @@ class BleManager(
                 Log.d(TAG, "Characteristic written successfully!")
                 coroutineScope.launch {
                     testViewModel.addDevice(QABleDevice(gatt.device,
-                        isSelected = true,
-                        isConnected = true))
+                        QABleDevice.STATUS_CONNECTED))
                 }
             } else {
                 Log.d(TAG, "Failed to write characteristic, status: $status")
                 coroutineScope.launch {
                     testViewModel.addDevice(QABleDevice(gatt.device,
-                        isSelected = true,
-                        isConnected = false
+                        QABleDevice.STATUS_ERROR
                     ))
                 }
             }

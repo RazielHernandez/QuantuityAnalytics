@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingHorizontal="40dp"
-    android:paddingVertical="20dp"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="10dp"
     tools:context=".MenuActivity"
     android:id="@+id/main">
 
@@ -77,7 +77,7 @@
         app:layout_constraintTop_toBottomOf="@+id/menu_header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintHeight_percent="0.38"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingHorizontal="20dp">
@@ -88,9 +88,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/menu_button_brake_test"
-            android:textAlignment="center"
-            android:textSize="26sp"
-            android:layout_margin="20dp"
+            android:drawableTop="@drawable/break_icon_c"
+            style="@style/main_menu_button"
             android:background="@drawable/menu_button_background"/>
 
         <Button
@@ -99,9 +98,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/menu_button_issue"
-            android:textAlignment="center"
-            android:textSize="26sp"
-            android:layout_margin="20dp"
+            android:drawableTop="@drawable/delivery_truck"
+            style="@style/main_menu_button"
             android:background="@drawable/menu_button_background"/>
 
         <Button
@@ -110,9 +108,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/menu_button_brake_knowledge"
-            android:textAlignment="center"
-            android:textSize="26sp"
-            android:layout_margin="20dp"
+            android:drawableTop="@drawable/idea"
+            style="@style/main_menu_button"
             android:background="@drawable/menu_button_background"/>
     </LinearLayout>
 
@@ -123,7 +120,7 @@
         app:layout_constraintTop_toBottomOf="@+id/menu_first_row"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintHeight_percent="0.38"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingHorizontal="20dp">
@@ -134,9 +131,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/menu_button_inspection_report"
-            android:textAlignment="center"
-            android:textSize="26sp"
-            android:layout_margin="20dp"
+            style="@style/main_menu_button"
+            android:drawableTop="@drawable/checklist"
             android:background="@drawable/menu_button_background"/>
 
         <Button
@@ -145,9 +141,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/menu_button_test_knowledge"
-            android:textAlignment="center"
-            android:textSize="26sp"
-            android:layout_margin="20dp"
+            android:drawableTop="@drawable/road_test"
+            style="@style/main_menu_button"
             android:background="@drawable/menu_button_background"/>
 
         <Button
@@ -156,32 +151,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/menu_button_real_time"
-            android:textAlignment="center"
-            android:textSize="26sp"
-            android:layout_margin="20dp"
+            style="@style/main_menu_button"
+            android:drawableTop="@drawable/real_time"
             android:background="@drawable/menu_button_background"/>
     </LinearLayout>
-
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menu_second_row"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.1"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_storage"
-            android:background="@drawable/menu_button_background"
-            app:icon="@drawable/baseline_upload_file_24"
-            app:iconGravity="textTop"
-            android:text="@string/btn_files"
-            android:textSize="16sp"/>
-
-    </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

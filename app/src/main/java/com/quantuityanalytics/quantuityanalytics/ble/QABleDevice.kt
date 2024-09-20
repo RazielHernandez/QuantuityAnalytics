@@ -6,10 +6,18 @@ import android.os.Build
 
 data class QABleDevice (
     var bleDevice: BluetoothDevice,
-    var isSelected: Boolean = false,
-    var isConnected: Boolean = false,
+    var status: Int = STATUS_UNREACHABLE,
     var listOfRecords: ArrayList<QABleRecord> = arrayListOf(),
 ) {
+
+    companion object {
+        const val STATUS_UNREACHABLE = 0
+        const val STATUS_ERROR = -1
+        const val STATUS_DISCOVERED = 1
+        const val STATUS_CONNECTED = 2
+        const val STATUS_READING = 3
+    }
+
     @SuppressLint("MissingPermission")
     fun deviceName(): String {
         if (bleDevice.name == null) {
@@ -48,6 +56,12 @@ data class QABleDevice (
         return listOfRecords.last()
     }
 
+    fun removeLastRecord() {
+        if (listOfRecords.isNotEmpty()) {
+            listOfRecords.removeAt(listOfRecords.lastIndex)
+        }
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is QABleDevice) return false
@@ -56,9 +70,7 @@ data class QABleDevice (
     }
 
     override fun hashCode(): Int {
-        var result = bleDevice.hashCode()
-        result = 31 * result + isSelected.hashCode()
-        result = 31 * result + isConnected.hashCode()
+        val result = bleDevice.hashCode()
         return result
     }
 

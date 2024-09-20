@@ -73,7 +73,7 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
         holder.details?.text = actualRecord.value.toString()
         holder.name?.text = actualDevice.deviceName()
 
-        if (actualDevice.isConnected) {
+        if (actualDevice.status >= QABleDevice.STATUS_CONNECTED) {
             holder.mainSection?.setBackgroundResource(R.color.white)
         } else {
             holder.mainSection?.setBackgroundResource(R.color.light_gray)

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main">
+    android:id="@+id/main"
+    android:layout_margin="10dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -17,10 +18,54 @@
         android:text="@string/break_test"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:gravity="center"
-        android:layout_margin="20dp"/>
+        android:gravity="center"/>
 
-    <com.airbnb.lottie.LottieAnimationView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.8"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="1. Click Scan button to search the sensors in the truck (if they don´t are visible already)"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="2. Connect to the sensors one by one selecting on the list, or click connect all, to connect to all the sensors in the list"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="3. When the table connect to the sensors succesfully, the sensor background color will change to green."
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="4. Press start button to start the test"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+
+
+    </LinearLayout>
+
+    <!--<com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -47,21 +92,20 @@
         android:text="@string/break_test_start"
         android:textSize="18sp"
         android:textStyle="normal"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp"/>-->
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.1"
-        android:id="@+id/btn_scan"
-        android:text="@string/button_scan"
+        android:id="@+id/btn_start"
+        android:text="@string/button_start"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:paddingHorizontal="40dp"
-        android:layout_marginVertical="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:enabled="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

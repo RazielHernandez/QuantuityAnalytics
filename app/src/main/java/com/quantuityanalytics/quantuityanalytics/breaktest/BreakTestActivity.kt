@@ -1,39 +1,47 @@
 package com.quantuityanalytics.quantuityanalytics.breaktest
 
-import android.annotation.SuppressLint
+import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.quantuityanalytics.quantuityanalytics.MenuActivity
 import com.quantuityanalytics.quantuityanalytics.R
-import com.quantuityanalytics.quantuityanalytics.ble.BleManager
+import com.quantuityanalytics.quantuityanalytics.RealTimeTestActivity
+import com.quantuityanalytics.quantuityanalytics.RealTimeTestActivity.Companion
+import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceManager
+import com.quantuityanalytics.quantuityanalytics.ble.QABleDevice
+import com.quantuityanalytics.quantuityanalytics.ble.QABleRecord
+import com.quantuityanalytics.quantuityanalytics.storage.LocalStorageManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class BreakTestActivity: AppCompatActivity() {
 
     companion object {
         const val TAG: String = "QuantuityAnalytics.TestActivity"
-        const val BLUETOOTH_ENABLE_CODE: Int = 3301
     }
 
+    private var localStorageManager: LocalStorageManager = LocalStorageManager(this)
     private val testViewModel: BreakViewModel by viewModels()
 
     private val fragmentScanner = BreakTestScannerFragment()
     private val fragmentDevices = BreakTestDevicesFragment()
     private val fragmentStep = BreakTestStepFragment()
-
-    private var bleManager: BleManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,60 +50,38 @@ class BreakTestActivity: AppCompatActivity() {
         loadFragment(R.id.fragment_devices, fragmentDevices)
         loadFragment(R.id.fragment_container, fragmentScanner)
 
-        testViewModel.scannerStatus.observe(this, Observer { value ->
-            if (value) {
-                try {
-                    bleManager?.startScanning()
-                } catch (ex: IllegalStateException) {
-                    Log.d(TAG,"Error RECEIVED")
-                    finish()
-                }
-            }
-        })
-
-
         testViewModel.startAction.observe(this, Observer { value ->
             if (value) {
-                bleManager?.connectToDeviceToWrite(testViewModel.listOfDevices.value, BleManager.COMMAND_STOP)
-
                 loadFragment(R.id.fragment_container, fragmentStep)
-                //bleManager?.connectToDeviceToRead(testViewModel.listOfDevices.value)
+            } else {
+
+                val devices = testViewModel.listOfDevices.value
+                if (devices != null) {
+                    val records = arrayListOf<QABleRecord>()
+                    for (device in devices) {
+                        records.addAll(device.listOfRecords)
+                    }
+
+                    if (records.size > 0) {
+                        createFile(records)
+                    }
+                    Log.d(TAG,"Saving ${records.size} records for this session")
+
+                } else {
+                    Log.d(TAG, "No device connected to save data")
+                }
+
             }
         })
 
-
     }
 
-    @SuppressLint("MissingPermission")
-    override fun onStart() {
-        super.onStart()
-        val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-        val bluetoothAdapter = bluetoothManager.adapter
-        if (bluetoothAdapter != null) {
-            if (!bluetoothAdapter.isEnabled) {
-                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                startActivityForResult(enableBtIntent, BLUETOOTH_ENABLE_CODE)
-            } else {
-                bleManager = BleManager(this,bluetoothAdapter, testViewModel)
-                testViewModel.setScannerStatus(true)
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == BLUETOOTH_ENABLE_CODE) {
-            if (resultCode == 0) {
-                finish()
-                val intent = Intent(this, MenuActivity::class.java)
-                startActivity(intent)
-            }else {
-                val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-                val bluetoothAdapter = bluetoothManager.adapter
-                bleManager = BleManager(this,bluetoothAdapter, testViewModel)
-                testViewModel.setScannerStatus(true)
-            }
-        }
+    private fun createFile(records: ArrayList<QABleRecord>) {
+        val formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")
+        val current = LocalDateTime.now().format(formatter)
+        val fileName = "QuantuityAnalytics_${current}_${records.size}.json"
+        localStorageManager.saveRecords(fileName,records.toTypedArray(), true)
+        showSnackBar("File saved successfully. You can see it in Settings/Files menu")
     }
 
     private fun showSnackBar(msg: String) {

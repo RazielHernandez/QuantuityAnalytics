@@ -1,6 +1,7 @@
 package com.quantuityanalytics.quantuityanalytics
 
 import android.Manifest
+import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.content.Context
@@ -10,20 +11,17 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.GridView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.google.android.material.button.MaterialButton
 import com.quantuityanalytics.quantuityanalytics.adapters.GaugeViewAdapter
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceManager
-import com.quantuityanalytics.quantuityanalytics.ble.BleManager
 import com.quantuityanalytics.quantuityanalytics.ble.QABleRecord
-import com.quantuityanalytics.quantuityanalytics.breaktest.BreakTestActivity
-import com.quantuityanalytics.quantuityanalytics.breaktest.BreakTestActivity.Companion
-import com.quantuityanalytics.quantuityanalytics.breaktest.BreakTestActivity.Companion.BLUETOOTH_ENABLE_CODE
-import com.quantuityanalytics.quantuityanalytics.model.BreakRecord
 import com.quantuityanalytics.quantuityanalytics.storage.LocalStorageManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 import java.time.LocalDateTime
@@ -31,7 +29,7 @@ import java.time.format.DateTimeFormatter
 
 class RealTimeTestActivity: AppCompatActivity() {
 
-    //private var bleManager: BleManager? = null
+
     private var bleDeviceManager: BleDeviceManager? = null
     private val testViewModel: BreakViewModel by viewModels()
     private val viewAdapter: GaugeViewAdapter = GaugeViewAdapter(this, arrayListOf())
@@ -59,7 +57,7 @@ class RealTimeTestActivity: AppCompatActivity() {
             scanning = !scanning
             if (scanning) {
                 testViewModel.listOfDevices.value?.let { list ->
-                    bleDeviceManager?.connectListOfDevices(list)
+                    bleDeviceManager?.connectToGetUpdate(list)
                 }
                 actionButton.text = resources.getText(R.string.button_stop)
                 actionButton.icon = ResourcesCompat.getDrawable(this.resources, R.drawable.baseline_stop_circle_24, null)
@@ -93,7 +91,7 @@ class RealTimeTestActivity: AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.btn_close).setOnClickListener {
             finish()
-            bleDeviceManager?.disconnectAllDevices()
+            bleDeviceManager?.disconnectFromAllDevices()
         }
 
         testViewModel.listOfDevices.observe(this, Observer { list ->
@@ -119,7 +117,7 @@ class RealTimeTestActivity: AppCompatActivity() {
                     finish()
                     return
                 }
-                startActivityForResult(enableBtIntent, BreakTestActivity.BLUETOOTH_ENABLE_CODE)
+                startActivityForResult(enableBtIntent, BLUETOOTH_ENABLE_CODE)
             } else {
                 Log.d(TAG, "On Start() init BleDeviceManager")
                 val list = arrayListOf<String>()
@@ -133,7 +131,29 @@ class RealTimeTestActivity: AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        bleDeviceManager?.disconnectAllDevices()
+        bleDeviceManager.let {
+            Log.d(TAG, "Disconnecting from all devices before destroy")
+            bleDeviceManager?.disconnectFromAllDevices()
+        }
+    }
+
+    fun Activity.onBackButtonPressed(callback: (() -> Boolean)) {
+        (this as? FragmentActivity)?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (!callback()) {
+                    bleDeviceManager.let {
+                        Log.d(TAG, "Disconnecting from all devices before go back")
+                        bleDeviceManager?.disconnectFromAllDevices()
+                    }
+                    remove()
+                    performBackPress()
+                }
+            }
+        })
+    }
+
+    fun Activity.performBackPress() {
+        (this as? FragmentActivity)?.onBackPressedDispatcher?.onBackPressed()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -16,7 +16,9 @@
         android:text="List of sensors"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:layout_marginVertical="10dp"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -25,7 +27,8 @@
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/button_line"/>
+        app:layout_constraintBottom_toTopOf="@+id/button_line"
+        android:paddingVertical="10dp"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="match_parent"
@@ -48,25 +51,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/button_line"
+        android:orientation="vertical"
         android:gravity="center">
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
+            android:minWidth="120dp"
             android:layout_height="wrap_content"
-            android:text="@string/button_start"
-            android:id="@+id/btn_start"
-            android:enabled="false"
+            android:text="@string/button_scan"
+            android:id="@+id/btn_scan"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginHorizontal="10dp"
-            android:backgroundTint="@color/red"/>
+            android:layout_marginHorizontal="10dp" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
+            android:minWidth="120dp"
             android:layout_height="wrap_content"
-            android:text="@string/button_close"
-            android:id="@+id/btn_close"
+            android:text="@string/btn_connect_all"
+            android:id="@+id/btn_connect_all"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
