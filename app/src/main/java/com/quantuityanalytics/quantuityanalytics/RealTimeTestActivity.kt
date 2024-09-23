@@ -23,6 +23,7 @@ import com.quantuityanalytics.quantuityanalytics.adapters.GaugeViewAdapter
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceManager
 import com.quantuityanalytics.quantuityanalytics.ble.QABleRecord
 import com.quantuityanalytics.quantuityanalytics.storage.LocalStorageManager
+import com.quantuityanalytics.quantuityanalytics.utils.SharedPreferencesManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -120,9 +121,12 @@ class RealTimeTestActivity: AppCompatActivity() {
                 startActivityForResult(enableBtIntent, BLUETOOTH_ENABLE_CODE)
             } else {
                 Log.d(TAG, "On Start() init BleDeviceManager")
-                val list = arrayListOf<String>()
-                list.add("B4:3A:31:EF:52:8B")
-                list.add("B4:3A:31:EF:52:8C")
+                val spm = SharedPreferencesManager(this)
+//                val list = arrayListOf<String>()
+//                list.add("B4:3A:31:EF:52:8B")
+//                list.add("B4:3A:31:EF:52:8C")
+                val list = spm.getStringArrayList(SharedPreferencesManager.SP_ADDRESSES_KEY)
+
                 bleDeviceManager = BleDeviceManager(this,bluetoothAdapter, list ,testViewModel)
                 bleDeviceManager?.startScanning()
             }
@@ -166,9 +170,14 @@ class RealTimeTestActivity: AppCompatActivity() {
             }else {
                 val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
                 val bluetoothAdapter = bluetoothManager.adapter
-                val list = arrayListOf<String>()
-                list.add("B4:3A:31:EF:52:8B")
-                list.add("B4:3A:31:EF:52:8C")
+//                val list = arrayListOf<String>()
+//                list.add("B4:3A:31:EF:52:8B")
+//                list.add("B4:3A:31:EF:52:8C")
+//                bleDeviceManager = BleDeviceManager(this,bluetoothAdapter, list ,testViewModel)
+//                bleDeviceManager?.startScanning()
+                val spm = SharedPreferencesManager(this)
+                val list = spm.getStringArrayList(SharedPreferencesManager.SP_ADDRESSES_KEY)
+
                 bleDeviceManager = BleDeviceManager(this,bluetoothAdapter, list ,testViewModel)
                 bleDeviceManager?.startScanning()
             }

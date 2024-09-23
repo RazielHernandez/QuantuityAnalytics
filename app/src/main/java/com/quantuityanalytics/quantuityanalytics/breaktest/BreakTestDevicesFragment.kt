@@ -25,6 +25,7 @@ import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterfa
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceAdapter
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceManager
 import com.quantuityanalytics.quantuityanalytics.ble.QABleDevice
+import com.quantuityanalytics.quantuityanalytics.utils.SharedPreferencesManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 
 class BreakTestDevicesFragment:
@@ -153,9 +154,11 @@ class BreakTestDevicesFragment:
                 startActivityForResult(enableBtIntent, BLUETOOTH_ENABLE_CODE)
             } else {
                 Log.d(RealTimeTestActivity.TAG, "On Start() init BleDeviceManager")
-                val list = arrayListOf<String>()
-                list.add("B4:3A:31:EF:52:8B")
-                list.add("B4:3A:31:EF:52:8C")
+//                val list = arrayListOf<String>()
+//                list.add("B4:3A:31:EF:52:8B")
+//                list.add("B4:3A:31:EF:52:8C")
+                val spm = SharedPreferencesManager(requireContext())
+                val list = spm.getStringArrayList(SharedPreferencesManager.SP_ADDRESSES_KEY)
                 bleDeviceManager = BleDeviceManager(requireContext(), bluetoothAdapter, list, breakTestViewModel)
                 bleDeviceManager?.startScanning()
             }
@@ -172,9 +175,11 @@ class BreakTestDevicesFragment:
             }else {
                 val bluetoothManager = activity?.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
                 val bluetoothAdapter = bluetoothManager.adapter
-                val list = arrayListOf<String>()
-                list.add("B4:3A:31:EF:52:8B")
-                list.add("B4:3A:31:EF:52:8C")
+//                val list = arrayListOf<String>()
+//                list.add("B4:3A:31:EF:52:8B")
+//                list.add("B4:3A:31:EF:52:8C")
+                val spm = SharedPreferencesManager(requireContext())
+                val list = spm.getStringArrayList(SharedPreferencesManager.SP_ADDRESSES_KEY)
                 bleDeviceManager = BleDeviceManager(requireContext(),bluetoothAdapter, list ,breakTestViewModel)
                 bleDeviceManager?.startScanning()
             }

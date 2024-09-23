@@ -57,6 +57,8 @@
     <string name="menu_sensors">Sensors</string>
     <string name="menu_files">Files</string>
     <string name="btn_connect_all">Connect All</string>
+    <string name="settings_sensors_description">In this screen you can save the Mac Address of all the bluetooth devices to connect to during the tests</string>
+    <string name="description_fab_sensors">Sensor Management Floating Button</string>
 
 
 </resources>
