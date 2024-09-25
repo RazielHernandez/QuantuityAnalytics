@@ -12,8 +12,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.ble.QABleDevice
-import com.quantuityanalytics.quantuityanalytics.ble.QABleRecord
-import com.quantuityanalytics.quantuityanalytics.model.BreakRecord
 
 
 class GaugeViewAdapter(private val context: Context, private var dataset: ArrayList<QABleDevice>) : BaseAdapter() {

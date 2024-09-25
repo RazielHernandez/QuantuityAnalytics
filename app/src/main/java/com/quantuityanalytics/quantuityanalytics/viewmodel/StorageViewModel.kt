@@ -3,7 +3,6 @@ package com.quantuityanalytics.quantuityanalytics.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.quantuityanalytics.quantuityanalytics.model.BreakRecord
 import com.quantuityanalytics.quantuityanalytics.model.StorageFile
 
 class StorageViewModel: ViewModel() {

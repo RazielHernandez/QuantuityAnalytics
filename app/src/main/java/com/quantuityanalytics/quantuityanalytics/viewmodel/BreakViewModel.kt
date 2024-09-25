@@ -1,11 +1,9 @@
 package com.quantuityanalytics.quantuityanalytics.viewmodel
 
-import android.net.MacAddress
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.quantuityanalytics.quantuityanalytics.ble.QABleDevice
-import com.quantuityanalytics.quantuityanalytics.model.BreakRecord
 
 class BreakViewModel: ViewModel() {
 

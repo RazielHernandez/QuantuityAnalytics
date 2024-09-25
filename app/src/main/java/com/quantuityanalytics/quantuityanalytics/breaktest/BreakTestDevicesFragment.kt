@@ -58,7 +58,6 @@ class BreakTestDevicesFragment:
         recyclerView?.adapter = deviceAdapter
 
         scanButton?.setOnClickListener {
-            //breakTestViewModel.setListOfDevices(arrayListOf())
             bleDeviceManager?.startScanning()
         }
 
@@ -90,13 +89,6 @@ class BreakTestDevicesFragment:
                 connectButton?.visibility = View.INVISIBLE
                 deviceAdapter.isEnable = false
             }
-//            else {
-//                breakTestViewModel.listOfDevices.value?.let {
-//                    bleDeviceManager?.disconnectFromDevices(
-//                        it
-//                    )
-//                }
-//            }
         })
 
         breakTestViewModel.readAction.observe(viewLifecycleOwner, Observer { value->

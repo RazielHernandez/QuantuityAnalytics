@@ -1,6 +1,5 @@
 package com.quantuityanalytics.quantuityanalytics.ble
 
-import com.quantuityanalytics.quantuityanalytics.model.BreakRecord.Companion.STATUS_DISCONNECTED
 
 data class QABleRecord (
     val timeStamp: String,
@@ -13,8 +12,6 @@ data class QABleRecord (
     fun printToCSV(): String {
         return "$timeStamp,$truckId,$sensorId,$breakRecord,$value"
     }
-
-
 
     companion object {
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -40,9 +41,13 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
         val btnRepeat: MaterialButton = view.findViewById(R.id.btn_repeat)
         val btnNext: MaterialButton = view.findViewById(R.id.btn_next)
         val btnTest: MaterialButton = view.findViewById(R.id.btn_test)
+        val closeButton = view.findViewById<Button>(R.id.btn_close)
+
+        closeButton.setOnClickListener {
+            activity?.finish()
+        }
 
         btnRepeat.setOnClickListener {
-            Log.d(TAG, "On test repeat button")
             duringTestLayout()
             runStep(steps[actualStep].seconds.toLong())
 
@@ -54,7 +59,6 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
         btnNext.setOnClickListener {
             actualStep += 1
             if (actualStep == steps.size ) {
-                Log.d(TAG, "Test completed")
                 breakTestViewModel.setStartAction(false)
                 activity?.finish()
             }  else {
@@ -74,7 +78,6 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
         }
 
         breakTestViewModel.listOfDevices.observe(viewLifecycleOwner, Observer { list ->
-            Log.d(TAG, "Ujuuuu !!! update received")
             val sb = StringBuilder()
             for (element in list) {
                 val lastRecord = element.getLastRecord().breakRecord

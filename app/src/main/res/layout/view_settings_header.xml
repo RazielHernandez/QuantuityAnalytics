@@ -8,4 +8,4 @@
     app:fabSize="auto"
     android:contentDescription="@string/button_close"
     app:srcCompat="@drawable/baseline_close_24"
-    android:layout_margin="10dp"/>
+    android:layout_margin="10dp" />

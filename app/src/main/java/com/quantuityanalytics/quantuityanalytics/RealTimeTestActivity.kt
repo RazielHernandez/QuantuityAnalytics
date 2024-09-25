@@ -9,16 +9,20 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.widget.FrameLayout
 import android.widget.GridView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import com.quantuityanalytics.quantuityanalytics.adapters.GaugeViewAdapter
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceManager
 import com.quantuityanalytics.quantuityanalytics.ble.QABleRecord
@@ -189,7 +193,20 @@ class RealTimeTestActivity: AppCompatActivity() {
         val current = LocalDateTime.now().format(formatter)
         val fileName = "QuantuityAnalytics_${current}_${records.size}.json"
         localStorageManager.saveRecords(fileName,records.toTypedArray(), true)
-        Toast.makeText(this,"File saved successfully", Toast.LENGTH_SHORT).show()
+        showSnackBar("File was saved successfully")
+    }
+
+    private fun showSnackBar(msg: String) {
+        val layoutMain: ConstraintLayout = findViewById(R.id.main)
+        val snack: Snackbar = Snackbar.make(layoutMain, msg, Snackbar.LENGTH_LONG)
+            .setBackgroundTint(resources.getColor(R.color.primary_light))
+            .setTextColor(resources.getColor(R.color.white))
+        val view = snack.view
+        val params = view.layoutParams as FrameLayout.LayoutParams
+        params.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+        params.width = FrameLayout.LayoutParams.FILL_PARENT
+        view.layoutParams = params
+        snack.show()
     }
 
 }
