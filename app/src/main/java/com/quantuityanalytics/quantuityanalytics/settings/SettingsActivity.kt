@@ -1,7 +1,6 @@
 package com.quantuityanalytics.quantuityanalytics.settings
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -12,6 +11,7 @@ class SettingsActivity: AppCompatActivity() {
 
     private val sensorsMainFragment:SettingsSensorsFragment = SettingsSensorsFragment()
     private val filesMainFragment:SettingsFilesFragment = SettingsFilesFragment()
+    private val valuesMainFragment:SettingsValuesFragment = SettingsValuesFragment()
 
     companion object {
         const val TAG = "QuantuityAnalytics.SettingsActivity"
@@ -30,6 +30,10 @@ class SettingsActivity: AppCompatActivity() {
         navigationRail.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.files -> {
+                    loadFragment(R.id.content_fragment, valuesMainFragment)
+                    true
+                }
+                R.id.files -> {
                     loadFragment(R.id.content_fragment, filesMainFragment)
                     true
                 }
@@ -41,7 +45,7 @@ class SettingsActivity: AppCompatActivity() {
             }
         }
 
-        loadFragment(R.id.content_fragment, sensorsMainFragment)
+        loadFragment(R.id.content_fragment, valuesMainFragment)
     }
 
 

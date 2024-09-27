@@ -9,6 +9,7 @@ import android.bluetooth.le.ScanSettings
 import android.content.Context
 import android.os.Handler
 import android.util.Log
+import com.quantuityanalytics.quantuityanalytics.utils.SharedPreferencesManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -368,10 +369,12 @@ class BleDeviceManager(
     private fun saveRecord(device: BluetoothDevice, value: String) {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
         val current = LocalDateTime.now().format(formatter)
+        val spm = SharedPreferencesManager(context)
+
 
         val record = QABleRecord(
             current,
-            "Unique ID",
+            spm.getString(SharedPreferencesManager.SP_DEVICE_NAME_KEY),
             device.address,
             value,
             1f

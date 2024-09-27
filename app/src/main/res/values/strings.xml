@@ -56,12 +56,13 @@
     <string name="list_of_records_description">Select a file in the left panel. All the records in one file belong to a test performed previously, you can export the files to CSV file or delete the file from this device to save storage space</string>
     <string name="settings_sensors_description">In this screen you can save the Mac Address of all the bluetooth devices to connect to during the tests</string>
     <string name="description_fab_sensors">Sensor Management Floating Button</string>
+    <string name="image_description_logo">Company logo</string>
 
     <!-- Menu items -->
     <string name="menu_sensors">Sensors</string>
     <string name="menu_files">Files</string>
-
-
+    <string name="menu_values">Values</string>
+    <string name="title_settings_values">Setting\'s values</string>
 
 
 </resources>

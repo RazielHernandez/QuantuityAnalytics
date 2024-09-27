@@ -34,7 +34,6 @@ import java.time.format.DateTimeFormatter
 
 class RealTimeTestActivity: AppCompatActivity() {
 
-
     private var bleDeviceManager: BleDeviceManager? = null
     private val testViewModel: BreakViewModel by viewModels()
     private val viewAdapter: GaugeViewAdapter = GaugeViewAdapter(this, arrayListOf())
@@ -126,9 +125,6 @@ class RealTimeTestActivity: AppCompatActivity() {
             } else {
                 Log.d(TAG, "On Start() init BleDeviceManager")
                 val spm = SharedPreferencesManager(this)
-//                val list = arrayListOf<String>()
-//                list.add("B4:3A:31:EF:52:8B")
-//                list.add("B4:3A:31:EF:52:8C")
                 val list = spm.getStringArrayList(SharedPreferencesManager.SP_ADDRESSES_KEY)
 
                 bleDeviceManager = BleDeviceManager(this,bluetoothAdapter, list ,testViewModel)
@@ -145,24 +141,24 @@ class RealTimeTestActivity: AppCompatActivity() {
         }
     }
 
-    fun Activity.onBackButtonPressed(callback: (() -> Boolean)) {
-        (this as? FragmentActivity)?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (!callback()) {
-                    bleDeviceManager.let {
-                        Log.d(TAG, "Disconnecting from all devices before go back")
-                        bleDeviceManager?.disconnectFromAllDevices()
-                    }
-                    remove()
-                    performBackPress()
-                }
-            }
-        })
-    }
-
-    fun Activity.performBackPress() {
-        (this as? FragmentActivity)?.onBackPressedDispatcher?.onBackPressed()
-    }
+//    fun Activity.onBackButtonPressed(callback: (() -> Boolean)) {
+//        (this as? FragmentActivity)?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                if (!callback()) {
+//                    bleDeviceManager.let {
+//                        Log.d(TAG, "Disconnecting from all devices before go back")
+//                        bleDeviceManager?.disconnectFromAllDevices()
+//                    }
+//                    remove()
+//                    performBackPress()
+//                }
+//            }
+//        })
+//    }
+//
+//    fun Activity.performBackPress() {
+//        (this as? FragmentActivity)?.onBackPressedDispatcher?.onBackPressed()
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -174,11 +170,6 @@ class RealTimeTestActivity: AppCompatActivity() {
             }else {
                 val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
                 val bluetoothAdapter = bluetoothManager.adapter
-//                val list = arrayListOf<String>()
-//                list.add("B4:3A:31:EF:52:8B")
-//                list.add("B4:3A:31:EF:52:8C")
-//                bleDeviceManager = BleDeviceManager(this,bluetoothAdapter, list ,testViewModel)
-//                bleDeviceManager?.startScanning()
                 val spm = SharedPreferencesManager(this)
                 val list = spm.getStringArrayList(SharedPreferencesManager.SP_ADDRESSES_KEY)
 
@@ -192,7 +183,7 @@ class RealTimeTestActivity: AppCompatActivity() {
         val formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")
         val current = LocalDateTime.now().format(formatter)
         val fileName = "QuantuityAnalytics_${current}_${records.size}.json"
-        localStorageManager.saveRecords(fileName,records.toTypedArray(), true)
+        localStorageManager.saveRecords(fileName, records.toTypedArray(), true)
         showSnackBar("File was saved successfully")
     }
 

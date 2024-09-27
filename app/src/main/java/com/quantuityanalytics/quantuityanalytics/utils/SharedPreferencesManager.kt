@@ -10,11 +10,20 @@ class SharedPreferencesManager(private val context:
 
     companion object {
         const val SP_ADDRESSES_KEY = "ListOfSensors"
+        const val SP_DEVICE_NAME_KEY = "DeviceName"
     }
 
     private val sharedPreferences =
         context.getSharedPreferences("QuantuityAnalytics", Context.MODE_PRIVATE)
     private val gson = Gson()
+
+    fun saveString(value: String, key: String) {
+        sharedPreferences.edit().putString(key, value).apply()
+    }
+
+    fun getString(key: String): String {
+        return sharedPreferences.getString(key, null) ?: "UniqueDeviceNAme"
+    }
 
     fun saveArrayList(list: ArrayList<SensorMacAddress>, key: String) {
         val json = gson.toJson(list)

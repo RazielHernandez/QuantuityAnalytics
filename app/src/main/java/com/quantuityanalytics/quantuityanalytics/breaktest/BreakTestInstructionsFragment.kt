@@ -42,11 +42,6 @@ class BreakTestInstructionsFragment: Fragment(R.layout.fragment_test_scanner) {
             }
 
             startButton.isEnabled = hasDevice
-            /*if (hasDevice) {
-                startButton.isEnabled = true
-            } else {
-                startButton.isEnabled = false
-            }*/
         })
     }
 

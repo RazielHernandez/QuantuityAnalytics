@@ -21,7 +21,6 @@ import com.quantuityanalytics.quantuityanalytics.utils.SharedPreferencesManager
 class SettingsSensorsFragment: Fragment(R.layout.fragment_settings_sensors), RecycleViewItemInterface {
 
     private var spm: SharedPreferencesManager? = null
-    //private var listOFAddresses: ArrayList<String> = arrayListOf()
     private var addressAdapter: AddressAdapter? = null
 
     companion object{
@@ -32,11 +31,6 @@ class SettingsSensorsFragment: Fragment(R.layout.fragment_settings_sensors), Rec
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-        //listOFAddresses = spm!!.getArrayList(SP_Array_Key)
-
-        // access the listView from xml file
         val mListView = view.findViewById<RecyclerView>(R.id.listDevice)
         mListView?.layoutManager = LinearLayoutManager(context)
         mListView?.adapter = addressAdapter
@@ -51,13 +45,6 @@ class SettingsSensorsFragment: Fragment(R.layout.fragment_settings_sensors), Rec
         fab.setOnClickListener {
             showInputDialog()
         }
-
-//        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
-//            view.context,
-//            android.R.layout.simple_list_item_1,
-//            listOFAddresses
-//        )
-//        mListView.adapter = adapter
     }
 
     override fun onAttach(context: Context) {
