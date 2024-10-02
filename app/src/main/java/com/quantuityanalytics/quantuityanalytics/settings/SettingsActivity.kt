@@ -29,7 +29,7 @@ class SettingsActivity: AppCompatActivity() {
         val navigationRail: NavigationRailView = findViewById(R.id.navigationRail)
         navigationRail.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.files -> {
+                R.id.values -> {
                     loadFragment(R.id.content_fragment, valuesMainFragment)
                     true
                 }

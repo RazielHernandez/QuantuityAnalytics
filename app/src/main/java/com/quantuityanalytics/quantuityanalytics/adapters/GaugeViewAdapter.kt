@@ -2,6 +2,8 @@ package com.quantuityanalytics.quantuityanalytics.adapters
 
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +12,12 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.github.anastr.speedviewlib.SpeedView
+import com.github.anastr.speedviewlib.components.note.Note
+import com.github.anastr.speedviewlib.components.note.TextNote
 import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.ble.QABleDevice
+import java.util.Locale
 
 
 class GaugeViewAdapter(private val context: Context, private var dataset: ArrayList<QABleDevice>) : BaseAdapter() {
@@ -50,13 +56,14 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
             //Log.d("TAG", "Building view for position $position")
             view = LayoutInflater.from(context).inflate(R.layout.view_gauge, parent, false)
             holder = ViewHolder()
-            holder.imageView = view.findViewById(R.id.image)
+            //holder.imageView = view.findViewById(R.id.image)
             holder.sensor = view.findViewById(R.id.sensor)
             holder.result = view.findViewById(R.id.result)
-            holder.details = view.findViewById(R.id.details)
+            //holder.details = view.findViewById(R.id.details)
             holder.infoSection = view.findViewById(R.id.info_section)
             holder.mainSection = view.findViewById(R.id.main)
             holder.name = view.findViewById(R.id.name)
+            holder.guageView = view.findViewById(R.id.gaugeView)
             view.tag = holder
         } else {
             //Log.d("TAG", "Null view for position $position")
@@ -68,7 +75,7 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
         val actualRecord = actualDevice.getLastRecord()
         holder.sensor?.text = actualDevice.bleDevice?.address
         holder.result?.text = actualRecord.breakRecord
-        holder.details?.text = actualRecord.value.toString()
+        //holder.details?.text = actualRecord.value.toString()
         holder.name?.text = actualDevice.deviceName()
 
         if (actualDevice.status >= QABleDevice.STATUS_CONNECTED) {
@@ -77,23 +84,71 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
             holder.mainSection?.setBackgroundResource(R.color.light_gray)
         }
 
-        if (actualRecord.breakRecord.contains("d1")) {
-            holder.infoSection?.setBackgroundResource(R.color.red)
-            holder.imageView?.setImageResource(R.drawable.break_red)
-        } else if (actualRecord.breakRecord.contains("d2")) {
-            holder.infoSection?.setBackgroundResource(R.color.orange)
-            holder.imageView?.setImageResource(R.drawable.break_orange)
-        } else if (actualRecord.breakRecord.contains("d3")) {
-            holder.infoSection?.setBackgroundResource(R.color.yellow)
-            holder.imageView?.setImageResource(R.drawable.break_yellow)
-        } else if (actualRecord.breakRecord.contains("d4")) {
-            holder.infoSection?.setBackgroundResource(R.color.green)
-            holder.imageView?.setImageResource(R.drawable.break_green)
-        } else {
-            holder.infoSection?.setBackgroundResource(R.color.primary_light)
-            holder.imageView?.setImageResource(R.drawable.warningsignal)
+        holder.infoSection?.setBackgroundColor(actualRecord.getColorResource(context))
+        if (actualRecord.breakRecord.isNotEmpty()){
+            holder.guageView?.addNote(actualRecord.createNote(context,holder.guageView!!,actualRecord.getTestResult()), 2000)
+            Log.d("TAG", "adding note with result ${actualRecord.breakRecord}")
         }
 
+
+
+//        holder.guageView?.onPrintTickLabel = { tickPosition: Int, tick: Float ->
+//            if (tickPosition == 0) {
+//                String.format(Locale.getDefault(), "")
+//            } else if (tickPosition == 1) {
+//                String.format(Locale.getDefault(), "Pass")
+//            } else if (tickPosition == 2) {
+//                String.format(Locale.getDefault(), "Maintenance")
+//            } else if (tickPosition == 3) {
+//                String.format(Locale.getDefault(), "Out of service")
+//            } else if (tickPosition == 4) {
+//                String.format(Locale.getDefault(), "")
+//            } else {
+//                null
+//            }
+//        }
+
+
+        if (actualRecord.breakRecord.contains("d1")) {
+            holder.guageView?.speedTo(4f)
+        } else if (actualRecord.breakRecord.contains("d2")) {
+            holder.guageView?.speedTo(3f)
+        } else if (actualRecord.breakRecord.contains("d3")) {
+            holder.guageView?.speedTo(2f)
+        } else if (actualRecord.breakRecord.contains("d4")) {
+            holder.guageView?.speedTo(1f)
+        } else {
+            holder.guageView?.speedTo(0f)
+        }
+
+
+
+
+//        val note: TextNote
+//        if (actualRecord.breakRecord.contains("d1")) {
+//            holder.infoSection?.setBackgroundResource(R.color.red)
+//            note = createNote(holder.guageView!!, "Out of service")
+//            //holder.imageView?.setImageResource(R.drawable.break_red)
+//        } else if (actualRecord.breakRecord.contains("d2")) {
+//            holder.infoSection?.setBackgroundResource(R.color.yellow)
+//            note = createNote(holder.guageView!!, "Maintenance")
+//            //holder.imageView?.setImageResource(R.drawable.break_yellow)
+//        } else if (actualRecord.breakRecord.contains("d3")) {
+//            note = createNote(holder.guageView!!, "Pass")
+//            holder.infoSection?.setBackgroundResource(R.color.green)
+//            //holder.imageView?.setImageResource(R.drawable.break_green)
+//        } else if (actualRecord.breakRecord.contains("d4")) {
+//            note = createNote(holder.guageView!!, "Pass")
+//            holder.infoSection?.setBackgroundResource(R.color.green)
+//            //holder.imageView?.setImageResource(R.drawable.break_green)
+//        } else {
+//            note = createNote(holder.guageView!!, "No value")
+//            holder.infoSection?.setBackgroundResource(R.color.primary_light)
+//            //holder.imageView?.setImageResource(R.drawable.warningsignal)
+//        }
+//
+//
+//        holder.guageView!!.addNote(note, 3000)
 
 
         // Set the image and text for the current grid item
@@ -126,12 +181,15 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
         return view!!
     }
 
+
+
     private class ViewHolder {
-        var imageView: ImageView? = null
+        //var imageView: ImageView? = null
+        var guageView: SpeedView? = null
         var name: TextView? = null
         var sensor: TextView? = null
         var result: TextView? = null
-        var details: TextView? = null
+        //var details: TextView? = null
         var infoSection: LinearLayout? = null
         var mainSection: LinearLayout? = null
     }

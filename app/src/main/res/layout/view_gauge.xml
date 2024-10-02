@@ -23,14 +23,30 @@
             android:textStyle="bold"
             android:textAlignment="center"/>
 
-        <ImageView
+        <!--<ImageView
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:id="@+id/image"
             android:src="@drawable/warningsignal"
             android:layout_gravity="center"
             android:layout_margin="20dp"
-            android:contentDescription="@string/image_description_test_record_value"/>
+            android:contentDescription="@string/image_description_test_record_value"/>-->
+
+        <com.github.anastr.speedviewlib.SpeedView
+            android:id="@+id/gaugeView"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            app:sv_unit=""
+            app:sv_maxSpeed="4"
+            app:sv_indicatorWidth="10dp"
+            app:sv_centerCircleRadius="15dp"
+            app:sv_speedometerMode="TOP"
+            app:sv_speedTextPosition="BOTTOM_CENTER"
+            app:sv_speedTextSize="0dp"
+            app:sv_unitSpeedInterval="1dp"
+            app:sv_withTremble="false"
+            android:layout_marginVertical="10dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,13 +72,13 @@
                 android:textStyle="bold"
                 android:textAlignment="center" />
 
-            <TextView
+            <!--<TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/details"
                 android:text="More details from the sensor"
                 android:textSize="16sp"
-                android:textAlignment="center" />
+                android:textAlignment="center" />-->
 
         </LinearLayout>
 
