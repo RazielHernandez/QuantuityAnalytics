@@ -53,20 +53,16 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
         val holder: ViewHolder
 
         if (view == null) {
-            //Log.d("TAG", "Building view for position $position")
             view = LayoutInflater.from(context).inflate(R.layout.view_gauge, parent, false)
             holder = ViewHolder()
-            //holder.imageView = view.findViewById(R.id.image)
             holder.sensor = view.findViewById(R.id.sensor)
             holder.result = view.findViewById(R.id.result)
-            //holder.details = view.findViewById(R.id.details)
             holder.infoSection = view.findViewById(R.id.info_section)
             holder.mainSection = view.findViewById(R.id.main)
             holder.name = view.findViewById(R.id.name)
             holder.guageView = view.findViewById(R.id.gaugeView)
             view.tag = holder
         } else {
-            //Log.d("TAG", "Null view for position $position")
             holder = view.tag as ViewHolder
         }
 
@@ -90,25 +86,6 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
             Log.d("TAG", "adding note with result ${actualRecord.breakRecord}")
         }
 
-
-
-//        holder.guageView?.onPrintTickLabel = { tickPosition: Int, tick: Float ->
-//            if (tickPosition == 0) {
-//                String.format(Locale.getDefault(), "")
-//            } else if (tickPosition == 1) {
-//                String.format(Locale.getDefault(), "Pass")
-//            } else if (tickPosition == 2) {
-//                String.format(Locale.getDefault(), "Maintenance")
-//            } else if (tickPosition == 3) {
-//                String.format(Locale.getDefault(), "Out of service")
-//            } else if (tickPosition == 4) {
-//                String.format(Locale.getDefault(), "")
-//            } else {
-//                null
-//            }
-//        }
-
-
         if (actualRecord.breakRecord.contains("d1")) {
             holder.guageView?.speedTo(4f)
         } else if (actualRecord.breakRecord.contains("d2")) {
@@ -120,63 +97,6 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
         } else {
             holder.guageView?.speedTo(0f)
         }
-
-
-
-
-//        val note: TextNote
-//        if (actualRecord.breakRecord.contains("d1")) {
-//            holder.infoSection?.setBackgroundResource(R.color.red)
-//            note = createNote(holder.guageView!!, "Out of service")
-//            //holder.imageView?.setImageResource(R.drawable.break_red)
-//        } else if (actualRecord.breakRecord.contains("d2")) {
-//            holder.infoSection?.setBackgroundResource(R.color.yellow)
-//            note = createNote(holder.guageView!!, "Maintenance")
-//            //holder.imageView?.setImageResource(R.drawable.break_yellow)
-//        } else if (actualRecord.breakRecord.contains("d3")) {
-//            note = createNote(holder.guageView!!, "Pass")
-//            holder.infoSection?.setBackgroundResource(R.color.green)
-//            //holder.imageView?.setImageResource(R.drawable.break_green)
-//        } else if (actualRecord.breakRecord.contains("d4")) {
-//            note = createNote(holder.guageView!!, "Pass")
-//            holder.infoSection?.setBackgroundResource(R.color.green)
-//            //holder.imageView?.setImageResource(R.drawable.break_green)
-//        } else {
-//            note = createNote(holder.guageView!!, "No value")
-//            holder.infoSection?.setBackgroundResource(R.color.primary_light)
-//            //holder.imageView?.setImageResource(R.drawable.warningsignal)
-//        }
-//
-//
-//        holder.guageView!!.addNote(note, 3000)
-
-
-        // Set the image and text for the current grid item
-//        val actualItem = dataset[position]
-//        holder.sensor?.text = actualItem.sensorId
-//        holder.result?.text = actualItem.breakRecord
-//        holder.details?.text = actualItem.value.toString()
-//
-//        if (actualItem.status == BreakRecord.STATUS_NOT_FOUND) {
-//            holder.mainSection?.setBackgroundResource(R.color.light_gray)
-//        } else if (actualItem.status == BreakRecord.STATUS_DISCONNECTED) {
-//            holder.mainSection?.setBackgroundResource(R.color.primary_light)
-//        } else if (actualItem.breakRecord.contains("d1")) {
-//            holder.infoSection?.setBackgroundResource(R.color.red)
-//            holder.imageView?.setImageResource(R.drawable.break_red)
-//        } else if (actualItem.breakRecord.contains("d2")) {
-//            holder.infoSection?.setBackgroundResource(R.color.orange)
-//            holder.imageView?.setImageResource(R.drawable.break_orange)
-//        } else if (actualItem.breakRecord.contains("d3")) {
-//            holder.infoSection?.setBackgroundResource(R.color.yellow)
-//            holder.imageView?.setImageResource(R.drawable.break_yellow)
-//        } else if (actualItem.breakRecord.contains("d4")) {
-//            holder.infoSection?.setBackgroundResource(R.color.green)
-//            holder.imageView?.setImageResource(R.drawable.break_green)
-//        } else {
-//            holder.infoSection?.setBackgroundResource(R.color.primary_light)
-//            holder.imageView?.setImageResource(R.drawable.warningsignal)
-//        }
 
         return view!!
     }

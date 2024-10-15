@@ -21,7 +21,7 @@
     <string name="btn_export">Export File</string>
     <string name="btn_files">Files</string>
     <string name="btn_repeat">Repeat</string>
-    <string name="btn_save">Save to file</string>
+    <string name="btn_save">Save Test Results</string>
     <string name="btn_connect_all">Connect All</string>
 
     <!-- Test steps description -->
@@ -63,6 +63,8 @@
     <string name="menu_files">Files</string>
     <string name="menu_values">Values</string>
     <string name="title_settings_values">Setting\'s values</string>
+    <string name="hint_truck_id">Truck id</string>
+    <string name="Instruction_group_address">List of MAC Addresses in this group</string>
 
 
 </resources>

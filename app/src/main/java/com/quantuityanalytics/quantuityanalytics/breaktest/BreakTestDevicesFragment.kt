@@ -150,7 +150,7 @@ class BreakTestDevicesFragment:
 //                list.add("B4:3A:31:EF:52:8B")
 //                list.add("B4:3A:31:EF:52:8C")
                 val spm = SharedPreferencesManager(requireContext())
-                val list = spm.getStringArrayList(SharedPreferencesManager.SP_ADDRESSES_KEY)
+                val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
                 bleDeviceManager = BleDeviceManager(requireContext(), bluetoothAdapter, list, breakTestViewModel)
                 bleDeviceManager?.startScanning()
             }
@@ -171,7 +171,7 @@ class BreakTestDevicesFragment:
 //                list.add("B4:3A:31:EF:52:8B")
 //                list.add("B4:3A:31:EF:52:8C")
                 val spm = SharedPreferencesManager(requireContext())
-                val list = spm.getStringArrayList(SharedPreferencesManager.SP_ADDRESSES_KEY)
+                val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
                 bleDeviceManager = BleDeviceManager(requireContext(),bluetoothAdapter, list ,breakTestViewModel)
                 bleDeviceManager?.startScanning()
             }

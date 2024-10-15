@@ -125,7 +125,7 @@ class RealTimeTestActivity: AppCompatActivity() {
             } else {
                 Log.d(TAG, "On Start() init BleDeviceManager")
                 val spm = SharedPreferencesManager(this)
-                val list = spm.getStringArrayList(SharedPreferencesManager.SP_ADDRESSES_KEY)
+                val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
 
                 bleDeviceManager = BleDeviceManager(this,bluetoothAdapter, list ,testViewModel)
                 bleDeviceManager?.startScanning()
@@ -171,7 +171,7 @@ class RealTimeTestActivity: AppCompatActivity() {
                 val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
                 val bluetoothAdapter = bluetoothManager.adapter
                 val spm = SharedPreferencesManager(this)
-                val list = spm.getStringArrayList(SharedPreferencesManager.SP_ADDRESSES_KEY)
+                val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
 
                 bleDeviceManager = BleDeviceManager(this,bluetoothAdapter, list ,testViewModel)
                 bleDeviceManager?.startScanning()

@@ -1,27 +1,22 @@
 package com.quantuityanalytics.quantuityanalytics.settings
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.quantuityanalytics.quantuityanalytics.R
-import com.quantuityanalytics.quantuityanalytics.adapters.AddressAdapter
 import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterface
-import com.quantuityanalytics.quantuityanalytics.model.SensorMacAddress
-import com.quantuityanalytics.quantuityanalytics.utils.SharedPreferencesManager
+import com.quantuityanalytics.quantuityanalytics.viewmodel.SensorViewModel
 
-class SettingsSensorsFragment: Fragment(R.layout.fragment_settings_sensors), RecycleViewItemInterface {
+class SettingsSensorsFragment: Fragment(R.layout.fragment_settings_sensors) {
 
-    private var spm: SharedPreferencesManager? = null
-    private var addressAdapter: AddressAdapter? = null
+    private val viewModel: SensorViewModel by viewModels()
+
+    private var groupSensorsFragment: SettingsGroupSensorsFragment = SettingsGroupSensorsFragment()
+    private var addressSensorFragment: SettingsAddressesSensorsFragment = SettingsAddressesSensorsFragment()
 
     companion object{
         const val TAG = "QuantuityAnalytics.SettingsSensorsFragment"
@@ -31,63 +26,40 @@ class SettingsSensorsFragment: Fragment(R.layout.fragment_settings_sensors), Rec
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mListView = view.findViewById<RecyclerView>(R.id.listDevice)
-        mListView?.layoutManager = LinearLayoutManager(context)
-        mListView?.adapter = addressAdapter
-        mListView?.addItemDecoration(
-            DividerItemDecoration(
-                activity,
-                LinearLayoutManager(context).orientation
-            )
-        )
+        viewModel.group.observe(viewLifecycleOwner, Observer { it ->
+            if (it != null) {
+                loadFragmentInChild(R.id.sensor_elements_fragment, addressSensorFragment)
+            }
+        })
 
-        val fab = view.findViewById<FloatingActionButton>(R.id.floatingButton)
-        fab.setOnClickListener {
-            showInputDialog()
-        }
+        viewModel.closeAction.observe(viewLifecycleOwner, Observer {
+            removeFragmentInChild(addressSensorFragment)
+        })
+
+
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        spm = SharedPreferencesManager(context)
-        addressAdapter = AddressAdapter(context, spm!!.getArrayList(SharedPreferencesManager.SP_ADDRESSES_KEY), this)
-
+        loadFragmentInChild(R.id.sensor_group_fragment, groupSensorsFragment)
     }
 
-    override fun onDeviceClick(position: Int) {
-        Log.d(TAG, "Delete item on position $position")
-        val newAddressList = addressAdapter?.deleteItemAt(position)
-        if (newAddressList != null) {
-            spm?.saveArrayList(newAddressList, SharedPreferencesManager.SP_ADDRESSES_KEY)
-        }
+    private fun loadFragmentInChild(frame: Int, fragment: Fragment) {
+        childFragmentManager.beginTransaction()
+            .replace(frame, fragment)
+            .commit()
     }
 
-    private fun showInputDialog() {
-        val inputEditText = EditText(view?.context)
-        inputEditText.hint = "MAC Address"
-
-        val dialog = AlertDialog.Builder(view?.context)
-            .setTitle("MAC Address")
-            .setMessage("Please enter the new Mac Address:")
-            .setView(inputEditText)
-            .setPositiveButton("OK") { _, _ ->
-                val inputText = inputEditText.text.toString()
-                if (inputText.isNotBlank()) {
-                    val newListDataSet = addressAdapter?.addItem(SensorMacAddress((inputText)))
-                    if (newListDataSet != null) {
-                        spm?.saveArrayList(newListDataSet, SharedPreferencesManager.SP_ADDRESSES_KEY)
-                    }
-                } else {
-                    Toast.makeText(view?.context, "Input is empty", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .create()
-
-        // Show the dialog
-        dialog.show()
+    private fun removeFragmentInChild(fragment: Fragment) {
+//        val childFragment = parentFragmentManager.findFragmentByTag(fragmentTag)
+//        childFragment?.let {
+//            parentFragmentManager.beginTransaction()
+//                .remove(it)
+//                .commit()
+//        }
+        childFragmentManager.beginTransaction()
+            .remove(fragment)
+            .commit()
     }
 
 }

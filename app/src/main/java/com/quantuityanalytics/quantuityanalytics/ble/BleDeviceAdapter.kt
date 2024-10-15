@@ -74,9 +74,9 @@ class BleDeviceAdapter(private val dataSet: ArrayList<QABleDevice>,
             if (actualRecord.breakRecord.contains("d1")) {
                 holder.resultImage.setImageResource(R.drawable.break_red)
             } else if (actualRecord.breakRecord.contains("d2")) {
-                holder.resultImage.setImageResource(R.drawable.break_orange)
-            } else if (actualRecord.breakRecord.contains("d3")) {
                 holder.resultImage.setImageResource(R.drawable.break_yellow)
+            } else if (actualRecord.breakRecord.contains("d3")) {
+                holder.resultImage.setImageResource(R.drawable.break_green)
             } else if (actualRecord.breakRecord.contains("d4")) {
                 holder.resultImage.setImageResource(R.drawable.break_green)
             } else {

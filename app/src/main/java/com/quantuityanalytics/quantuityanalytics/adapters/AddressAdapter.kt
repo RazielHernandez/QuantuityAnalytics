@@ -8,12 +8,10 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.quantuityanalytics.quantuityanalytics.R
-import com.quantuityanalytics.quantuityanalytics.ble.QABleDevice
-import com.quantuityanalytics.quantuityanalytics.model.SensorMacAddress
 
 class AddressAdapter(
     private val context: Context,
-    private var dataSet: ArrayList<SensorMacAddress>,
+    private var dataSet: ArrayList<String>,
     private val recycleViewItemInterface: RecycleViewItemInterface)
         : RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
 
@@ -26,20 +24,32 @@ class AddressAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = dataSet[position]
 
-        holder.address.text = currentItem.address
+        holder.address.text = currentItem
 
         holder.deleteButton.setOnClickListener {
             recycleViewItemInterface.onDeviceClick(position)
         }
     }
 
-    fun addItem(address: SensorMacAddress): ArrayList<SensorMacAddress> {
+    fun setDataSet(addresses: ArrayList<String>): ArrayList<String> {
+        dataSet = addresses
+        notifyDataSetChanged()
+        return dataSet
+    }
+
+    fun addItems(addresses: ArrayList<String>): ArrayList<String> {
+        dataSet.addAll(addresses)
+        notifyDataSetChanged()
+        return dataSet
+    }
+
+    fun addItem(address: String): ArrayList<String> {
         dataSet.add(address)
         notifyItemInserted(dataSet.indexOf(address))
         return dataSet
     }
 
-    fun deleteItemAt(position: Int): ArrayList<SensorMacAddress> {
+    fun deleteItemAt(position: Int): ArrayList<String> {
         dataSet.removeAt(position)
         notifyDataSetChanged()
         return dataSet

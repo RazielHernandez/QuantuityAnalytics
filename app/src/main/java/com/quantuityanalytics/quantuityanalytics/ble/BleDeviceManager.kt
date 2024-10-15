@@ -367,10 +367,9 @@ class BleDeviceManager(
     }
 
     private fun saveRecord(device: BluetoothDevice, value: String) {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val current = LocalDateTime.now().format(formatter)
         val spm = SharedPreferencesManager(context)
-
 
         val record = QABleRecord(
             current,
