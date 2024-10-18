@@ -44,6 +44,7 @@ class SettingsGroupSensorsFragment: Fragment(R.layout.fragment_sensors_groups), 
             )
         )
 
+        val addGroupText = view.findViewById<EditText>(R.id.edit_text)
         val addGroupButton = view.findViewById<ImageButton>(R.id.newGroupButton)
         addGroupButton.setOnClickListener {
             val newGroupName = view.findViewById<EditText>(R.id.edit_text)
@@ -52,6 +53,11 @@ class SettingsGroupSensorsFragment: Fragment(R.layout.fragment_sensors_groups), 
                 if (newList != null){
                     spm?.saveGroupArrayList(newList, SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
                 }
+                addGroupText.text.clear()
+                addGroupText.clearFocus()
+
+                val array = spm!!.getGroupArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+                groupAdapter?.setDataSet(array)
             }
         }
 

@@ -54,6 +54,7 @@
         <activity android:name=".settings.SettingsActivity"
             android:exported="false"
             android:configChanges="orientation"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="reverseLandscape"/>
     </application>
 
