@@ -19,6 +19,13 @@ class BreakViewModel: ViewModel() {
     private var mutableReadAction = MutableLiveData<Boolean>()
     val readAction: LiveData<Boolean> get() = mutableReadAction
 
+    private var mutableRecord = MutableLiveData<QABleDevice>()
+    val record: LiveData<QABleDevice> get() = mutableRecord
+
+    fun setRecord(device: QABleDevice) {
+        mutableRecord.postValue(device)
+    }
+
     fun setReadAction(read: Boolean) {
         mutableReadAction.value = read
     }

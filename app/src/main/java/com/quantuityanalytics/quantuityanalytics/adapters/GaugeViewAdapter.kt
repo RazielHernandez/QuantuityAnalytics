@@ -22,14 +22,31 @@ import java.util.Locale
 
 class GaugeViewAdapter(private val context: Context, private var dataset: ArrayList<QABleDevice>) : BaseAdapter() {
 
+    companion object {
+        const val TAG = "QuantuityAnalytics.GaugeViewAdapter"
+    }
+
     fun addItem(breakRecord: QABleDevice) {
         dataset.add(breakRecord)
         notifyDataSetChanged()
     }
 
-    fun addItems(records: ArrayList<QABleDevice>) {
-        dataset.addAll(records)
+    fun addItems(devices: ArrayList<QABleDevice>) {
+        dataset.addAll(devices)
         notifyDataSetChanged()
+    }
+
+    fun updateItem(device: QABleDevice) {
+        val position = dataset.indexOf(device)
+        if (position >= 0){
+            Log.d(TAG, "Updating device ${device.deviceAddress()}")
+            dataset.set(position, device)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun getItemPosition(device: QABleDevice): Int {
+        return dataset.indexOf(device)
     }
 
     fun clearItems() {
@@ -83,7 +100,7 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
         holder.infoSection?.setBackgroundColor(actualRecord.getColorResource(context))
         if (actualRecord.breakRecord.isNotEmpty()){
             holder.guageView?.addNote(actualRecord.createNote(context,holder.guageView!!,actualRecord.getTestResult()), 2000)
-            Log.d("TAG", "adding note with result ${actualRecord.breakRecord}")
+            Log.d(TAG, "adding note with result ${actualRecord.breakRecord}")
         }
 
         if (actualRecord.breakRecord.contains("d1")) {
@@ -100,8 +117,6 @@ class GaugeViewAdapter(private val context: Context, private var dataset: ArrayL
 
         return view!!
     }
-
-
 
     private class ViewHolder {
         //var imageView: ImageView? = null

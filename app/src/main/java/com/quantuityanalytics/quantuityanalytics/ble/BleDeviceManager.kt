@@ -154,6 +154,7 @@ class BleDeviceManager(
                 override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
                     if (gatt != null) {
                         if (newState == BluetoothProfile.STATE_CONNECTED) {
+                            //gatt.printGattTable()
                             gatt.discoverServices()
                         } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                             gatt.close()
@@ -209,6 +210,7 @@ class BleDeviceManager(
             Log.d(TAG, "Connecting to device ${device.deviceAddress()} to read. There are ${bluetoothGattMap.size} elements")
             val bluetoothGatt = bluetoothGattMap[device]
             if (bluetoothGatt != null) {
+                //bluetoothGatt.printGattTable()
                 readFromCharacteristic(bluetoothGatt)
             } else {
                 Log.d(TAG, "No Gatt was found")
@@ -270,28 +272,6 @@ class BleDeviceManager(
                         } else {
                             Log.d(TAG, "BleDeviceManager was not able to save the record (ON UPDATE)")
                         }
-
-//                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-//                        val current = LocalDateTime.now().format(formatter)
-//
-//                        val record = QABleRecord(
-//                            current,
-//                            "Unique ID",
-//                            gatt?.device!!.address,
-//                            value.decodeToString(),
-//                            1f
-//                        )
-//
-//                        var deviceToUpdate = testViewModel.getDevice(QABleDevice(bleDevice = gatt.device))
-//                        if (deviceToUpdate == null) {
-//                            Log.d(TAG, "No previous device was found, creating a new one")
-//                            deviceToUpdate = QABleDevice(gatt.device, QABleDevice.STATUS_READING, arrayListOf(record))
-//                        } else {
-//                            Log.d(TAG, "Updating device with ${deviceToUpdate.deviceAddress()} mac address")
-//                            deviceToUpdate.listOfRecords.add(record)
-//                        }
-//
-//                        testViewModel.updateDevice(deviceToUpdate)
                     }
                 }
 
@@ -317,29 +297,33 @@ class BleDeviceManager(
     // Write to the characteristic of a device
     private fun writeToCharacteristic(gatt: BluetoothGatt, value: ByteArray) {
         val service = gatt.getService(UUID.fromString(BREAK_TEST_SERVICE_UUID))
-        val characteristic = service.getCharacteristic(UUID.fromString(BREAK_TEST_WRITE_CHARACTERISTIC_UUID))
+        if (service != null) {
+            val characteristic = service.getCharacteristic(UUID.fromString(BREAK_TEST_WRITE_CHARACTERISTIC_UUID))
 
-        characteristic?.let {
-            it.value = value
-            val success = gatt.writeCharacteristic(it)
-            if (success) {
-                Log.d(TAG, "A) Characteristic written successfully to ${gatt.device.address}")
-            } else {
-                Log.d(TAG, "Characteristic was not written properly")
+            characteristic?.let {
+                it.value = value
+                val success = gatt.writeCharacteristic(it)
+                if (success) {
+                    Log.d(TAG, "A) Characteristic written successfully to ${gatt.device.address}")
+                } else {
+                    Log.d(TAG, "Characteristic was not written properly")
+                }
             }
         }
     }
 
     private fun readFromCharacteristic(gatt: BluetoothGatt) {
         val service = gatt.getService(UUID.fromString(BREAK_TEST_SERVICE_UUID))
-        val characteristic = service.getCharacteristic(UUID.fromString(BREAK_TEST_READ_CHARACTERISTIC_UUID))
+        if (service != null) {
+            val characteristic = service.getCharacteristic(UUID.fromString(BREAK_TEST_READ_CHARACTERISTIC_UUID))
 
-        characteristic?.let {
-            val success = gatt.readCharacteristic(it)
-            if (success) {
-                Log.d(TAG, "READ was successfully")
-            } else {
-                Log.d(TAG, "ERROR on READ")
+            characteristic?.let {
+                val success = gatt.readCharacteristic(it)
+                if (success) {
+                    Log.d(TAG, "READ was successfully")
+                } else {
+                    Log.d(TAG, "ERROR on READ")
+                }
             }
         }
     }
@@ -388,6 +372,7 @@ class BleDeviceManager(
             deviceToUpdate.listOfRecords.add(record)
         }
 
+        testViewModel.setRecord(deviceToUpdate)
         testViewModel.updateDevice(deviceToUpdate)
     }
 

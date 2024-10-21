@@ -25,6 +25,7 @@ import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterfa
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceAdapter
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceManager
 import com.quantuityanalytics.quantuityanalytics.ble.QABleDevice
+import com.quantuityanalytics.quantuityanalytics.breaktest.BreakTestStepFragment.Companion
 import com.quantuityanalytics.quantuityanalytics.utils.SharedPreferencesManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 
@@ -66,9 +67,11 @@ class BreakTestDevicesFragment:
         }
 
         breakTestViewModel.listOfDevices.observe(viewLifecycleOwner, Observer { list ->
+            Log.d(TAG, "Starting breakTestViewModel.listOfDevices")
             Log.d(TAG, "New array of devices ${list.size} detected")
             deviceAdapter.setDeviceList(list)
             deviceAdapter.notifyDataSetChanged()
+            Log.d(TAG, "Ending breakTestViewModel.listOfDevices")
         })
 
         breakTestViewModel.scannerStatus.observe(viewLifecycleOwner, Observer { value ->

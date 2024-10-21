@@ -99,9 +99,21 @@ class RealTimeTestActivity: AppCompatActivity() {
         }
 
         testViewModel.listOfDevices.observe(this, Observer { list ->
-            Log.d(TAG, "List of device updated with ${list.size} sensors")
-            viewAdapter.clearItems()
-            viewAdapter.addItems(list)
+            //Log.d(TAG, "List of device updated with ${list.size} sensors")
+
+            //viewAdapter.clearItems()
+
+            for (device in list) {
+                val index = viewAdapter.getItemPosition(device)
+                if (index >= 0) {
+                    //Log.d(TAG, "Updating device ${device.deviceAddress()}")
+                    viewAdapter.updateItem(device)
+                } else {
+                    //Log.d(TAG, "Adding device ${device.deviceAddress()}")
+                    viewAdapter.addItem(device)
+                }
+
+            }
         })
     }
 
@@ -140,25 +152,6 @@ class RealTimeTestActivity: AppCompatActivity() {
             bleDeviceManager?.disconnectFromAllDevices()
         }
     }
-
-//    fun Activity.onBackButtonPressed(callback: (() -> Boolean)) {
-//        (this as? FragmentActivity)?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                if (!callback()) {
-//                    bleDeviceManager.let {
-//                        Log.d(TAG, "Disconnecting from all devices before go back")
-//                        bleDeviceManager?.disconnectFromAllDevices()
-//                    }
-//                    remove()
-//                    performBackPress()
-//                }
-//            }
-//        })
-//    }
-//
-//    fun Activity.performBackPress() {
-//        (this as? FragmentActivity)?.onBackPressedDispatcher?.onBackPressed()
-//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

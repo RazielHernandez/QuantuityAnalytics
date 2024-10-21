@@ -2,12 +2,12 @@
     <string name="app_name">Quantuity Analytics</string>
     
     <!-- Main menu buttons texts -->
-    <string name="menu_button_brake_test">Perform pre-trip brake test</string>
+    <string name="menu_button_break_test">Perform pre-trip break test</string>
     <string name="menu_button_issue">Report pre-trip vehicle issue to dispatch</string>
-    <string name="menu_button_brake_knowledge">Driver brake knowledge review \u0026 quiz</string>
+    <string name="menu_button_break_knowledge">Driver break knowledge review \u0026 quiz</string>
     <string name="menu_button_inspection_report">Pre-trip inspection reports history</string>
     <string name="menu_button_test_knowledge">Driver road test knowledge review \u0026 quiz</string>
-    <string name="menu_button_real_time">Live brake monitor in real-time</string>
+    <string name="menu_button_real_time">Live break monitor in real-time</string>
     <string name="button_close">Close</string>
     <string name="button_menu">Main Menu</string>
     <string name="button_next">Next</string>
@@ -25,14 +25,17 @@
     <string name="btn_connect_all">Connect All</string>
 
     <!-- Test steps description -->
-    <string name="test_description_1">Procedure: You will step on the brake pedal, wait 5 seconds, then release. A confirmation will be presented at the end of the test for each wheel below in green (pass) or red (fail).</string>
+    <string name="test_description_1">Procedure: You will step on the break pedal, wait 5 seconds, then release. A confirmation will be presented at the end of the test for each wheel below in green (pass) or red (fail).</string>
     <string name="test_description_2">The sensors and their location at each wheel are indicated below in yellow black circles. After the test is complete, they will indicate greet (pass) or red (fail) for one or more wheel on your vehicle.</string>
-    <string name="test_description_3">Procedure: You will step on the brake pedal, wait 5 seconds, then release. A confirmation will be presented for each wheel below in green (pass) or red (fail).</string>
+    <string name="test_description_3">Procedure: You will step on the break pedal, wait 5 seconds, then release. A confirmation will be presented for each wheel below in green (pass) or red (fail).</string>
 
     <!-- Test steps-->
-    <string name="step_1">Break test step 1</string>
-    <string name="step_2">Break test step 2</string>
-    <string name="step_3">Break test step 3</string>
+    <string name="step_1">Prepare to apply the brake pedal fully and release it fully. Hold for 10 seconds then release.</string>
+    <string name="step_2">Prepare to apply the brake pedal fully and release it fully. Hold for 10 seconds then release.</string>
+    <string name="step_3">Prepare to apply the brake pedal fully and release it fully. Hold for 10 seconds then release.</string>
+    <string name="step_4">Break test step 4</string>
+    <string name="step_5">Break test step 5</string>
+    <string name="step_6">Break test step 6</string>
 
     <!-- Titles-->
     <string name="break_test">Break Test</string>

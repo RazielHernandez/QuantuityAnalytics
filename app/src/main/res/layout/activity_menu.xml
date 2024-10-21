@@ -87,7 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/menu_button_brake_test"
+            android:text="@string/menu_button_break_test"
             android:drawableTop="@drawable/break_icon_c"
             style="@style/main_menu_button"
             android:background="@drawable/menu_button_background"/>
@@ -107,7 +107,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/menu_button_brake_knowledge"
+            android:text="@string/menu_button_break_knowledge"
             android:drawableTop="@drawable/idea"
             style="@style/main_menu_button"
             android:background="@drawable/menu_button_background"/>

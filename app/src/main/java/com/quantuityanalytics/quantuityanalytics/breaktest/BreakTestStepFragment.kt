@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.button.MaterialButton
 import com.quantuityanalytics.quantuityanalytics.R
+import com.quantuityanalytics.quantuityanalytics.ble.QABleDevice
 import com.quantuityanalytics.quantuityanalytics.model.TestStep
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 import java.lang.StringBuilder
@@ -22,6 +23,7 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
     private val breakTestViewModel: BreakViewModel by activityViewModels()
     private var steps: ArrayList<TestStep> = arrayListOf()
     private var actualStep: Int = 0
+    private var temporaryListOfDevice: ArrayList<QABleDevice> = arrayListOf()
 
     companion object {
         const val TAG: String = "QuantuityAnalytics.BreakTestStepFragment"
@@ -48,6 +50,7 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
         }
 
         btnRepeat.setOnClickListener {
+            view.findViewById<TextView>(R.id.step_result_text).text = ""
             duringTestLayout()
             runStep(steps[actualStep].seconds.toLong())
 
@@ -72,19 +75,35 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
         }
 
         btnTest.setOnClickListener {
-            Log.d(TAG, "On test start button")
             duringTestLayout()
             runStep(steps[actualStep].seconds.toLong())
         }
 
-        breakTestViewModel.listOfDevices.observe(viewLifecycleOwner, Observer { list ->
+//        breakTestViewModel.listOfDevices.observe(viewLifecycleOwner, Observer { list ->
+//            Log.d(TAG, "* Starting breakTestViewModel.listOfDevices")
+//            temporaryListOfDevice = list
+//            val sb = StringBuilder()
+//            for (element in temporaryListOfDevice) {
+//                val lastRecord = element.getLastRecord().breakRecord
+//                val name = element.deviceName()
+//                val address = element.deviceAddress()
+//                //sb = "$sb Sensor ${element.deviceName()} (${element.deviceAddress()}): $lastRecord \\n"
+//                sb.append("Sensor $name ($address): $lastRecord\n")
+//                //Log.d(TAG, "RESULT: ${sb.toString()}")
+//            }
+//            view.findViewById<TextView>(R.id.step_result_text).text = sb
+//            Log.d(TAG, "* Ending breakTestViewModel.listOfDevices")
+//        })
+
+        breakTestViewModel.record.observe(viewLifecycleOwner, Observer {  it ->
+            Log.d(TAG, "Starting record observer")
             val sb = StringBuilder()
-            for (element in list) {
-                val lastRecord = element.getLastRecord().breakRecord
-                sb.append("Sensor ${element.deviceName()} (${element.deviceAddress()}): $lastRecord\n")
-                Log.d(TAG, "RESULT: ${sb.toString()}")
-            }
-            view.findViewById<TextView>(R.id.step_result_text).text = sb.toString()
+            val lastRecord = it.getLastRecord().breakRecord
+            val name = it.deviceName()
+            val address = it.deviceAddress()
+            sb.append(view.findViewById<TextView>(R.id.step_result_text).text)
+            sb.append("Sensor $name ($address): $lastRecord\n")
+            view.findViewById<TextView>(R.id.step_result_text).text = sb
         })
 
         loadStepInfo(steps[actualStep], "Step ${actualStep+1}")
@@ -92,17 +111,13 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     private fun runStep(timerLong: Long) {
-        Log.d(TAG, "Start timer of $timerLong milliseconds")
+        //Log.d(TAG, "Start timer of $timerLong milliseconds")
         object : CountDownTimer(timerLong, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
                 val secondsRemaining = millisUntilFinished / 1000
-                Log.d(TAG, "$secondsRemaining second(s) remaining")
+                //Log.d(TAG, "$secondsRemaining second(s) remaining")
             }
 
             override fun onFinish() {

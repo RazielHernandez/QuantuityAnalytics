@@ -61,7 +61,8 @@
                 android:text="Sensor name or Id"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textIsSelectable="true"/>
 
             <TextView
                 android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package com.quantuityanalytics.quantuityanalytics.breaktest
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.google.android.material.button.MaterialButton
 import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.ble.QABleDevice
+import com.quantuityanalytics.quantuityanalytics.breaktest.BreakTestDevicesFragment.Companion
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 
 class BreakTestInstructionsFragment: Fragment(R.layout.fragment_test_scanner) {
@@ -34,14 +36,15 @@ class BreakTestInstructionsFragment: Fragment(R.layout.fragment_test_scanner) {
         }
 
         breakTestViewModel.listOfDevices.observe(viewLifecycleOwner, Observer { list ->
+            Log.d(TAG, "Starting breakTestViewModel.listOfDevices")
             var hasDevice = false
             for (device in list) {
                 if (device.status >= QABleDevice.STATUS_CONNECTED) {
                     hasDevice = true
                 }
             }
-
             startButton.isEnabled = hasDevice
+            Log.d(TAG, "Starting breakTestViewModel.listOfDevices")
         })
     }
 
