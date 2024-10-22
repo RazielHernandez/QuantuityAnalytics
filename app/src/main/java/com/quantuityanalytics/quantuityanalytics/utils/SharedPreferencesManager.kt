@@ -10,7 +10,6 @@ class SharedPreferencesManager(private val context: Context) {
 
     companion object {
         const val TAG = "QuantuityAnalytics.SharedPreferencesManager"
-        const val SP_ADDRESSES_KEY = "ListOfSensors"
         const val SP_GROUP_ADDRESS_KEY = "ListOfGroups"
         const val SP_DEVICE_NAME_KEY = "DeviceName"
     }
@@ -24,7 +23,7 @@ class SharedPreferencesManager(private val context: Context) {
     }
 
     fun getString(key: String): String {
-        return sharedPreferences.getString(key, null) ?: "UniqueDeviceNAme"
+        return sharedPreferences.getString(key, null) ?: "UniqueDeviceName"
     }
 
     fun saveArrayList(list: ArrayList<String>, key: String) {
@@ -56,10 +55,27 @@ class SharedPreferencesManager(private val context: Context) {
         sharedPreferences.edit().putString(key, json).apply()
     }
 
+    fun getGroupOf() {
+
+    }
+
     fun getGroupArrayList(key: String): ArrayList<SensorGroup> {
         val json = sharedPreferences.getString(key, null)
         val type = object : TypeToken<ArrayList<SensorGroup>>() {}.type
         return gson.fromJson(json, type) ?: ArrayList()
+    }
+
+    fun getGroupSelectedFor(key: String, address: String): String {
+        val json = sharedPreferences.getString(key, null)
+        val type = object : TypeToken<ArrayList<SensorGroup>>() {}.type
+        val arrayObject = gson.fromJson(json, type) ?: ArrayList<SensorGroup>()
+        var result = ""
+        for (group in arrayObject) {
+            if (group.isSelected && group.listOfAddresses.contains(address)) {
+                result = "$result${group.name}"
+            }
+        }
+        return result
     }
 
     fun getStringArrayList(key: String): ArrayList<String> {

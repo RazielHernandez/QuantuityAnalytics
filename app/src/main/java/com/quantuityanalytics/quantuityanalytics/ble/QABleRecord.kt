@@ -13,6 +13,7 @@ import com.quantuityanalytics.quantuityanalytics.R
 
 data class QABleRecord (
     val timeStamp: String,
+    val deviceId: String,
     val truckId: String,
     val sensorId: String = "000x1",
     val breakRecord: String = "default",
@@ -67,6 +68,7 @@ data class QABleRecord (
         fun getDefaultRecord(sensorId: String = "Default Sensor ID"): QABleRecord {
             return QABleRecord(
                 timeStamp = "",
+                deviceId = "DeviceId",
                 truckId = "TruckId",
                 sensorId = sensorId,
                 breakRecord = "",

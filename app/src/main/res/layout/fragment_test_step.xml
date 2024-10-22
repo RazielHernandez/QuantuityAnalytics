@@ -37,9 +37,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintHeight_percent="0.45"
         android:src="@drawable/break_pedal_1"
         android:contentDescription="@string/test_step_description"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/step_warning"
+        android:text="@string/step_warning"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/step_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.05"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -47,7 +60,7 @@
         android:textSize="16sp"
         android:gravity="center"
         android:id="@+id/step_description"
-        app:layout_constraintTop_toBottomOf="@+id/step_image"
+        app:layout_constraintTop_toBottomOf="@+id/step_warning"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.1"/>

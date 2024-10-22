@@ -70,12 +70,4 @@ class LocalStorageManager(private val context: Context) {
         }
     }
 
-    fun addRecords(records: Array<QABleRecord>, fileName: String){
-
-    }
-
-    fun deleteRecords(records: Array<QABleRecord>, fileName: String) {
-
-    }
-
 }

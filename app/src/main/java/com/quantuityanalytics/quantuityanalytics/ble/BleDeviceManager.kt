@@ -357,7 +357,8 @@ class BleDeviceManager(
 
         val record = QABleRecord(
             current,
-            spm.getString(SharedPreferencesManager.SP_DEVICE_NAME_KEY),
+            spm.getString(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY),
+            spm.getGroupSelectedFor(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY, device.address),
             device.address,
             value,
             1f

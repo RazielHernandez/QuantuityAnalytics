@@ -31,4 +31,15 @@
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.9" />
 
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:src="@drawable/copyright_black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.1"
+        android:layout_marginBottom="20dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

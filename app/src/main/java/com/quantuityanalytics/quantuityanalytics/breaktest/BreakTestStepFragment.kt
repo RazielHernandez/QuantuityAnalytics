@@ -79,22 +79,6 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
             runStep(steps[actualStep].seconds.toLong())
         }
 
-//        breakTestViewModel.listOfDevices.observe(viewLifecycleOwner, Observer { list ->
-//            Log.d(TAG, "* Starting breakTestViewModel.listOfDevices")
-//            temporaryListOfDevice = list
-//            val sb = StringBuilder()
-//            for (element in temporaryListOfDevice) {
-//                val lastRecord = element.getLastRecord().breakRecord
-//                val name = element.deviceName()
-//                val address = element.deviceAddress()
-//                //sb = "$sb Sensor ${element.deviceName()} (${element.deviceAddress()}): $lastRecord \\n"
-//                sb.append("Sensor $name ($address): $lastRecord\n")
-//                //Log.d(TAG, "RESULT: ${sb.toString()}")
-//            }
-//            view.findViewById<TextView>(R.id.step_result_text).text = sb
-//            Log.d(TAG, "* Ending breakTestViewModel.listOfDevices")
-//        })
-
         breakTestViewModel.record.observe(viewLifecycleOwner, Observer {  it ->
             Log.d(TAG, "Starting record observer")
             val sb = StringBuilder()
@@ -142,6 +126,7 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
         view?.findViewById<MaterialButton>(R.id.btn_repeat)!!.visibility = View.GONE
         view?.findViewById<MaterialButton>(R.id.btn_next)!!.visibility = View.GONE
         view?.findViewById<TextView>(R.id.step_result_text)!!.visibility = View.INVISIBLE
+        view?.findViewById<TextView>(R.id.step_warning)!!.visibility = View.VISIBLE
     }
 
     private fun duringTestLayout() {
@@ -149,6 +134,7 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
         view?.findViewById<MaterialButton>(R.id.btn_repeat)!!.visibility = View.GONE
         view?.findViewById<MaterialButton>(R.id.btn_next)!!.visibility = View.GONE
         view?.findViewById<TextView>(R.id.step_result_text)!!.visibility = View.INVISIBLE
+        view?.findViewById<TextView>(R.id.step_warning)!!.visibility = View.VISIBLE
     }
 
     private fun afterTestLayout() {
@@ -156,5 +142,6 @@ class BreakTestStepFragment: Fragment(R.layout.fragment_test_step) {
         view?.findViewById<MaterialButton>(R.id.btn_repeat)!!.visibility = View.VISIBLE
         view?.findViewById<MaterialButton>(R.id.btn_next)!!.visibility = View.VISIBLE
         view?.findViewById<TextView>(R.id.step_result_text)!!.visibility = View.VISIBLE
+        view?.findViewById<TextView>(R.id.step_warning)!!.visibility = View.INVISIBLE
     }
 }
