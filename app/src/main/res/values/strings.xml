@@ -68,7 +68,10 @@
     <string name="title_settings_values">Setting\'s values</string>
     <string name="hint_truck_id">Truck id</string>
     <string name="Instruction_group_address">List of MAC Addresses in this group</string>
-    <string name="step_warning">Air presure should be 100 PSI before start the test</string>
+    <string name="step_warning">Air pressure should be 100 PSI before start the test</string>
 
-
+    <string-array name="ml_models">
+        <item>4 values model</item>
+        <item>2 values model</item>
+    </string-array>
 </resources>

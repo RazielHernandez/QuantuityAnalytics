@@ -1,6 +1,7 @@
 package com.quantuityanalytics.quantuityanalytics.ble
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterface
 
-class BleDeviceAdapter(private val dataSet: ArrayList<QABleDevice>,
+class BleDeviceAdapter(private val model: String,
+                       private val context: Context,
+                       private val dataSet: ArrayList<QABleDevice>,
                        private val recycleViewItemInterface: RecycleViewItemInterface
 ) :
     RecyclerView.Adapter<BleDeviceAdapter.ViewHolder>()  {
@@ -65,23 +68,13 @@ class BleDeviceAdapter(private val dataSet: ArrayList<QABleDevice>,
             }
         }
 
-        if (currentItem.listOfRecords.isEmpty()) {
+        if (currentItem.hasRecords()) {
             holder.resultImage.visibility = View.INVISIBLE
         } else {
             holder.resultImage.visibility = View.VISIBLE
             val actualRecord = currentItem.getLastRecord()
 
-            if (actualRecord.breakRecord.contains("d1")) {
-                holder.resultImage.setImageResource(R.drawable.break_red)
-            } else if (actualRecord.breakRecord.contains("d2")) {
-                holder.resultImage.setImageResource(R.drawable.break_yellow)
-            } else if (actualRecord.breakRecord.contains("d3")) {
-                holder.resultImage.setImageResource(R.drawable.break_green)
-            } else if (actualRecord.breakRecord.contains("d4")) {
-                holder.resultImage.setImageResource(R.drawable.break_green)
-            } else {
-                holder.resultImage.setImageResource(R.drawable.warningsignal)
-            }
+            holder.resultImage.setImageDrawable(actualRecord.getColoredIcon(model, context))
 
         }
 

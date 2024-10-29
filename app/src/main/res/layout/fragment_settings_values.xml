@@ -47,54 +47,94 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_margin="10dp">
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_weight="10">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="10dp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_weight="10">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Device name"
+                                android:textSize="18sp"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="This value is used in each record saved during the test to identify the tablet who generated it. Shown in the logs files"
+                                android:textSize="16sp"
+                                android:textStyle="italic"/>
+                        </LinearLayout>
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="5"
+                            android:id="@+id/device_name_value"
+                            android:hint="Unique device name"
                             android:text="Device name"
-                            android:textSize="18sp"
-                            android:textStyle="bold"/>
+                            android:enabled="false"
+                            android:maxLength="32" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="This value is used in each record saved during the test to identify the tablet who generated it. Shown in the logs files"
-                            android:textSize="16sp"
-                            android:textStyle="italic"/>
+                        <ImageButton
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:maxWidth="64dp"
+                            android:background="@drawable/borderer_file_background"
+                            android:backgroundTint="@color/primary"
+                            android:id="@+id/device_name_button"
+                            android:src="@drawable/baseline_edit_24"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginVertical="8dp" />
                     </LinearLayout>
 
-                    <EditText
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="5"
-                        android:id="@+id/device_name_value"
-                        android:hint="Unique device name"
-                        android:text="Device name"
-                        android:enabled="false"
-                        android:maxLength="32" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="10dp">
 
-                    <ImageButton
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:maxWidth="64dp"
-                        android:background="@drawable/borderer_file_background"
-                        android:backgroundTint="@color/primary"
-                        android:id="@+id/device_name_button"
-                        android:src="@drawable/baseline_edit_24"
-                        android:layout_marginHorizontal="8dp"
-                        android:layout_marginVertical="8dp" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_weight="10">
 
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="ML Model"
+                                android:textSize="18sp"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="You must be select the option that match with the Machine Learning Model in the smart sensors. This can change how the data is retrieved and how is presented in the APp"
+                                android:textSize="16sp"
+                                android:textStyle="italic"/>
+                        </LinearLayout>
+
+                        <Spinner
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="6"
+                            android:id="@+id/device_model_value"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginVertical="8dp"/>
+                    </LinearLayout>
                 </LinearLayout>
-
 
             </com.google.android.material.card.MaterialCardView>
 

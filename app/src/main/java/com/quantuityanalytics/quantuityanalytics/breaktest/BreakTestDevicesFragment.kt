@@ -38,7 +38,7 @@ class BreakTestDevicesFragment:
         const val BLUETOOTH_ENABLE_CODE: Int = 3301
     }
 
-    private var deviceAdapter: BleDeviceAdapter = BleDeviceAdapter(arrayListOf(), this)
+    private var deviceAdapter: BleDeviceAdapter? = null
 
     private var recyclerView: RecyclerView? = null
     private var animationView: LottieAnimationView? = null
@@ -50,6 +50,9 @@ class BreakTestDevicesFragment:
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val spm = SharedPreferencesManager(requireContext())
+        deviceAdapter = BleDeviceAdapter(spm.getString(SharedPreferencesManager.SP_DEVICE_ML_MODEL), requireContext(), arrayListOf(), this)
 
         animationView = view.findViewById(R.id.animationView)
         recyclerView = view.findViewById(R.id.device_list)
@@ -69,8 +72,8 @@ class BreakTestDevicesFragment:
         breakTestViewModel.listOfDevices.observe(viewLifecycleOwner, Observer { list ->
             Log.d(TAG, "Starting breakTestViewModel.listOfDevices")
             Log.d(TAG, "New array of devices ${list.size} detected")
-            deviceAdapter.setDeviceList(list)
-            deviceAdapter.notifyDataSetChanged()
+            deviceAdapter?.setDeviceList(list)
+            deviceAdapter?.notifyDataSetChanged()
             Log.d(TAG, "Ending breakTestViewModel.listOfDevices")
         })
 
@@ -78,7 +81,7 @@ class BreakTestDevicesFragment:
             if (value) {
                 onScanningLayout()
             }else {
-                if (deviceAdapter.itemCount == 0) {
+                if (deviceAdapter?.itemCount == 0) {
                     onNoDeviceFoundLayout()
                 } else {
                     onDeviceFoundLayout()
@@ -90,7 +93,7 @@ class BreakTestDevicesFragment:
             if (value) {
                 scanButton?.visibility = View.INVISIBLE
                 connectButton?.visibility = View.INVISIBLE
-                deviceAdapter.isEnable = false
+                deviceAdapter?.isEnable = false
             }
         })
 
@@ -149,9 +152,6 @@ class BreakTestDevicesFragment:
                 startActivityForResult(enableBtIntent, BLUETOOTH_ENABLE_CODE)
             } else {
                 Log.d(RealTimeTestActivity.TAG, "On Start() init BleDeviceManager")
-//                val list = arrayListOf<String>()
-//                list.add("B4:3A:31:EF:52:8B")
-//                list.add("B4:3A:31:EF:52:8C")
                 val spm = SharedPreferencesManager(requireContext())
                 val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
                 bleDeviceManager = BleDeviceManager(requireContext(), bluetoothAdapter, list, breakTestViewModel)
@@ -170,9 +170,6 @@ class BreakTestDevicesFragment:
             }else {
                 val bluetoothManager = activity?.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
                 val bluetoothAdapter = bluetoothManager.adapter
-//                val list = arrayListOf<String>()
-//                list.add("B4:3A:31:EF:52:8B")
-//                list.add("B4:3A:31:EF:52:8C")
                 val spm = SharedPreferencesManager(requireContext())
                 val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
                 bleDeviceManager = BleDeviceManager(requireContext(),bluetoothAdapter, list ,breakTestViewModel)
@@ -191,7 +188,7 @@ class BreakTestDevicesFragment:
 
     override fun onDeviceClick(position: Int) {
         //deviceAdapter?.selectDevice(position)
-        val actualDevice = deviceAdapter.getDeviceByPosition(position)
+        val actualDevice = deviceAdapter?.getDeviceByPosition(position)
         if (actualDevice != null) {
             if (actualDevice.status < QABleDevice.STATUS_CONNECTED) {
                 Log.d(TAG, "Changing status to STATUS_CONNECTING")

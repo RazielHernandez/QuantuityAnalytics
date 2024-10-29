@@ -36,7 +36,7 @@ class RealTimeTestActivity: AppCompatActivity() {
 
     private var bleDeviceManager: BleDeviceManager? = null
     private val testViewModel: BreakViewModel by viewModels()
-    private val viewAdapter: GaugeViewAdapter = GaugeViewAdapter(this, arrayListOf())
+    private var viewAdapter: GaugeViewAdapter? = null
 
     private var localStorageManager: LocalStorageManager = LocalStorageManager(this)
 
@@ -51,6 +51,9 @@ class RealTimeTestActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_real_time_test)
+
+        val spm = SharedPreferencesManager(this)
+        viewAdapter = GaugeViewAdapter(spm.getString(SharedPreferencesManager.SP_DEVICE_ML_MODEL), this, arrayListOf())
 
         val gridView: GridView = findViewById(R.id.gridView)
         gridView.adapter = viewAdapter
@@ -80,7 +83,7 @@ class RealTimeTestActivity: AppCompatActivity() {
             if (devices != null) {
                 val records = arrayListOf<QABleRecord>()
                 for (device in devices) {
-                    records.addAll(device.listOfRecords)
+                    records.addAll(device.getAllRecords())
                 }
 
                 if (records.size > 0) {
@@ -101,16 +104,16 @@ class RealTimeTestActivity: AppCompatActivity() {
         testViewModel.listOfDevices.observe(this, Observer { list ->
             //Log.d(TAG, "List of device updated with ${list.size} sensors")
 
-            //viewAdapter.clearItems()
-
             for (device in list) {
-                val index = viewAdapter.getItemPosition(device)
-                if (index >= 0) {
-                    //Log.d(TAG, "Updating device ${device.deviceAddress()}")
-                    viewAdapter.updateItem(device)
-                } else {
-                    //Log.d(TAG, "Adding device ${device.deviceAddress()}")
-                    viewAdapter.addItem(device)
+                val index = viewAdapter?.getItemPosition(device)
+                if (index != null) {
+                    if (index >= 0) {
+                        //Log.d(TAG, "Updating device ${device.deviceAddress()}")
+                        viewAdapter?.updateItem(device)
+                    } else {
+                        //Log.d(TAG, "Adding device ${device.deviceAddress()}")
+                        viewAdapter?.addItem(device)
+                    }
                 }
 
             }

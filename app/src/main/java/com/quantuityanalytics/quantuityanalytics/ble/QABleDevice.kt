@@ -7,7 +7,7 @@ import android.os.Build
 data class QABleDevice (
     var bleDevice: BluetoothDevice,
     var status: Int = STATUS_UNREACHABLE,
-    var listOfRecords: ArrayList<QABleRecord> = arrayListOf(),
+    private var listOfRecords: ArrayList<QABleRecord> = arrayListOf(),
 ) {
 
     companion object {
@@ -60,6 +60,18 @@ data class QABleDevice (
         if (listOfRecords.isNotEmpty()) {
             listOfRecords.removeAt(listOfRecords.lastIndex)
         }
+    }
+
+    fun getAllRecords(): ArrayList<QABleRecord> {
+        return listOfRecords
+    }
+
+    fun hasRecords(): Boolean {
+        return listOfRecords.isNotEmpty()
+    }
+
+    fun addRecord(record: QABleRecord) {
+        listOfRecords.add(record)
     }
 
     override fun equals(other: Any?): Boolean {

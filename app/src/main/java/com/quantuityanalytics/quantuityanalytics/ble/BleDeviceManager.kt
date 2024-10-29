@@ -370,7 +370,7 @@ class BleDeviceManager(
             deviceToUpdate = QABleDevice(device, QABleDevice.STATUS_READING, arrayListOf(record))
         } else {
             Log.d(TAG, "Updating device with ${deviceToUpdate.deviceAddress()} mac address")
-            deviceToUpdate.listOfRecords.add(record)
+            deviceToUpdate.addRecord(record)
         }
 
         testViewModel.setRecord(deviceToUpdate)

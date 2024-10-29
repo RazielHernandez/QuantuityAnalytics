@@ -46,7 +46,7 @@ class BreakTestActivity: AppCompatActivity() {
                 if (devices != null) {
                     val records = arrayListOf<QABleRecord>()
                     for (device in devices) {
-                        records.addAll(device.listOfRecords)
+                        records.addAll(device.getAllRecords())
                     }
 
                     if (records.size > 0) {

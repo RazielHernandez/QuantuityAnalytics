@@ -12,6 +12,7 @@ class SharedPreferencesManager(private val context: Context) {
         const val TAG = "QuantuityAnalytics.SharedPreferencesManager"
         const val SP_GROUP_ADDRESS_KEY = "ListOfGroups"
         const val SP_DEVICE_NAME_KEY = "DeviceName"
+        const val SP_DEVICE_ML_MODEL = "MLModel"
     }
 
     private val sharedPreferences =
@@ -53,10 +54,6 @@ class SharedPreferencesManager(private val context: Context) {
     fun saveGroupArrayList(list: ArrayList<SensorGroup>, key: String) {
         val json = gson.toJson(list)
         sharedPreferences.edit().putString(key, json).apply()
-    }
-
-    fun getGroupOf() {
-
     }
 
     fun getGroupArrayList(key: String): ArrayList<SensorGroup> {
