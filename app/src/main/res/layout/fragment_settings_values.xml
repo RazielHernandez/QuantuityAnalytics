@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    tools:context=".settings.SettingsActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -28,121 +29,445 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="30dp"
+        android:background="@drawable/background_settings_card">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="30dp">
 
-            <com.google.android.material.card.MaterialCardView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:cardElevation="5dp"
-                app:cardCornerRadius="10dp">
+                android:text="App configuration"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="10">
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_margin="10dp">
+                        android:text="Device name"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:layout_weight="10">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Device name"
-                                android:textSize="18sp"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="This value is used in each record saved during the test to identify the tablet who generated it. Shown in the logs files"
-                                android:textSize="16sp"
-                                android:textStyle="italic"/>
-                        </LinearLayout>
-
-                        <EditText
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="5"
-                            android:id="@+id/device_name_value"
-                            android:hint="Unique device name"
-                            android:text="Device name"
-                            android:enabled="false"
-                            android:maxLength="32" />
-
-                        <ImageButton
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:maxWidth="64dp"
-                            android:background="@drawable/borderer_file_background"
-                            android:backgroundTint="@color/primary"
-                            android:id="@+id/device_name_button"
-                            android:src="@drawable/baseline_edit_24"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginVertical="8dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_margin="10dp">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:layout_weight="10">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="ML Model"
-                                android:textSize="18sp"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="You must be select the option that match with the Machine Learning Model in the smart sensors. This can change how the data is retrieved and how is presented in the APp"
-                                android:textSize="16sp"
-                                android:textStyle="italic"/>
-                        </LinearLayout>
-
-                        <Spinner
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="6"
-                            android:id="@+id/device_model_value"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginVertical="8dp"/>
-                    </LinearLayout>
+                        android:text="This value is used in each record saved during the test to identify the tablet who generated it. Shown in the logs files"
+                        android:textSize="16sp"
+                        android:textStyle="italic"/>
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:id="@+id/device_name_value"
+                    android:hint="Unique device name"
+                    android:text="Device name"
+                    android:enabled="false"
+                    android:maxLength="32" />
 
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:maxWidth="64dp"
+                    android:background="@drawable/borderer_file_background"
+                    android:backgroundTint="@color/primary"
+                    android:id="@+id/device_name_button"
+                    android:src="@drawable/baseline_edit_24"
+                    android:padding="8dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="8dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Sensor configuration"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Service for test results"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="This is the UUID of the service configured in the smart sensor to read the results. Should be match or the App will not be able to read results"
+                        android:textSize="16sp"
+                        android:textStyle="italic"/>
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:id="@+id/service_result"
+                    android:hint="Service result UUID"
+                    android:text="Service result UUID"
+                    android:enabled="false"
+                    android:maxLength="32" />
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:maxWidth="64dp"
+                    android:background="@drawable/borderer_file_background"
+                    android:backgroundTint="@color/primary"
+                    android:id="@+id/service_result_btn"
+                    android:src="@drawable/baseline_edit_24"
+                    android:padding="8dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="8dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Characteristic to enable results"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="This is the UUID of the characteristic needed to start receiving data from the smart sensor. The App will write over this characteristic"
+                        android:textSize="16sp"
+                        android:textStyle="italic"/>
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:id="@+id/characteristic_write"
+                    android:hint="Characteristic to write UUID"
+                    android:text="Characteristic to write UUID"
+                    android:enabled="false"
+                    android:maxLength="32" />
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:maxWidth="64dp"
+                    android:background="@drawable/borderer_file_background"
+                    android:backgroundTint="@color/primary"
+                    android:id="@+id/characteristic_write_btn"
+                    android:src="@drawable/baseline_edit_24"
+                    android:padding="8dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="8dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Characteristic for test results"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="This is the UUID of the characteristic configured in the smart sensor to read the results. Should be match or the App will not be able to read results"
+                        android:textSize="16sp"
+                        android:textStyle="italic"/>
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:id="@+id/characteristic_result"
+                    android:hint="Characteristic result UUID"
+                    android:text="Characteristic result UUID"
+                    android:enabled="false"
+                    android:maxLength="32" />
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:maxWidth="64dp"
+                    android:background="@drawable/borderer_file_background"
+                    android:backgroundTint="@color/primary"
+                    android:id="@+id/characteristic_result_btn"
+                    android:src="@drawable/baseline_edit_24"
+                    android:padding="8dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="8dp" />
+            </LinearLayout>
+
+            <!-- Firmware over the air configuration -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Service for firmware update (FOTA)"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="This UUID indicate the service identifier to be user to update the firmware of the smart sensors"
+                        android:textSize="16sp"
+                        android:textStyle="italic"/>
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:id="@+id/service_firmware"
+                    android:hint="Service FOTA UUID"
+                    android:text="Service FOTA UUID"
+                    android:enabled="false"
+                    android:maxLength="32" />
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:maxWidth="64dp"
+                    android:background="@drawable/borderer_file_background"
+                    android:backgroundTint="@color/primary"
+                    android:id="@+id/service_firmware_btn"
+                    android:src="@drawable/baseline_edit_24"
+                    android:padding="8dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="8dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Characteristic for firmware update (FOTA)"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="This UUID should match the characteristic configured in the smart sensor to update the firmware remotly."
+                        android:textSize="16sp"
+                        android:textStyle="italic"/>
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:id="@+id/characteristic_firmware"
+                    android:hint="Characteristic (FOTA)"
+                    android:text="Characteristic (FOTA)"
+                    android:enabled="false"
+                    android:maxLength="32" />
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:maxWidth="64dp"
+                    android:background="@drawable/borderer_file_background"
+                    android:backgroundTint="@color/primary"
+                    android:id="@+id/characteristic_firmware_btn"
+                    android:padding="8dp"
+                    android:src="@drawable/baseline_edit_24"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="8dp" />
+            </LinearLayout>
+
+            <!-- Sensor calibration or offset -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Service for sensor calibration"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="This service UUID is used to connect to the smart sensors and set an offset in order to calibrate the sensor and get more precise values. Should be configured in the smart sensor."
+                        android:textSize="16sp"
+                        android:textStyle="italic"/>
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:id="@+id/service_calibrate"
+                    android:hint="Service calibrate UUID"
+                    android:text="Service calibrate UUID"
+                    android:enabled="false"
+                    android:maxLength="32" />
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:maxWidth="64dp"
+                    android:background="@drawable/borderer_file_background"
+                    android:backgroundTint="@color/primary"
+                    android:id="@+id/service_calibrate_btn"
+                    android:src="@drawable/baseline_edit_24"
+                    android:padding="8dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="8dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Characteristic for sensor calibration"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="This characteristic UUID is used to calibrate the sensor, the app set an offset in sensor in order to get data more precise."
+                        android:textSize="16sp"
+                        android:textStyle="italic"/>
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:id="@+id/characteristic_calibrate"
+                    android:hint="Characteristic calibrate"
+                    android:text="Characteristic calibrate"
+                    android:enabled="false"
+                    android:maxLength="32" />
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:maxWidth="64dp"
+                    android:background="@drawable/borderer_file_background"
+                    android:backgroundTint="@color/primary"
+                    android:id="@+id/characteristic_calibrate_btn"
+                    android:padding="8dp"
+                    android:src="@drawable/baseline_edit_24"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="8dp" />
+            </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
