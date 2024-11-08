@@ -16,15 +16,18 @@ import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.adapters.GroupSensorAdapter
 import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterface
 import com.quantuityanalytics.quantuityanalytics.model.SensorGroup
-import com.quantuityanalytics.quantuityanalytics.utils.SharedPreferencesManager
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesConverter
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesKeys
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.SensorViewModel
 
 class SettingsGroupSensorsFragment: Fragment(R.layout.fragment_sensors_groups), RecycleViewItemInterface {
 
     private val sensorViewModel: SensorViewModel by viewModels({requireParentFragment()})
 
-    private var spm: SharedPreferencesManager? = null
-    private var groupAdapter: GroupSensorAdapter? = null
+    //private var spm: SharedPreferencesManager? = null
+    private lateinit var groupAdapter: GroupSensorAdapter
+    private lateinit var preferencesManager: QAPreferencesManager
 
     companion object{
         const val TAG = "QuantuityAnalytics.SettingsGroupSensorsFragment"
@@ -46,48 +49,68 @@ class SettingsGroupSensorsFragment: Fragment(R.layout.fragment_sensors_groups), 
 
         val addGroupText = view.findViewById<EditText>(R.id.edit_text)
         val addGroupButton = view.findViewById<ImageButton>(R.id.newGroupButton)
+
         addGroupButton.setOnClickListener {
-            val newGroupName = view.findViewById<EditText>(R.id.edit_text)
-            if (newGroupName.text.isNotEmpty()) {
-                val newList = groupAdapter?.addItem(SensorGroup(name = newGroupName.text.toString(), isSelected = false,  listOfAddresses =  arrayListOf()) )
-                if (newList != null){
-                    spm?.saveGroupArrayList(newList, SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
-                }
+            //val newGroupName = view.findViewById<EditText>(R.id.edit_text)
+            if (addGroupText.text.isNotEmpty()) {
+                val newList = groupAdapter.addItem(SensorGroup(name = addGroupText.text.toString(), isSelected = false,  listOfAddresses =  arrayListOf()) )
+                val string = QAPreferencesConverter.convertGroupListToString(newList)
+                preferencesManager.putString(QAPreferencesKeys.SENSOR_LIST, string)
+
+//                if (newList != null){
+//                    val string = QAPreferencesConverter.convertGroupListToString(newList)
+//                    preferencesManager.putString(QAPreferencesKeys.SENSOR_LIST, string)
+//                    spm?.saveGroupArrayList(newList, SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+//                }
+
                 addGroupText.text.clear()
                 addGroupText.clearFocus()
 
-                val array = spm!!.getGroupArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
-                groupAdapter?.setDataSet(array)
+                //val array = spm!!.getGroupArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+                val json =  preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+                val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
+                groupAdapter.setDataSet(listOfSensorGroup)
             }
         }
 
         sensorViewModel.closeAction.observe(viewLifecycleOwner, Observer {
-            val array = spm!!.getGroupArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
-            groupAdapter?.setDataSet(array)
+            //val array = spm!!.getGroupArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+            val json =  preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+            val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
+            groupAdapter.setDataSet(listOfSensorGroup)
         })
 
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        spm = SharedPreferencesManager(context)
-        groupAdapter = GroupSensorAdapter(context, spm!!.getGroupArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY), this)
+        //spm = SharedPreferencesManager(context)
+        preferencesManager = QAPreferencesManager(context)
+        val json =  preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+        val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
+        groupAdapter = GroupSensorAdapter(context, listOfSensorGroup, this)
     }
 
     override fun onDeviceClick(position: Int) {
-        val groupSelected = groupAdapter?.getItemAt(position)
-        if (groupSelected != null){
-            sensorViewModel.setGroup(groupSelected)
-        }
+        val groupSelected = groupAdapter.getItemAt(position)
+        sensorViewModel.setGroup(groupSelected)
+
     }
 
     override fun onDeviceSelected(position: Int, isChecked: Boolean) {
-        val groupSelected = groupAdapter?.getItemAt(position)
-        if (groupSelected != null) {
-            groupSelected.isSelected = isChecked
-            spm?.updateGroup(groupSelected, SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
-        }
-        Log.d(TAG, "Device Selected $position is ${groupSelected?.name} and is selected: $isChecked")
+        val groupSelected = groupAdapter.getItemAt(position)
+        val json =  preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+        val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
+
+        listOfSensorGroup.remove(groupSelected)
+        groupSelected.isSelected = isChecked
+        listOfSensorGroup.add(groupSelected)
+        val string = QAPreferencesConverter.convertGroupListToString(listOfSensorGroup)
+        preferencesManager.putString(QAPreferencesKeys.SENSOR_LIST, string)
+
+        //spm?.updateGroup(groupSelected, SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+
+        Log.d(TAG, "Device Selected $position is ${groupSelected.name} and is selected: $isChecked")
     }
 
 }

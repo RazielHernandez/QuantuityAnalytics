@@ -145,7 +145,7 @@
                     android:hint="Service result UUID"
                     android:text="Service result UUID"
                     android:enabled="false"
-                    android:maxLength="32" />
+                    android:maxLength="40" />
 
                 <ImageButton
                     android:layout_width="0dp"
@@ -195,7 +195,7 @@
                     android:hint="Characteristic to write UUID"
                     android:text="Characteristic to write UUID"
                     android:enabled="false"
-                    android:maxLength="32" />
+                    android:maxLength="40" />
 
                 <ImageButton
                     android:layout_width="0dp"
@@ -245,7 +245,7 @@
                     android:hint="Characteristic result UUID"
                     android:text="Characteristic result UUID"
                     android:enabled="false"
-                    android:maxLength="32" />
+                    android:maxLength="40" />
 
                 <ImageButton
                     android:layout_width="0dp"
@@ -297,7 +297,7 @@
                     android:hint="Service FOTA UUID"
                     android:text="Service FOTA UUID"
                     android:enabled="false"
-                    android:maxLength="32" />
+                    android:maxLength="40" />
 
                 <ImageButton
                     android:layout_width="0dp"
@@ -347,7 +347,7 @@
                     android:hint="Characteristic (FOTA)"
                     android:text="Characteristic (FOTA)"
                     android:enabled="false"
-                    android:maxLength="32" />
+                    android:maxLength="40" />
 
                 <ImageButton
                     android:layout_width="0dp"
@@ -399,7 +399,7 @@
                     android:hint="Service calibrate UUID"
                     android:text="Service calibrate UUID"
                     android:enabled="false"
-                    android:maxLength="32" />
+                    android:maxLength="40" />
 
                 <ImageButton
                     android:layout_width="0dp"
@@ -449,7 +449,7 @@
                     android:hint="Characteristic calibrate"
                     android:text="Characteristic calibrate"
                     android:enabled="false"
-                    android:maxLength="32" />
+                    android:maxLength="40" />
 
                 <ImageButton
                     android:layout_width="0dp"

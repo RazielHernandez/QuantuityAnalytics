@@ -1,7 +1,6 @@
 package com.quantuityanalytics.quantuityanalytics
 
 import android.Manifest
-import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.content.Context
@@ -12,14 +11,11 @@ import android.util.Log
 import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.GridView
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
@@ -27,7 +23,9 @@ import com.quantuityanalytics.quantuityanalytics.adapters.GaugeViewAdapter
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceManager
 import com.quantuityanalytics.quantuityanalytics.ble.QABleRecord
 import com.quantuityanalytics.quantuityanalytics.storage.LocalStorageManager
-import com.quantuityanalytics.quantuityanalytics.utils.SharedPreferencesManager
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesConverter
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesKeys
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -52,8 +50,11 @@ class RealTimeTestActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_real_time_test)
 
-        val spm = SharedPreferencesManager(this)
-        viewAdapter = GaugeViewAdapter(spm.getString(SharedPreferencesManager.SP_DEVICE_ML_MODEL), this, arrayListOf())
+//        val spm = SharedPreferencesManager(this)
+//        viewAdapter = GaugeViewAdapter(spm.getString(SharedPreferencesManager.SP_DEVICE_ML_MODEL), this, arrayListOf())
+        val preferencesManager = QAPreferencesManager(this)
+        viewAdapter = GaugeViewAdapter(preferencesManager.getString(QAPreferencesKeys.ML_MODEL, "4 values model"), this, arrayListOf())
+
 
         val gridView: GridView = findViewById(R.id.gridView)
         gridView.adapter = viewAdapter
@@ -139,8 +140,17 @@ class RealTimeTestActivity: AppCompatActivity() {
                 startActivityForResult(enableBtIntent, BLUETOOTH_ENABLE_CODE)
             } else {
                 Log.d(TAG, "On Start() init BleDeviceManager")
-                val spm = SharedPreferencesManager(this)
-                val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+//                val spm = SharedPreferencesManager(this)
+//                val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+                val preferencesManager = QAPreferencesManager(this)
+                val string = preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+                val listOfGroups = QAPreferencesConverter.convertStringToGroupList(string)
+                val list = ArrayList<String> ()
+                for (group in listOfGroups) {
+                    if (group.isSelected) {
+                        list.addAll(group.listOfAddresses)
+                    }
+                }
 
                 bleDeviceManager = BleDeviceManager(this,bluetoothAdapter, list ,testViewModel)
                 bleDeviceManager?.startScanning()
@@ -166,8 +176,19 @@ class RealTimeTestActivity: AppCompatActivity() {
             }else {
                 val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
                 val bluetoothAdapter = bluetoothManager.adapter
-                val spm = SharedPreferencesManager(this)
-                val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+
+//                val spm = SharedPreferencesManager(this)
+//                val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+
+                val preferencesManager = QAPreferencesManager(this)
+                val string = preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+                val listOfGroups = QAPreferencesConverter.convertStringToGroupList(string)
+                val list = ArrayList<String> ()
+                for (group in listOfGroups) {
+                    if (group.isSelected) {
+                        list.addAll(group.listOfAddresses)
+                    }
+                }
 
                 bleDeviceManager = BleDeviceManager(this,bluetoothAdapter, list ,testViewModel)
                 bleDeviceManager?.startScanning()

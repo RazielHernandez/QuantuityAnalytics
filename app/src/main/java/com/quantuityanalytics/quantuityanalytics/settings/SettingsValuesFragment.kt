@@ -2,24 +2,15 @@ package com.quantuityanalytics.quantuityanalytics.settings
 
 import android.content.Context
 import android.os.Bundle
-import android.text.InputType
-import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
-import android.widget.Spinner
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.quantuityanalytics.quantuityanalytics.R
-import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesKeys
 import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesKeys.DEVICE_NAME
 import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesKeys.SENSOR_CHARACTERISTIC_CALIBRATE
 import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesKeys.SENSOR_CHARACTERISTIC_FIRMWARE
@@ -29,8 +20,6 @@ import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesKeys.SENSOR_
 import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesKeys.SENSOR_SERVICE_FIRMWARE
 import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesKeys.SENSOR_SERVICE_RESULT
 import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesManager
-import com.quantuityanalytics.quantuityanalytics.utils.SharedPreferencesManager
-
 
 class SettingsValuesFragment: Fragment(R.layout.fragment_settings_values) {
 

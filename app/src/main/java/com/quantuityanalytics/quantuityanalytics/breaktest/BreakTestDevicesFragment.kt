@@ -25,8 +25,9 @@ import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterfa
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceAdapter
 import com.quantuityanalytics.quantuityanalytics.ble.BleDeviceManager
 import com.quantuityanalytics.quantuityanalytics.ble.QABleDevice
-import com.quantuityanalytics.quantuityanalytics.breaktest.BreakTestStepFragment.Companion
-import com.quantuityanalytics.quantuityanalytics.utils.SharedPreferencesManager
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesConverter
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesKeys
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 
 class BreakTestDevicesFragment:
@@ -51,8 +52,11 @@ class BreakTestDevicesFragment:
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val spm = SharedPreferencesManager(requireContext())
-        deviceAdapter = BleDeviceAdapter(spm.getString(SharedPreferencesManager.SP_DEVICE_ML_MODEL), requireContext(), arrayListOf(), this)
+//        val spm = SharedPreferencesManager(requireContext())
+//        deviceAdapter = BleDeviceAdapter(spm.getString(SharedPreferencesManager.SP_DEVICE_ML_MODEL), requireContext(), arrayListOf(), this)
+
+        val preferencesManager = QAPreferencesManager(requireContext())
+        deviceAdapter = BleDeviceAdapter(preferencesManager.getString(QAPreferencesKeys.ML_MODEL, "4 values model"), requireContext(), arrayListOf(), this)
 
         animationView = view.findViewById(R.id.animationView)
         recyclerView = view.findViewById(R.id.device_list)
@@ -152,8 +156,20 @@ class BreakTestDevicesFragment:
                 startActivityForResult(enableBtIntent, BLUETOOTH_ENABLE_CODE)
             } else {
                 Log.d(RealTimeTestActivity.TAG, "On Start() init BleDeviceManager")
-                val spm = SharedPreferencesManager(requireContext())
-                val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+
+//                val spm = SharedPreferencesManager(requireContext())
+//                val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+
+                val preferencesManager = QAPreferencesManager(requireContext())
+                val string = preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+                val listOfGroups = QAPreferencesConverter.convertStringToGroupList(string)
+                val list = ArrayList<String> ()
+                for (group in listOfGroups) {
+                    if (group.isSelected) {
+                        list.addAll(group.listOfAddresses)
+                    }
+                }
+
                 bleDeviceManager = BleDeviceManager(requireContext(), bluetoothAdapter, list, breakTestViewModel)
                 bleDeviceManager?.startScanning()
             }
@@ -170,9 +186,22 @@ class BreakTestDevicesFragment:
             }else {
                 val bluetoothManager = activity?.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
                 val bluetoothAdapter = bluetoothManager.adapter
-                val spm = SharedPreferencesManager(requireContext())
-                val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
-                bleDeviceManager = BleDeviceManager(requireContext(),bluetoothAdapter, list ,breakTestViewModel)
+
+//                val spm = SharedPreferencesManager(requireContext())
+//                val list = spm.getStringArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+//                bleDeviceManager = BleDeviceManager(requireContext(),bluetoothAdapter, list ,breakTestViewModel)
+//                bleDeviceManager?.startScanning()
+                val preferencesManager = QAPreferencesManager(requireContext())
+                val string = preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+                val listOfGroups = QAPreferencesConverter.convertStringToGroupList(string)
+                val list = ArrayList<String> ()
+                for (group in listOfGroups) {
+                    if (group.isSelected) {
+                        list.addAll(group.listOfAddresses)
+                    }
+                }
+
+                bleDeviceManager = BleDeviceManager(requireContext(), bluetoothAdapter, list, breakTestViewModel)
                 bleDeviceManager?.startScanning()
             }
         }

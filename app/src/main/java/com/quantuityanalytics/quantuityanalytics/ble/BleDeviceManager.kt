@@ -9,7 +9,9 @@ import android.bluetooth.le.ScanSettings
 import android.content.Context
 import android.os.Handler
 import android.util.Log
-import com.quantuityanalytics.quantuityanalytics.utils.SharedPreferencesManager
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesConverter
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesKeys
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.BreakViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -22,6 +24,8 @@ class BleDeviceManager(
     private val bluetoothAdapter: BluetoothAdapter,
     private val listOfDevices: ArrayList<String>,
     private val testViewModel: BreakViewModel) {
+
+    private val preferencesManager = QAPreferencesManager(context)
 
     companion object {
         const val TAG = "QuantuityAnalytics.BleDeviceManager"
@@ -277,9 +281,10 @@ class BleDeviceManager(
 
                 override fun onMtuChanged(gatt: BluetoothGatt, mtu: Int, status: Int) {
                     val characteristic = gatt.services?.find { service ->
-                        service.uuid.toString() == BREAK_TEST_SERVICE_UUID
+                        //service.uuid.toString() == BREAK_TEST_SERVICE_UUID
+                        service.uuid.toString() == preferencesManager.getString(QAPreferencesKeys.SENSOR_SERVICE_RESULT, BREAK_TEST_SERVICE_UUID)
                     }?.characteristics?.find { characteristics ->
-                        characteristics.uuid.toString() == BREAK_TEST_READ_CHARACTERISTIC_UUID
+                        characteristics.uuid.toString() == preferencesManager.getString(QAPreferencesKeys.SENSOR_CHARACTERISTIC_RESULT, BREAK_TEST_READ_CHARACTERISTIC_UUID)
                     }
 
                     if(characteristic == null){
@@ -296,9 +301,16 @@ class BleDeviceManager(
 
     // Write to the characteristic of a device
     private fun writeToCharacteristic(gatt: BluetoothGatt, value: ByteArray) {
-        val service = gatt.getService(UUID.fromString(BREAK_TEST_SERVICE_UUID))
+        val serviceString = preferencesManager.getString(QAPreferencesKeys.SENSOR_SERVICE_RESULT, BREAK_TEST_SERVICE_UUID)
+        //val serviceString = BREAK_TEST_SERVICE_UUID
+        val characteristicString = preferencesManager.getString(QAPreferencesKeys.SENSOR_CHARACTERISTIC_WRITE, BREAK_TEST_WRITE_CHARACTERISTIC_UUID)
+        Log.d(TAG, "writeToCharacteristic in device ${gatt.device} in service $serviceString / $BREAK_TEST_SERVICE_UUID and characteristic $characteristicString")
+        val service = gatt.getService(UUID.fromString(serviceString))
         if (service != null) {
-            val characteristic = service.getCharacteristic(UUID.fromString(BREAK_TEST_WRITE_CHARACTERISTIC_UUID))
+            val characteristic = service.getCharacteristic(
+                UUID.fromString(
+                    characteristicString
+                ))
 
             characteristic?.let {
                 it.value = value
@@ -309,13 +321,15 @@ class BleDeviceManager(
                     Log.d(TAG, "Characteristic was not written properly")
                 }
             }
+        } else {
+            Log.d(TAG, "Service $serviceString was null")
         }
     }
 
     private fun readFromCharacteristic(gatt: BluetoothGatt) {
-        val service = gatt.getService(UUID.fromString(BREAK_TEST_SERVICE_UUID))
+        val service = gatt.getService(UUID.fromString(preferencesManager.getString(QAPreferencesKeys.SENSOR_SERVICE_RESULT, BREAK_TEST_SERVICE_UUID)))
         if (service != null) {
-            val characteristic = service.getCharacteristic(UUID.fromString(BREAK_TEST_READ_CHARACTERISTIC_UUID))
+            val characteristic = service.getCharacteristic(UUID.fromString(preferencesManager.getString(QAPreferencesKeys.SENSOR_CHARACTERISTIC_RESULT, BREAK_TEST_READ_CHARACTERISTIC_UUID) ))
 
             characteristic?.let {
                 val success = gatt.readCharacteristic(it)
@@ -353,12 +367,24 @@ class BleDeviceManager(
     private fun saveRecord(device: BluetoothDevice, value: String) {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val current = LocalDateTime.now().format(formatter)
-        val spm = SharedPreferencesManager(context)
+        //val spm = SharedPreferencesManager(context)
+        //val preferencesManager = QAPreferencesManager(context)
+        val deviceName = preferencesManager.getString(QAPreferencesKeys.DEVICE_NAME, "UniqueDeviceName")
+        val json =  preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+        val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
+        var groupSelected = "No group"
+        for (group in listOfSensorGroup) {
+            if (group.isSelected && group.listOfAddresses.contains(device.address)) {
+                groupSelected = group.name
+            }
+        }
 
         val record = QABleRecord(
             current,
-            spm.getString(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY),
-            spm.getGroupSelectedFor(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY, device.address),
+            deviceName,
+            groupSelected,
+            //spm.getString(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY),
+            //spm.getGroupSelectedFor(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY, device.address),
             device.address,
             value,
             1f
