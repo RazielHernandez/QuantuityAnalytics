@@ -25,7 +25,6 @@ class SettingsGroupSensorsFragment: Fragment(R.layout.fragment_sensors_groups), 
 
     private val sensorViewModel: SensorViewModel by viewModels({requireParentFragment()})
 
-    //private var spm: SharedPreferencesManager? = null
     private lateinit var groupAdapter: GroupSensorAdapter
     private lateinit var preferencesManager: QAPreferencesManager
 
@@ -35,7 +34,6 @@ class SettingsGroupSensorsFragment: Fragment(R.layout.fragment_sensors_groups), 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         val mListView = view.findViewById<RecyclerView>(R.id.recycleView)
         mListView?.layoutManager = LinearLayoutManager(context)
@@ -51,22 +49,14 @@ class SettingsGroupSensorsFragment: Fragment(R.layout.fragment_sensors_groups), 
         val addGroupButton = view.findViewById<ImageButton>(R.id.newGroupButton)
 
         addGroupButton.setOnClickListener {
-            //val newGroupName = view.findViewById<EditText>(R.id.edit_text)
             if (addGroupText.text.isNotEmpty()) {
                 val newList = groupAdapter.addItem(SensorGroup(name = addGroupText.text.toString(), isSelected = false,  listOfAddresses =  arrayListOf()) )
                 val string = QAPreferencesConverter.convertGroupListToString(newList)
                 preferencesManager.putString(QAPreferencesKeys.SENSOR_LIST, string)
 
-//                if (newList != null){
-//                    val string = QAPreferencesConverter.convertGroupListToString(newList)
-//                    preferencesManager.putString(QAPreferencesKeys.SENSOR_LIST, string)
-//                    spm?.saveGroupArrayList(newList, SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
-//                }
-
                 addGroupText.text.clear()
                 addGroupText.clearFocus()
 
-                //val array = spm!!.getGroupArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
                 val json =  preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
                 val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
                 groupAdapter.setDataSet(listOfSensorGroup)
@@ -74,7 +64,6 @@ class SettingsGroupSensorsFragment: Fragment(R.layout.fragment_sensors_groups), 
         }
 
         sensorViewModel.closeAction.observe(viewLifecycleOwner, Observer {
-            //val array = spm!!.getGroupArrayList(SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
             val json =  preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
             val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
             groupAdapter.setDataSet(listOfSensorGroup)
@@ -84,7 +73,6 @@ class SettingsGroupSensorsFragment: Fragment(R.layout.fragment_sensors_groups), 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        //spm = SharedPreferencesManager(context)
         preferencesManager = QAPreferencesManager(context)
         val json =  preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
         val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
@@ -94,21 +82,19 @@ class SettingsGroupSensorsFragment: Fragment(R.layout.fragment_sensors_groups), 
     override fun onDeviceClick(position: Int) {
         val groupSelected = groupAdapter.getItemAt(position)
         sensorViewModel.setGroup(groupSelected)
-
     }
 
     override fun onDeviceSelected(position: Int, isChecked: Boolean) {
+
         val groupSelected = groupAdapter.getItemAt(position)
         val json =  preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
         val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
 
-        listOfSensorGroup.remove(groupSelected)
         groupSelected.isSelected = isChecked
-        listOfSensorGroup.add(groupSelected)
+        listOfSensorGroup[position] = groupSelected
+
         val string = QAPreferencesConverter.convertGroupListToString(listOfSensorGroup)
         preferencesManager.putString(QAPreferencesKeys.SENSOR_LIST, string)
-
-        //spm?.updateGroup(groupSelected, SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
 
         Log.d(TAG, "Device Selected $position is ${groupSelected.name} and is selected: $isChecked")
     }
