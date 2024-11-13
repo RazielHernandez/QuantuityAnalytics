@@ -77,7 +77,7 @@
         app:layout_constraintTop_toBottomOf="@+id/menu_header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.38"
+        app:layout_constraintHeight_percent="0.35"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingHorizontal="20dp">
@@ -120,7 +120,7 @@
         app:layout_constraintTop_toBottomOf="@+id/menu_first_row"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.38"
+        app:layout_constraintHeight_percent="0.35"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingHorizontal="20dp">
@@ -155,5 +155,17 @@
             android:drawableTop="@drawable/real_time"
             android:background="@drawable/menu_button_background"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/menu_second_row"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_gravity="end"
+        android:textStyle="bold"
+        android:text="@string/copyright"
+        android:drawableStart="@drawable/copyright_black"
+        android:layout_marginHorizontal="40dp"
+        android:drawablePadding="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,33 +13,80 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
+        android:id="@+id/logo"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/image_description_logo"
         android:src="@drawable/company_logo"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:id="@+id/app_name"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintStart_toStartOf="parent"
         android:textAlignment="center"
-        android:text="Quantuity Analytics Brake Test App"
-        android:textSize="48sp"
+        android:text="@string/app_name"
+        android:textSize="44sp"
         android:textStyle="bold"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:id="@+id/app_description"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@+id/app_name"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="center"
+        android:text="Break Test App"
+        android:textSize="36sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/app_instruction"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@+id/app_description"
+        app:layout_constraintStart_toStartOf="parent"
         android:textAlignment="center"
         android:text="Click Begin to start a brake test"
-        android:textSize="36sp"
+        android:textSize="32sp"
         android:textStyle="bold"/>
 
     <Button
         android:id="@+id/btn_begin"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@+id/app_instruction"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:minWidth="120dp"
         android:layout_margin="20dp"
         android:text="Begin"
         android:textStyle="bold"
         android:textSize="16sp"/>
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/copyright"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textStyle="bold"
+        android:text="@string/copyright"
+        android:drawableLeft="@drawable/copyright_black"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginBottom="20dp"
+        android:drawablePadding="10dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
