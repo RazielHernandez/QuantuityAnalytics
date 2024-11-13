@@ -3,7 +3,6 @@ package com.quantuityanalytics.quantuityanalytics.ble
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,13 +68,12 @@ class BleDeviceAdapter(private val model: String,
         }
 
         if (currentItem.hasRecords()) {
-            holder.resultImage.visibility = View.INVISIBLE
-        } else {
             holder.resultImage.visibility = View.VISIBLE
             val actualRecord = currentItem.getLastRecord()
 
             holder.resultImage.setImageDrawable(actualRecord.getColoredIcon(model, context))
-
+        } else {
+            holder.resultImage.visibility = View.INVISIBLE
         }
 
         holder.itemView.setOnClickListener {

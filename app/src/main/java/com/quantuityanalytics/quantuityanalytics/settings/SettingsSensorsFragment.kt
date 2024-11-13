@@ -2,13 +2,11 @@ package com.quantuityanalytics.quantuityanalytics.settings
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.quantuityanalytics.quantuityanalytics.R
-import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterface
 import com.quantuityanalytics.quantuityanalytics.viewmodel.SensorViewModel
 
 class SettingsSensorsFragment: Fragment(R.layout.fragment_settings_sensors) {
@@ -51,12 +49,6 @@ class SettingsSensorsFragment: Fragment(R.layout.fragment_settings_sensors) {
     }
 
     private fun removeFragmentInChild(fragment: Fragment) {
-//        val childFragment = parentFragmentManager.findFragmentByTag(fragmentTag)
-//        childFragment?.let {
-//            parentFragmentManager.beginTransaction()
-//                .remove(it)
-//                .commit()
-//        }
         childFragmentManager.beginTransaction()
             .remove(fragment)
             .commit()

@@ -18,18 +18,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.quantuityanalytics.quantuityanalytics.R
 import com.quantuityanalytics.quantuityanalytics.adapters.AddressAdapter
-import com.quantuityanalytics.quantuityanalytics.adapters.GroupSensorAdapter
 import com.quantuityanalytics.quantuityanalytics.adapters.RecycleViewItemInterface
 import com.quantuityanalytics.quantuityanalytics.model.SensorGroup
-import com.quantuityanalytics.quantuityanalytics.utils.SharedPreferencesManager
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesConverter
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesKeys
+import com.quantuityanalytics.quantuityanalytics.utils.QAPreferencesManager
 import com.quantuityanalytics.quantuityanalytics.viewmodel.SensorViewModel
 
 class SettingsAddressesSensorsFragment: Fragment(R.layout.fragment_sensors_address), RecycleViewItemInterface {
 
     private val sensorViewModel: SensorViewModel by viewModels({requireParentFragment()})
 
-    private var spm: SharedPreferencesManager? = null
-    private var addressAdapter: AddressAdapter? = null
+    private lateinit var addressAdapter: AddressAdapter
+    private lateinit var preferencesManager: QAPreferencesManager
 
     private var actualGroup = SensorGroup(name = "No name", isSelected = false, listOfAddresses =  arrayListOf())
 
@@ -39,7 +40,6 @@ class SettingsAddressesSensorsFragment: Fragment(R.layout.fragment_sensors_addre
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         val mListView = view.findViewById<RecyclerView>(R.id.recycleView)
         mListView?.layoutManager = LinearLayoutManager(context)
@@ -52,7 +52,13 @@ class SettingsAddressesSensorsFragment: Fragment(R.layout.fragment_sensors_addre
         )
 
         view.findViewById<ImageButton>(R.id.btn_delete).setOnClickListener {
-            spm?.deleteGroup(actualGroup, SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+            val json = preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+            val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
+            listOfSensorGroup.remove(actualGroup)
+
+            val string = QAPreferencesConverter.convertGroupListToString(listOfSensorGroup)
+            preferencesManager.putString(QAPreferencesKeys.SENSOR_LIST, string)
+
             sensorViewModel.setCloseAction(true)
         }
 
@@ -74,14 +80,23 @@ class SettingsAddressesSensorsFragment: Fragment(R.layout.fragment_sensors_addre
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        spm = SharedPreferencesManager(context)
+        preferencesManager = QAPreferencesManager(context)
         addressAdapter = AddressAdapter(context, arrayListOf(), this)
     }
 
     override fun onDeviceClick(position: Int) {
-        actualGroup.listOfAddresses = addressAdapter!!.deleteItemAt(position)
-        spm?.updateGroup(actualGroup, SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+        val json = preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+        val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
 
+        //listOfSensorGroup.remove(actualGroup)
+        //actualGroup.listOfAddresses = addressAdapter.deleteItemAt(position)
+        //listOfSensorGroup.add(actualGroup)
+        val index = listOfSensorGroup.indexOf(actualGroup)
+        actualGroup.listOfAddresses = addressAdapter.deleteItemAt(position)
+        listOfSensorGroup[index] = actualGroup
+
+        val string = QAPreferencesConverter.convertGroupListToString(listOfSensorGroup)
+        preferencesManager.putString(QAPreferencesKeys.SENSOR_LIST, string)
     }
 
     private fun showEditDialog() {
@@ -94,9 +109,22 @@ class SettingsAddressesSensorsFragment: Fragment(R.layout.fragment_sensors_addre
             .setView(inputEditText)
             .setPositiveButton("OK") { _, _ ->
                 val inputText = inputEditText.text.toString()
+
                 if (inputText.isNotBlank()) {
+                    val json = preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+                    val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
+
+//                    listOfSensorGroup.remove(actualGroup)
+//                    actualGroup.name = inputText
+//                    listOfSensorGroup.add(actualGroup)
+                    val index = listOfSensorGroup.indexOf(actualGroup)
+                    Log.d(TAG, "Modifying group index $index with new name $inputText")
                     actualGroup.name = inputText
-                    spm?.updateGroup(actualGroup, SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+                    listOfSensorGroup[index] = actualGroup
+
+                    val string = QAPreferencesConverter.convertGroupListToString(listOfSensorGroup)
+                    preferencesManager.putString(QAPreferencesKeys.SENSOR_LIST, string)
+
                     sensorViewModel.setCloseAction(true)
                 } else {
                     Toast.makeText(view?.context, "Group name can´t be empty", Toast.LENGTH_SHORT).show()
@@ -107,7 +135,6 @@ class SettingsAddressesSensorsFragment: Fragment(R.layout.fragment_sensors_addre
             }
             .create()
 
-        // Show the dialog
         dialog.show()
     }
 
@@ -122,8 +149,21 @@ class SettingsAddressesSensorsFragment: Fragment(R.layout.fragment_sensors_addre
             .setPositiveButton("OK") { _, _ ->
                 val inputText = inputEditText.text.toString()
                 if (inputText.isNotBlank()) {
-                    actualGroup.listOfAddresses = addressAdapter!!.addItem(inputText)
-                    spm?.updateGroup(actualGroup, SharedPreferencesManager.SP_GROUP_ADDRESS_KEY)
+
+                    val json = preferencesManager.getString(QAPreferencesKeys.SENSOR_LIST)
+                    val listOfSensorGroup = QAPreferencesConverter.convertStringToGroupList(json)
+
+//                    listOfSensorGroup.remove(actualGroup)
+//                    actualGroup.listOfAddresses = addressAdapter.addItem(inputText)
+//                    listOfSensorGroup.add(actualGroup)
+
+                    val index = listOfSensorGroup.indexOf(actualGroup)
+                    actualGroup.listOfAddresses = addressAdapter.addItem(inputText)
+                    listOfSensorGroup[index] = actualGroup
+
+                    val string = QAPreferencesConverter.convertGroupListToString(listOfSensorGroup)
+                    preferencesManager.putString(QAPreferencesKeys.SENSOR_LIST, string)
+
                 } else {
                     Toast.makeText(view?.context, "Text can´t be empty", Toast.LENGTH_SHORT).show()
                 }
@@ -133,7 +173,6 @@ class SettingsAddressesSensorsFragment: Fragment(R.layout.fragment_sensors_addre
             }
             .create()
 
-        // Show the dialog
         dialog.show()
     }
 }
