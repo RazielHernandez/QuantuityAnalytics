@@ -56,7 +56,7 @@ class BreakTestDevicesFragment:
 //        deviceAdapter = BleDeviceAdapter(spm.getString(SharedPreferencesManager.SP_DEVICE_ML_MODEL), requireContext(), arrayListOf(), this)
 
         val preferencesManager = QAPreferencesManager(requireContext())
-        deviceAdapter = BleDeviceAdapter(preferencesManager.getString(QAPreferencesKeys.ML_MODEL, "4 values model"), requireContext(), arrayListOf(), this)
+        deviceAdapter = BleDeviceAdapter(preferencesManager.getString(QAPreferencesKeys.ML_MODEL, "2 values model"), requireContext(), arrayListOf(), this)
 
         animationView = view.findViewById(R.id.animationView)
         recyclerView = view.findViewById(R.id.device_list)

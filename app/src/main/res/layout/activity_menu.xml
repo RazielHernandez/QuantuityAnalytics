@@ -1,4 +1,5 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -49,7 +50,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_close"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/baseline_close_24"
                 app:iconGravity="textStart"
@@ -57,7 +58,7 @@
                 android:text="@string/button_close"
                 android:textSize="18sp"/>
 
-            <com.google.android.material.button.MaterialButton
+            <!--<com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_settings"
@@ -65,7 +66,7 @@
                 app:iconGravity="textStart"
                 app:iconSize="30dp"
                 android:text="@string/button_settings"
-                android:textSize="18sp"/>
+                android:textSize="18sp"/>-->
         </LinearLayout>
 
     </LinearLayout>
@@ -80,7 +81,7 @@
         app:layout_constraintHeight_percent="0.35"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingHorizontal="20dp">
+        android:paddingHorizontal="10dp">
 
         <Button
             android:id="@+id/btn_test"
@@ -109,6 +110,16 @@
             android:layout_weight="1"
             android:text="@string/menu_button_break_knowledge"
             android:drawableTop="@drawable/idea"
+            style="@style/main_menu_button"
+            android:background="@drawable/menu_button_background"/>
+
+        <Button
+            android:id="@+id/btn_simulate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/button_simulation"
+            android:drawableTop="@drawable/baseline_computer_96"
             style="@style/main_menu_button"
             android:background="@drawable/menu_button_background"/>
     </LinearLayout>
@@ -153,6 +164,16 @@
             android:text="@string/menu_button_real_time"
             style="@style/main_menu_button"
             android:drawableTop="@drawable/real_time"
+            android:background="@drawable/menu_button_background"/>
+
+        <Button
+            android:id="@+id/btn_settings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/button_settings"
+            style="@style/main_menu_button"
+            android:drawableTop="@drawable/baseline_settings_96"
             android:background="@drawable/menu_button_background"/>
     </LinearLayout>
 

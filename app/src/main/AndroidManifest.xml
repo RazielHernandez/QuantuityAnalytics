@@ -56,6 +56,10 @@
             android:configChanges="orientation"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="reverseLandscape"/>
+        <activity android:name=".SimulateActivity"
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="reverseLandscape"/>
     </application>
 
 </manifest>

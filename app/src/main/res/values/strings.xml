@@ -70,6 +70,7 @@
     <string name="Instruction_group_address">List of MAC Addresses in this group</string>
     <string name="step_warning">Air pressure should be 100 PSI before start the test</string>
     <string name="copyright">All rights reserved</string>
+    <string name="button_simulation">Simulation</string>
 
     <string-array name="ml_models">
         <item>4 values model</item>

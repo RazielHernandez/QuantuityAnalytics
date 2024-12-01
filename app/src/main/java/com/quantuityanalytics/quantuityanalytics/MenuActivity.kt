@@ -53,7 +53,7 @@ class MenuActivity: AppCompatActivity() {
             this.finishAffinity()
         }
 
-        val settingsButton: MaterialButton = findViewById(R.id.btn_settings)
+        val settingsButton: Button = findViewById(R.id.btn_settings)
         settingsButton.setOnClickListener{
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
@@ -62,6 +62,14 @@ class MenuActivity: AppCompatActivity() {
         val realTimeTest: Button = findViewById(R.id.btn_real_time)
         realTimeTest.setOnClickListener {
             intent = Intent(this, RealTimeTestActivity::class.java)
+            if (checkPermissions()) {
+                startActivity(intent)
+            }
+        }
+
+        val simulate: Button = findViewById(R.id.btn_simulate)
+        simulate.setOnClickListener {
+            intent = Intent(this, SimulateActivity::class.java)
             if (checkPermissions()) {
                 startActivity(intent)
             }

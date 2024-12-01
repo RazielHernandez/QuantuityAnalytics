@@ -42,6 +42,12 @@ data class QABleRecord (
             } else if (breakRecord.contains("on")) {
                 color = ResourcesCompat.getColor(context.resources, R.color.red, null)
             }
+        } else if (model == "3 values model") {
+            if (breakRecord.contains("off")) {
+                color = ResourcesCompat.getColor(context.resources, R.color.green, null)
+            } else if (breakRecord.contains("on")) {
+                color = ResourcesCompat.getColor(context.resources, R.color.red, null)
+            }
         }
 
         return color
@@ -65,6 +71,14 @@ data class QABleRecord (
             } else if (breakRecord.contains("on")) {
                 icon = ResourcesCompat.getDrawable(context.resources, R.drawable.break_red, null)
             }
+        } else if (model == "3 values model") {
+            if (breakRecord.contains("off")) {
+                icon = ResourcesCompat.getDrawable(context.resources, R.drawable.break_green, null)
+            } else if (breakRecord.contains("d3")) {
+                icon = ResourcesCompat.getDrawable(context.resources, R.drawable.break_green, null)
+            } else if (breakRecord.contains("on")) {
+                icon = ResourcesCompat.getDrawable(context.resources, R.drawable.break_red, null)
+            }
         }
 
         return icon
@@ -80,6 +94,10 @@ data class QABleRecord (
         } else if (model == "2 values model") {
             if (breakRecord.contains("off")) { result = "Pass" }
             else if (breakRecord.contains("on")) { result = "Fail" }
+        } else if (model == "3 values model") {
+            if (breakRecord.contains("off")) { result = "Pass" }
+            else if (breakRecord.contains("d3")) { result = "Pass" }
+            else if (breakRecord.contains("on")) { result = "Fail" }
         }
 
         return result
@@ -91,7 +109,7 @@ data class QABleRecord (
             if (breakRecord.contains("d1")) { result = 10f }
             else if (breakRecord.contains("d2")) { result = 7f }
             else if (breakRecord.contains("d3")) { result = 4f }
-            else if (breakRecord.contains("d4")) { result = 2f }
+            else if (breakRecord.contains("d4")) { result = 1f }
         } else if (model == "2 values model") {
             if (breakRecord.contains("off")) {
                 if (previousSpeed < 1) {
@@ -102,6 +120,10 @@ data class QABleRecord (
                 }
 
             }
+            else if (breakRecord.contains("on")) { result = 9f }
+        } else if (model == "3 values model") {
+            if (breakRecord.contains("off")) { result = 1f }
+            else if (breakRecord.contains("d3")) { result = 5f }
             else if (breakRecord.contains("on")) { result = 9f }
         }
         return result

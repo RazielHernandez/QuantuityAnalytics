@@ -50,10 +50,9 @@ class RealTimeTestActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_real_time_test)
 
-//        val spm = SharedPreferencesManager(this)
-//        viewAdapter = GaugeViewAdapter(spm.getString(SharedPreferencesManager.SP_DEVICE_ML_MODEL), this, arrayListOf())
+
         val preferencesManager = QAPreferencesManager(this)
-        viewAdapter = GaugeViewAdapter(preferencesManager.getString(QAPreferencesKeys.ML_MODEL, "4 values model"), this, arrayListOf())
+        viewAdapter = GaugeViewAdapter(preferencesManager.getString(QAPreferencesKeys.ML_MODEL, "2 values model"), this, arrayListOf())
 
 
         val gridView: GridView = findViewById(R.id.gridView)

@@ -16,6 +16,14 @@ data class QABleDevice (
         const val STATUS_DISCOVERED = 1
         const val STATUS_CONNECTED = 2
         const val STATUS_READING = 3
+
+        val simulatedNames = arrayListOf<String>("Simulated Sensor 0","Simulated Sensor 1","Simulated Sensor 2",
+            "Simulated Sensor 3", "Simulated Sensor 4", "Simulated Sensor 5", "Simulated Sensor 6",
+            "Simulated Sensor 7", "Simulated Sensor 8")
+
+        val simulatedAddresses = arrayListOf<String>("B4:3A:31:00:00:00","B4:3A:31:00:00:01","B4:3A:31:00:00:02",
+            "B4:3A:31:00:00:03","B4:3A:31:00:00:04","B4:3A:31:00:00:05","B4:3A:31:00:00:06","B4:3A:31:00:00:07",
+            "B4:3A:31:00:00:08")
     }
 
     @SuppressLint("MissingPermission")
